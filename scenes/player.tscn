@@ -132,6 +132,7 @@ offset_left = 128.0
 offset_top = -164.0
 offset_right = 404.0
 offset_bottom = 80.0
+enabled = false
 initial_node_to_watch = NodePath("../StateChart")
 
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
