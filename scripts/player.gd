@@ -16,12 +16,9 @@ const GRID_SIZE = 32
 var direction: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
-	progress_bar.visible = false
+	reset_progress_bar()
 
-func _process(delta: float) -> void:
-	handle_input()
-
-func handle_input() -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_pressed("ui_left"):
 		direction = Vector2.LEFT
 		sprite.play("move_left")
@@ -43,22 +40,11 @@ func handle_input() -> void:
 	
 	if Input.is_action_pressed("capture"):
 		$StateChart.send_event("capture")
+		sprite.stop()
 	else:
 		$StateChart.send_event("stop_capturing")
 
-
-func _on_capturing_state_processing(delta: float) -> void:
-	progress_bar.visible = true
-	if progress_bar.value < 100:
-		progress_bar.value += 50 * delta
-	else:
-		$StateChart.send_event("successful_capture")
-
-func _on_capturing_state_exited() -> void:
-	progress_bar.value = 0
-	progress_bar.visible = false
-
-func _on_try_moving_state_processing(delta: float) -> void:
+func _on_try_moving_state_processing(_delta: float) -> void:
 	var current_map_position: Vector2i = tile_map_layer.local_to_map(character.global_position)
 	var target_map_position: Vector2i = Vector2i(
 		current_map_position.x + direction.x, 
@@ -79,7 +65,6 @@ func _on_try_moving_state_processing(delta: float) -> void:
 	sprite.global_position = tile_map_layer.map_to_local(current_map_position)
 	capture_node.global_position = tile_map_layer.map_to_local(current_map_position)
 
-
 func _on_moving_state_processing(delta: float) -> void:
 	if character.global_position == sprite.global_position:
 		$StateChart.send_event("stop_moving")
@@ -88,7 +73,19 @@ func _on_moving_state_processing(delta: float) -> void:
 	sprite.global_position = sprite.global_position.move_toward(character.global_position, speed*delta)
 	capture_node.global_position = capture_node.global_position.move_toward(character.global_position, speed*delta)
 
+func _on_capturing_state_processing(delta: float) -> void:
+	progress_bar.visible = true
+	if progress_bar.value < 100:
+		progress_bar.value += 50 * delta
+	else:
+		$StateChart.send_event("successful_capture")
+
+func _on_capturing_state_exited() -> void:
+	reset_progress_bar()
 
 func _on_finish_capturing_state_exited() -> void:
+	reset_progress_bar()
+
+func reset_progress_bar() -> void:
 	progress_bar.value = 0
 	progress_bar.visible = false

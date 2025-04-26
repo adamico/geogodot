@@ -128,6 +128,7 @@ metadata/_custom_type_script = "uid://pfdv51lppmck"
 script = ExtResource("3_qlg0r")
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("2_y4r1p")]
+visible = false
 offset_left = 128.0
 offset_top = -164.0
 offset_right = 404.0
@@ -195,14 +196,14 @@ initial_state = NodePath("Idle")
 [node name="Idle" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_ur7pv")
 
-[node name="ToCapturing" type="Node" parent="StateChart/Root/Idle"]
+[node name="OnCapture" type="Node" parent="StateChart/Root/Idle"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Capturing")
 event = &"capture"
 guard = SubResource("Resource_oprun")
 delay_in_seconds = "0.0"
 
-[node name="ToTryMoving" type="Node" parent="StateChart/Root/Idle"]
+[node name="OnTryMove" type="Node" parent="StateChart/Root/Idle"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../TryMoving")
 event = &"try_move"
@@ -211,13 +212,13 @@ delay_in_seconds = "0.0"
 [node name="Capturing" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_ur7pv")
 
-[node name="ToIdle" type="Node" parent="StateChart/Root/Capturing"]
+[node name="OnAbortCapturing" type="Node" parent="StateChart/Root/Capturing"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Idle")
 event = &"stop_capturing"
 delay_in_seconds = "0.0"
 
-[node name="ToFinishCapturing" type="Node" parent="StateChart/Root/Capturing"]
+[node name="OnFinishCapturing" type="Node" parent="StateChart/Root/Capturing"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../FinishCapturing")
 event = &"successful_capture"
@@ -226,7 +227,7 @@ delay_in_seconds = "0.0"
 [node name="Moving" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_ur7pv")
 
-[node name="ToIdle" type="Node" parent="StateChart/Root/Moving"]
+[node name="OnStopMoving" type="Node" parent="StateChart/Root/Moving"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Idle")
 event = &"stop_moving"
@@ -235,7 +236,7 @@ delay_in_seconds = "0.0"
 [node name="TryMoving" type="Node" parent="StateChart/Root"]
 script = ExtResource("8_ur7pv")
 
-[node name="ToMoving" type="Node" parent="StateChart/Root/TryMoving"]
+[node name="OnMove" type="Node" parent="StateChart/Root/TryMoving"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Moving")
 event = &"move"
