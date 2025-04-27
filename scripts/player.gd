@@ -7,6 +7,7 @@ const GRID_SIZE = 32
 @export var speed: float = 100.0
 @export var capture: Node2D
 @export var state_chart: StateChart
+@export var number: int
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Sprite2D = $Character
@@ -31,8 +32,13 @@ func _process(_delta: float) -> void:
 	else:
 		direction = Vector2.ZERO
 		sprite.play("idle")
-		
+	
 	if Input.is_action_pressed("capture"):
+		var current_map_position: Vector2i = tile_map_layer.local_to_map(
+			character.global_position
+		)
+		var tile_data := tile_map_layer.get_cell_tile_data(current_map_position)
+		if tile_data.get_custom_data("owned_by_player") == number: return
 		state_chart.send_event("capture")
 	
 	if Input.is_action_just_released("capture"):
@@ -70,8 +76,13 @@ func _on_moving_state_processing(delta: float) -> void:
 	
 	var target_position = character.global_position
 	sprite.global_position = sprite.global_position.move_toward(
-			target_position, speed*delta
-		)
+		target_position, speed*delta
+	)
 	capture.global_position = capture.global_position.move_toward(
-			target_position, speed*delta
-		)
+		target_position, speed*delta
+	)
+
+
+func _on_finish_capturing_state_exited() -> void:
+	var current_map_position: Vector2i = tile_map_layer.local_to_map(character.global_position)
+	tile_map_layer.set_cell(current_map_position, 1, Vector2i(number, 0))

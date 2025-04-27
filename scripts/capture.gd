@@ -3,11 +3,15 @@ extends Node2D
 @onready var progress_bar: ProgressBar = $ProgressBar
 @onready var finished_capturing_sound: AudioStreamPlayer2D = $FinishedCapturing
 @onready var capturing_sound: AudioStreamPlayer2D = $Capturing
+@onready var player: Player = $".."
 
 @export var state_chart: StateChart
 
 func _ready() -> void:
 	reset_progress_bar()
+
+func _on_capturing_state_entered() -> void:
+	capturing_sound.play()
 
 func _on_capturing_state_processing(delta: float) -> void:
 	progress_bar.visible = true
@@ -27,6 +31,3 @@ func _on_finish_capturing_state_exited() -> void:
 func reset_progress_bar() -> void:
 	progress_bar.value = 0
 	progress_bar.visible = false
-
-func _on_capturing_state_entered() -> void:
-	capturing_sound.play()

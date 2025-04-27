@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var player: Player = $"../Player"
+@onready var player: Node2D = $"../Player"
 @onready var character_pos_value: Label = $ColorRect/GridContainer/CharacterPosValue
 @onready var sprite_pos_value: Label = $ColorRect/GridContainer/SpritePosValue
 
