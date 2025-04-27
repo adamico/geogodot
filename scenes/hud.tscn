@@ -35,3 +35,13 @@ horizontal_alignment = 2
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
+
+[node name="ShootTimerLabel" type="Label" parent="ColorRect/GridContainer"]
+layout_mode = 2
+text = "Shoot-t:"
+horizontal_alignment = 2
+
+[node name="ShootTimerValue" type="Label" parent="ColorRect/GridContainer"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1

@@ -13,6 +13,7 @@ const GRID_SIZE = 32
 @onready var character: Sprite2D = $Character
 @onready var ray_cast_2d: RayCast2D = $Character/RayCast2D
 @onready var tile_map_layer: TileMapLayer = $"../TileMapLayer"
+@onready var shoot: Node2D = $Shoot
 
 var direction: Vector2 = Vector2.ZERO
 
@@ -33,6 +34,9 @@ func _process(_delta: float) -> void:
 		direction = Vector2.ZERO
 		sprite.play("idle")
 	
+	if direction != Vector2.ZERO:
+		state_chart.send_event("try_move")
+	
 	if Input.is_action_pressed("capture"):
 		var current_map_position: Vector2i = tile_map_layer.local_to_map(
 			character.global_position
@@ -43,13 +47,24 @@ func _process(_delta: float) -> void:
 	
 	if Input.is_action_just_released("capture"):
 		state_chart.send_event("stop_capturing")
-	
-	if direction != Vector2.ZERO:
-		state_chart.send_event("try_move")
+
+	if Input.is_action_pressed("shoot_left"):
+		shoot.direction = Vector2.LEFT
+		state_chart.send_event("shoot")
+	elif Input.is_action_pressed("shoot_right"):
+		shoot.direction = Vector2.RIGHT
+		state_chart.send_event("shoot")
+	elif Input.is_action_pressed("shoot_up"):
+		shoot.direction = Vector2.UP
+		state_chart.send_event("shoot")
+	elif Input.is_action_pressed("shoot_down"):
+		shoot.direction = Vector2.DOWN
+		state_chart.send_event("shoot")
 
 func _on_try_moving_state_processing(_delta: float) -> void:
-	var current_map_position: Vector2i = tile_map_layer.local_to_map(character.global_position)
-	@warning_ignore("narrowing_conversion")
+	var current_map_position: Vector2i = tile_map_layer.local_to_map(
+		character.global_position
+	)
 	var target_map_position: Vector2i = Vector2i(
 		current_map_position.x + direction.x, 
 		current_map_position.y + direction.y
@@ -81,7 +96,6 @@ func _on_moving_state_processing(delta: float) -> void:
 	capture.global_position = capture.global_position.move_toward(
 		target_position, speed*delta
 	)
-
 
 func _on_finish_capturing_state_exited() -> void:
 	var current_map_position: Vector2i = tile_map_layer.local_to_map(character.global_position)
