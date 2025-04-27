@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxyya8t6j4v7v"]
+
+[ext_resource type="Script" uid="uid://chvjvwwvwxhrl" path="res://scripts/spawner.gd" id="1_2vbf6"]
+[ext_resource type="PackedScene" uid="uid://cd3lqhgc3pj52" path="res://scenes/enemy.tscn" id="2_ik2nu"]
+
+[sub_resource type="Curve2D" id="Curve2D_o6xl0"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -48, -48, 0, 0, 0, 0, 48, -48, 0, 0, 0, 0, 48, 48, 0, 0, 0, 0, -48, 48, 0, 0, 0, 0, -48, -48)
+}
+point_count = 5
+
+[node name="Spawner" type="Marker2D"]
+script = ExtResource("1_2vbf6")
+enemy_scene = ExtResource("2_ik2nu")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[node name="SpawnPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_o6xl0")
+
+[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath"]
+position = Vector2(-48, -48)
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

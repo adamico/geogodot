@@ -12,7 +12,8 @@ const GRID_SIZE = 32
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Node2D = $Character
 @onready var ray_cast_2d: RayCast2D = $Character/RayCast2D
-@onready var tile_map_layer: TileMapLayer = $"../TileMapLayer"
+@onready var level: TileMapLayer = $"../World/Level"
+
 @onready var shoot: Node2D = $Shoot
 
 var direction: Vector2 = Vector2.ZERO
@@ -38,10 +39,10 @@ func _process(_delta: float) -> void:
 		state_chart.send_event("try_move")
 	
 	if Input.is_action_pressed("capture"):
-		var current_map_position: Vector2i = tile_map_layer.local_to_map(
+		var current_map_position: Vector2i = level.local_to_map(
 			character.global_position
 		)
-		var tile_data := tile_map_layer.get_cell_tile_data(current_map_position)
+		var tile_data := level.get_cell_tile_data(current_map_position)
 		if tile_data.get_custom_data("owned_by_player") == number: return
 		state_chart.send_event("capture")
 	
@@ -62,7 +63,7 @@ func _process(_delta: float) -> void:
 		state_chart.send_event("shoot")
 
 func _on_try_moving_state_processing(_delta: float) -> void:
-	var current_map_position: Vector2i = tile_map_layer.local_to_map(
+	var current_map_position: Vector2i = level.local_to_map(
 		character.global_position
 	)
 	var target_map_position: Vector2i = Vector2i(
@@ -70,7 +71,7 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 		current_map_position.y + direction.y
 	)
 	
-	var tile_data := tile_map_layer.get_cell_tile_data(target_map_position)
+	var tile_data := level.get_cell_tile_data(target_map_position)
 	if not tile_data.get_custom_data("walkable"): return
 	
 	ray_cast_2d.target_position = direction * GRID_SIZE
@@ -80,10 +81,10 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	
 	state_chart.send_event("move")
 	
-	character.global_position = tile_map_layer.map_to_local(target_map_position)
+	character.global_position = level.map_to_local(target_map_position)
 	
-	sprite.global_position = tile_map_layer.map_to_local(current_map_position)
-	capture.global_position = tile_map_layer.map_to_local(current_map_position)
+	sprite.global_position = level.map_to_local(current_map_position)
+	capture.global_position = level.map_to_local(current_map_position)
 	
 func _on_moving_state_processing(delta: float) -> void:
 	if character.global_position == sprite.global_position:
@@ -99,5 +100,5 @@ func _on_moving_state_processing(delta: float) -> void:
 	)
 
 func _on_finish_capturing_state_exited() -> void:
-	var current_map_position: Vector2i = tile_map_layer.local_to_map(character.global_position)
-	tile_map_layer.set_cell(current_map_position, 1, Vector2i(number, 0))
+	var current_map_position: Vector2i = level.local_to_map(character.global_position)
+	level.set_cell(current_map_position, 1, Vector2i(number, 0))

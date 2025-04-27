@@ -2,28 +2,34 @@
 
 [ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://scripts/hud.gd" id="1_ahhtf"]
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("1_ahhtf")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 offset_left = 916.0
 offset_top = 8.0
 offset_right = 1144.0
 offset_bottom = 160.0
 color = Color(0, 0, 0, 1)
 
-[node name="GridContainer" type="GridContainer" parent="ColorRect"]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/ColorRect"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 columns = 2
 
-[node name="CharacterPosLabel" type="Label" parent="ColorRect/GridContainer"]
+[node name="CharacterPosLabel" type="Label" parent="CanvasLayer/ColorRect/GridContainer"]
 layout_mode = 2
 text = "Char:"
 horizontal_alignment = 2
 
-[node name="CharacterPosValue" type="Label" parent="ColorRect/GridContainer"]
+[node name="CharacterPosValue" type="Label" parent="CanvasLayer/ColorRect/GridContainer"]
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
