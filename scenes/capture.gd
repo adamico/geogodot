@@ -6,13 +6,6 @@ extends Node2D
 func _ready() -> void:
 	reset_progress_bar()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if Input.is_action_pressed("capture"):
-		state_chart.send_event("capture")
-	else:
-		state_chart.send_event("stop_capturing")
-
 func _on_capturing_state_processing(delta: float) -> void:
 	progress_bar.visible = true
 	if progress_bar.value < 100:

@@ -6,6 +6,7 @@ const GRID_SIZE = 32
 
 @export var speed: float = 100.0
 @export var capture: Node2D
+@export var state_chart: StateChart
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Sprite2D = $Character
@@ -30,9 +31,15 @@ func _process(_delta: float) -> void:
 	else:
 		direction = Vector2.ZERO
 		sprite.play("idle")
+		
+	if Input.is_action_pressed("capture"):
+		state_chart.send_event("capture")
+	
+	if Input.is_action_just_released("capture"):
+		state_chart.send_event("stop_capturing")
 	
 	if direction != Vector2.ZERO:
-		$StateChart.send_event("try_move")
+		state_chart.send_event("try_move")
 
 func _on_try_moving_state_processing(_delta: float) -> void:
 	var current_map_position: Vector2i = tile_map_layer.local_to_map(character.global_position)
@@ -50,7 +57,7 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	
 	if ray_cast_2d.is_colliding(): return
 	
-	$StateChart.send_event("move")
+	state_chart.send_event("move")
 	
 	character.global_position = tile_map_layer.map_to_local(target_map_position)
 	sprite.global_position = tile_map_layer.map_to_local(current_map_position)
@@ -58,7 +65,7 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 
 func _on_moving_state_processing(delta: float) -> void:
 	if character.global_position == sprite.global_position:
-		$StateChart.send_event("stop_moving")
+		state_chart.send_event("stop_moving")
 		return
 	
 	var target_position = character.global_position
