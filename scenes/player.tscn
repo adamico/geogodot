@@ -243,8 +243,9 @@ script = ExtResource("9_ur7pv")
 to = NodePath("../../Idle")
 delay_in_seconds = "0.0"
 
+[connection signal="state_entered" from="StateChart/Root/Capturing" to="Capture" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Capturing" to="Capture" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/Root/Capturing" to="Capture" method="_on_capturing_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Moving" to="." method="_on_moving_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/TryMoving" to="." method="_on_try_moving_state_processing"]
-[connection signal="state_exited" from="StateChart/Root/FinishCapturing" to="." method="_on_finish_capturing_state_exited"]
+[connection signal="state_exited" from="StateChart/Root/FinishCapturing" to="Capture" method="_on_finish_capturing_state_exited"]
