@@ -270,6 +270,12 @@ to = NodePath("../../Cooldown")
 event = &"shoot"
 delay_in_seconds = "0.0"
 
+[node name="OnPreventShootToCannotShoot" type="Node" parent="StateChart/Root/Shoot/Available"]
+script = ExtResource("9_ur7pv")
+to = NodePath("../../CannotShoot")
+event = &"prevent_shoot"
+delay_in_seconds = "0.0"
+
 [node name="Cooldown" type="Node" parent="StateChart/Root/Shoot"]
 script = ExtResource("8_ur7pv")
 
@@ -277,6 +283,21 @@ script = ExtResource("8_ur7pv")
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Available")
 delay_in_seconds = "1.0"
+
+[node name="OnPreventShootToCannotShoot" type="Node" parent="StateChart/Root/Shoot/Cooldown"]
+script = ExtResource("9_ur7pv")
+to = NodePath("../../CannotShoot")
+event = &"prevent_shoot"
+delay_in_seconds = "0.0"
+
+[node name="CannotShoot" type="Node" parent="StateChart/Root/Shoot"]
+script = ExtResource("8_ur7pv")
+
+[node name="OnAllowShootToAvailable" type="Node" parent="StateChart/Root/Shoot/CannotShoot"]
+script = ExtResource("9_ur7pv")
+to = NodePath("../../Available")
+event = &"allow_shoot"
+delay_in_seconds = "0.0"
 
 [connection signal="state_entered" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_exited"]

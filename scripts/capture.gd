@@ -11,6 +11,7 @@ func _ready() -> void:
 	reset_progress_bar()
 
 func _on_capturing_state_entered() -> void:
+	state_chart.send_event("prevent_shoot")
 	capturing_sound.play()
 
 func _on_capturing_state_processing(delta: float) -> void:
@@ -23,10 +24,12 @@ func _on_capturing_state_processing(delta: float) -> void:
 func _on_capturing_state_exited() -> void:
 	capturing_sound.stop()
 	reset_progress_bar()
+	state_chart.send_event("allow_shoot")
 
 func _on_finish_capturing_state_exited() -> void:
 	finished_capturing_sound.play()
 	reset_progress_bar()
+	state_chart.send_event("allow_shoot")
 
 func reset_progress_bar() -> void:
 	progress_bar.value = 0
