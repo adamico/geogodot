@@ -70,8 +70,14 @@ func _on_moving_state_processing(delta: float) -> void:
 		$StateChart.send_event("stop_moving")
 		return
 	
-	sprite.global_position = sprite.global_position.move_toward(character.global_position, speed*delta)
-	capture_node.global_position = capture_node.global_position.move_toward(character.global_position, speed*delta)
+	var target_position = character.global_position
+	sprite.global_position = sprite.global_position.move_toward(
+			target_position, speed*delta
+		)
+	capture_node.global_position = capture_node.global_position.move_toward(
+			target_position, speed*delta
+		)
+
 
 func _on_capturing_state_processing(delta: float) -> void:
 	progress_bar.visible = true

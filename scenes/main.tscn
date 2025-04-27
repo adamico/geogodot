@@ -292,3 +292,4 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="Player" parent="." instance=ExtResource("2_0wfyh")]
 position = Vector2(48, 48)
+speed = 100.0
