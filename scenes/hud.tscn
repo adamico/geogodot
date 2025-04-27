@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://6awtsapo231u"]
+
+[ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://scripts/hud.gd" id="1_ahhtf"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_ahhtf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 140.0
+offset_bottom = 107.0
+color = Color(0, 0, 0, 1)
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 2
+
+[node name="CharacterPosLabel" type="Label" parent="ColorRect/GridContainer"]
+layout_mode = 2
+text = "Char:"
+horizontal_alignment = 2
+
+[node name="CharacterPosValue" type="Label" parent="ColorRect/GridContainer"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="SpritePosLabel" type="Label" parent="ColorRect/GridContainer"]
+layout_mode = 2
+text = "Sprite:"
+horizontal_alignment = 2
+
+[node name="SpritePosValue" type="Label" parent="ColorRect/GridContainer"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
