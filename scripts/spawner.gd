@@ -22,4 +22,7 @@ func spawn() -> void:
 	spawned += 1
 
 func _on_spawn_timer_timeout() -> void:
-	if spawned < 3: spawn()
+	if spawned < 3:
+		spawn()
+	else:
+		spawned = 0
