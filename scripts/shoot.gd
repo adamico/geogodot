@@ -14,8 +14,9 @@ func _ready() -> void:
 
 func spawn_bullet() -> void:
 	var bullet = bullet_scene.instantiate()
-	add_child(bullet)
 	bullet.global_position = sprite.global_position
+	add_child(bullet)
+
 
 func _on_cooldown_state_entered() -> void:
 	spawn_bullet()

@@ -10,7 +10,7 @@ const GRID_SIZE = 32
 @export var number: int
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
-@onready var character: Sprite2D = $Character
+@onready var character: Node2D = $Character
 @onready var ray_cast_2d: RayCast2D = $Character/RayCast2D
 @onready var tile_map_layer: TileMapLayer = $"../TileMapLayer"
 @onready var shoot: Node2D = $Shoot
@@ -81,9 +81,10 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	state_chart.send_event("move")
 	
 	character.global_position = tile_map_layer.map_to_local(target_map_position)
+	
 	sprite.global_position = tile_map_layer.map_to_local(current_map_position)
 	capture.global_position = tile_map_layer.map_to_local(current_map_position)
-
+	
 func _on_moving_state_processing(delta: float) -> void:
 	if character.global_position == sprite.global_position:
 		state_chart.send_event("stop_moving")

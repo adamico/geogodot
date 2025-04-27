@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://p86k4pemyw71"]
+[gd_scene load_steps=28 format=3 uid="uid://p86k4pemyw71"]
 
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
 [ext_resource type="Texture2D" uid="uid://ca5qrubikhrw4" path="res://assets/sprites/geosprites2.png" id="1_g2els"]
@@ -15,9 +15,6 @@
 [ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="10_oprun"]
 [ext_resource type="Script" uid="uid://bjd6fsu3o1ya5" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="11_3v2ag"]
 [ext_resource type="Script" uid="uid://pfdv51lppmck" path="res://addons/godot_state_charts/not_guard.gd" id="12_jej6c"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
-region = Rect2(132, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
 atlas = ExtResource("1_g2els")
@@ -131,6 +128,7 @@ capture = NodePath("Capture")
 state_chart = NodePath("StateChart")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("2_y4r1p")]
 anchors_preset = 1
@@ -166,8 +164,7 @@ metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Shoot" parent="." instance=ExtResource("8_f1ej7")]
 
-[node name="Character" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_jej6c")
+[node name="Character" type="Node2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Character"]
 sprite_frames = SubResource("SpriteFrames_jej6c")
