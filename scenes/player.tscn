@@ -113,7 +113,7 @@ animations = [{
 
 [sub_resource type="Resource" id="Resource_f1ej7"]
 script = ExtResource("11_3v2ag")
-state = NodePath("../../../Move/NotMoving")
+state = NodePath("../../../Move/CanMove")
 metadata/_custom_type_script = "uid://bjd6fsu3o1ya5"
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("capture", "state_chart", "shoot")]
@@ -123,7 +123,6 @@ state_chart = NodePath("StateChart")
 shoot = NodePath("Shoot")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("2_y4r1p")]
 anchors_preset = 1
@@ -171,8 +170,7 @@ target_position = Vector2(0, 32)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="Capture" parent="." node_paths=PackedStringArray("state_chart") instance=ExtResource("6_3v2ag")]
-state_chart = NodePath("../StateChart")
+[node name="Capture" parent="." instance=ExtResource("6_3v2ag")]
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_tuyoq")
@@ -183,12 +181,12 @@ script = ExtResource("10_oprun")
 
 [node name="Capture" type="Node" parent="StateChart/Root"]
 script = ExtResource("7_smehm")
-initial_state = NodePath("NotCapturing")
+initial_state = NodePath("CanCapture")
 
-[node name="NotCapturing" type="Node" parent="StateChart/Root/Capture"]
+[node name="CanCapture" type="Node" parent="StateChart/Root/Capture"]
 script = ExtResource("8_ur7pv")
 
-[node name="OnCapture" type="Node" parent="StateChart/Root/Capture/NotCapturing"]
+[node name="OnCapture" type="Node" parent="StateChart/Root/Capture/CanCapture"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Capturing")
 event = &"capture"
@@ -200,7 +198,7 @@ script = ExtResource("8_ur7pv")
 
 [node name="OnAbortCapturing" type="Node" parent="StateChart/Root/Capture/Capturing"]
 script = ExtResource("9_ur7pv")
-to = NodePath("../../NotCapturing")
+to = NodePath("../../CanCapture")
 event = &"stop_capturing"
 delay_in_seconds = "0.0"
 
@@ -215,26 +213,43 @@ script = ExtResource("8_ur7pv")
 
 [node name="ToNotCapturing" type="Node" parent="StateChart/Root/Capture/FinishCapturing"]
 script = ExtResource("9_ur7pv")
-to = NodePath("../../NotCapturing")
+to = NodePath("../../CanCapture")
 delay_in_seconds = "0.0"
+
+[node name="CannotCapture" type="Node" parent="StateChart/Root/Capture"]
+script = ExtResource("8_ur7pv")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="OnAllowCaptureToCanCapture" type="Node" parent="StateChart/Root/Capture/CannotCapture"]
+script = ExtResource("9_ur7pv")
+to = NodePath("../../CanCapture")
+event = &"allow_capture"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
 
 [node name="Move" type="Node" parent="StateChart/Root"]
 script = ExtResource("7_smehm")
-initial_state = NodePath("NotMoving")
+initial_state = NodePath("CanMove")
 
-[node name="NotMoving" type="Node" parent="StateChart/Root/Move"]
+[node name="CanMove" type="Node" parent="StateChart/Root/Move"]
 script = ExtResource("8_ur7pv")
 
-[node name="OnTryMove" type="Node" parent="StateChart/Root/Move/NotMoving"]
+[node name="OnTryMove" type="Node" parent="StateChart/Root/Move/CanMove"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../TryMoving")
 event = &"try_move"
 delay_in_seconds = "0.0"
 
+[node name="OnPreventMoveToCannotMove" type="Node" parent="StateChart/Root/Move/CanMove"]
+script = ExtResource("9_ur7pv")
+to = NodePath("../../CannotMove")
+event = &"prevent_move"
+delay_in_seconds = "0.0"
+
 [node name="TryMoving" type="Node" parent="StateChart/Root/Move"]
 script = ExtResource("8_ur7pv")
 
-[node name="OnMove" type="Node" parent="StateChart/Root/Move/TryMoving"]
+[node name="OnMoveToMoving" type="Node" parent="StateChart/Root/Move/TryMoving"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Moving")
 event = &"move"
@@ -243,26 +258,36 @@ delay_in_seconds = "0.0"
 [node name="Moving" type="Node" parent="StateChart/Root/Move"]
 script = ExtResource("8_ur7pv")
 
-[node name="OnStopMoving" type="Node" parent="StateChart/Root/Move/Moving"]
+[node name="ToNotMoving" type="Node" parent="StateChart/Root/Move/Moving"]
 script = ExtResource("9_ur7pv")
-to = NodePath("../../NotMoving")
+to = NodePath("../../CanMove")
 event = &"stop_moving"
+delay_in_seconds = "0.0"
+
+[node name="CannotMove" type="Node" parent="StateChart/Root/Move"]
+script = ExtResource("8_ur7pv")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="OnAllowMoveToNotMoving" type="Node" parent="StateChart/Root/Move/CannotMove"]
+script = ExtResource("9_ur7pv")
+to = NodePath("../../CanMove")
+event = &"allow_move"
 delay_in_seconds = "0.0"
 
 [node name="Shoot" type="Node" parent="StateChart/Root"]
 script = ExtResource("7_smehm")
-initial_state = NodePath("Available")
+initial_state = NodePath("CanShoot")
 
-[node name="Available" type="Node" parent="StateChart/Root/Shoot"]
+[node name="CanShoot" type="Node" parent="StateChart/Root/Shoot"]
 script = ExtResource("8_ur7pv")
 
-[node name="OnShootToCooldown" type="Node" parent="StateChart/Root/Shoot/Available"]
+[node name="OnShootToCooldown" type="Node" parent="StateChart/Root/Shoot/CanShoot"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../Cooldown")
 event = &"shoot"
 delay_in_seconds = "0.0"
 
-[node name="OnPreventShootToCannotShoot" type="Node" parent="StateChart/Root/Shoot/Available"]
+[node name="OnPreventShootToCannotShoot" type="Node" parent="StateChart/Root/Shoot/CanShoot"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../CannotShoot")
 event = &"prevent_shoot"
@@ -273,7 +298,7 @@ script = ExtResource("8_ur7pv")
 
 [node name="BackToAvailable" type="Node" parent="StateChart/Root/Shoot/Cooldown"]
 script = ExtResource("9_ur7pv")
-to = NodePath("../../Available")
+to = NodePath("../../CanShoot")
 delay_in_seconds = "1.0"
 
 [node name="OnPreventShootToCannotShoot" type="Node" parent="StateChart/Root/Shoot/Cooldown"]
@@ -287,7 +312,7 @@ script = ExtResource("8_ur7pv")
 
 [node name="OnAllowShootToAvailable" type="Node" parent="StateChart/Root/Shoot/CannotShoot"]
 script = ExtResource("9_ur7pv")
-to = NodePath("../../Available")
+to = NodePath("../../CanShoot")
 event = &"allow_shoot"
 delay_in_seconds = "0.0"
 
