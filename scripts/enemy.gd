@@ -83,7 +83,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func _on_death() -> void:
 	var explode_sound = $ExplodeSound
 	explode_sound.play()
-	
+	collision_box.set_deferred("disabled", true)
 	var tween = get_tree().create_tween()
 	sprite.modulate = Color.BLACK
 	tween.tween_property(sprite, "scale", Vector2(), 0.1)
@@ -102,5 +102,5 @@ func _on_hit() -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_callback(sprite.set_modulate.bind(Color.WHITE)).set_delay(0.1)
 	collision_box.set_deferred("disabled", true)
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.1).timeout
 	collision_box.set_deferred("disabled", false)

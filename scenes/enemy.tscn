@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://btwgvtyeoc32i" path="res://scripts/enemy.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://cco7ab6oeq5mn" path="res://assets/sprites/robot_3Dred.png" id="2_4ra3w"]
-[ext_resource type="AudioStream" uid="uid://cnaylx1olrrk3" path="res://assets/sounds/impactGlass_medium_004.ogg" id="3_4ra3w"]
+[ext_resource type="AudioStream" uid="uid://dtk8ui7f4utx6" path="res://assets/sounds/impactPlate_medium_000.ogg" id="3_5uy6h"]
 [ext_resource type="AudioStream" uid="uid://73ewggciawpo" path="res://assets/sounds/explosionCrunch_000.ogg" id="4_5uy6h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
@@ -23,7 +23,7 @@ collision_mask = 6
 shape = SubResource("CircleShape2D_tbgi4")
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_4ra3w")
+stream = ExtResource("3_5uy6h")
 
 [node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_5uy6h")
