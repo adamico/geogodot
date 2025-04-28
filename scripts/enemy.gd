@@ -6,6 +6,8 @@ const GRID_SIZE = 32
 @onready var player: Node2D = $"../../../Player/Character"
 @onready var level: TileMapLayer = $"../../Level"
 
+signal died()
+
 #TODO: add state chart for enemies
 var astar_grid: AStarGrid2D
 var is_moving : bool
@@ -66,6 +68,7 @@ func setup_astar_grid() -> AStarGrid2D:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.get_parent().is_in_group("enemies"): return
+	if area.get_node("../..").is_in_group("enemies"): return
 	area.get_parent().queue_free()
+	died.emit()
 	queue_free()

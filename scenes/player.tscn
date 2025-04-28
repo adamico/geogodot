@@ -123,6 +123,7 @@ state_chart = NodePath("StateChart")
 shoot = NodePath("Shoot")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("2_y4r1p")]
 anchors_preset = 1
@@ -298,7 +299,7 @@ delay_in_seconds = "0.0"
 [node name="Cooldown" type="Node" parent="StateChart/Root/Shoot"]
 script = ExtResource("8_ur7pv")
 
-[node name="BackToAvailable" type="Node" parent="StateChart/Root/Shoot/Cooldown"]
+[node name="BackToCanShoot" type="Node" parent="StateChart/Root/Shoot/Cooldown"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../CanShoot")
 delay_in_seconds = "1.0"

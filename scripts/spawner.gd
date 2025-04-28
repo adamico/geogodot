@@ -1,13 +1,22 @@
 extends Marker2D
 
 
+@onready var state_chart: StateChart = $StateChart
 @export var enemy_scene: PackedScene
-@onready var spawn_timer: Timer = $SpawnTimer
 
-func _ready() -> void:
-	spawn_timer.start()
+signal enemy_died()
 
 var spawned: int = 0
+
+
+func _process(delta: float) -> void:
+	if spawned >= 3:
+		state_chart.send_event("disable")
+		return
+	else:
+		state_chart.send_event("enable")
+	
+	state_chart.send_event("spawn")
 
 func spawn() -> void:
 	var enemy = enemy_scene.instantiate()
@@ -17,12 +26,15 @@ func spawn() -> void:
 	enemy_spawn_location.progress_ratio = randf()
 	
 	enemy.position = enemy_spawn_location.position
-	add_child(enemy)
 	
+	enemy.died.connect(_on_enemy_died)
+	add_child(enemy)
 	spawned += 1
 
-func _on_spawn_timer_timeout() -> void:
-	if spawned < 3:
-		spawn()
-	else:
-		spawned = 0
+
+func _on_cool_down_state_entered() -> void:
+	spawn()
+	
+func _on_enemy_died() -> void:
+	spawned -= 1
+	enemy_died.emit()
