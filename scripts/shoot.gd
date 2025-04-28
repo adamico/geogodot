@@ -1,21 +1,19 @@
 extends Node2D
 
 @onready var bullet_scene = preload("res://scenes/bullet.tscn")
-@onready var state_chart: StateChart = $"../StateChart"
-@onready var sprite: AnimatedSprite2D = $"../Character/AnimatedSprite2D"
 
 @export var rate: int = 1
-
 @export var direction: Vector2
+@export var bullet_parent_path: NodePath
+@export var sprite_path: NodePath
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
 func spawn_bullet() -> void:
 	var bullet = bullet_scene.instantiate()
-	bullet.global_position = sprite.global_position
-	add_child(bullet)
+	
+	var bullet_parent = get_node(bullet_parent_path)
+	bullet.global_position = get_node(sprite_path).global_position
+	bullet_parent.add_child(bullet)
 
 
 func _on_cooldown_state_entered() -> void:

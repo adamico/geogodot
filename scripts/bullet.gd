@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var direction = $"..".direction
+@onready var direction = $"../Shoot".direction
 
 var speed: int = 150
 

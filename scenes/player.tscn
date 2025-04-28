@@ -157,6 +157,8 @@ limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Shoot" parent="." instance=ExtResource("8_f1ej7")]
+bullet_parent_path = NodePath("..")
+sprite_path = NodePath("../Character/AnimatedSprite2D")
 
 [node name="Character" type="Node2D" parent="."]
 
