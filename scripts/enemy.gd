@@ -6,7 +6,7 @@ const GRID_SIZE = 32
 @onready var player: Node2D = $"../../../Player/Character"
 @onready var level: TileMapLayer = $"../../Level"
 
-signal died()
+signal died
 
 #TODO: add state chart for enemies
 var astar_grid: AStarGrid2D
@@ -15,6 +15,7 @@ var is_moving : bool
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	astar_grid = setup_astar_grid()
+	died.connect(_on_death)
 
 func _physics_process(_delta: float) -> void:
 	if is_moving:
@@ -71,4 +72,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.get_node("../..").is_in_group("enemies"): return
 	area.get_parent().queue_free()
 	died.emit()
+
+
+func _on_death() -> void:
 	queue_free()

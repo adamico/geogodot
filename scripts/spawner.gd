@@ -4,13 +4,13 @@ extends Marker2D
 @onready var state_chart: StateChart = $StateChart
 @export var enemy_scene: PackedScene
 
-signal enemy_died()
+signal enemy_died
 
-var spawned: int = 0
-
+var spawned: Array
+var max_spawned: int = 4
 
 func _process(delta: float) -> void:
-	if spawned >= 3:
+	if spawned.size() >= max_spawned:
 		state_chart.send_event("disable")
 		return
 	else:
@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 	state_chart.send_event("spawn")
 
 func spawn() -> void:
-	var enemy = enemy_scene.instantiate()
+	var enemy: Node2D = enemy_scene.instantiate()
 	
 	# Choose a random location on Path2D.
 	var enemy_spawn_location = $SpawnPath/SpawnLocation
@@ -27,14 +27,15 @@ func spawn() -> void:
 	
 	enemy.position = enemy_spawn_location.position
 	
-	enemy.died.connect(_on_enemy_died)
+	enemy.died.connect(_on_enemy_died.bind(enemy))
 	add_child(enemy)
-	spawned += 1
+	spawned.append(enemy.get_instance_id())
 
 
 func _on_cool_down_state_entered() -> void:
 	spawn()
 	
-func _on_enemy_died() -> void:
-	spawned -= 1
-	enemy_died.emit()
+	
+func _on_enemy_died(enemy: Node) -> void:
+	var enemy_id = enemy.get_instance_id()
+	spawned.erase(enemy_id)

@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var bullet_scene = preload("res://scenes/bullet.tscn")
 
-@export var rate: int = 1
+@export var rate: float
 @export var direction: Vector2
 @export var bullet_parent_path: NodePath
 @export var sprite_path: NodePath
