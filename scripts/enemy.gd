@@ -5,6 +5,7 @@ const GRID_SIZE = 32
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var player: Node2D = $"../../../Player/Character"
 @onready var level: TileMapLayer = $"../../Level"
+@onready var collision_box: CollisionShape2D = $Sprite2D/Area2D/CollisionShape2D
 
 signal died
 signal hit
@@ -82,13 +83,24 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func _on_death() -> void:
 	var explode_sound = $ExplodeSound
 	explode_sound.play()
-	sprite.visible = false
-	$Sprite2D/Area2D/CollisionShape2D.set_deferred("disabled", true)
+	
+	var tween = get_tree().create_tween()
+	sprite.modulate = Color.BLACK
+	tween.tween_property(sprite, "scale", Vector2(), 0.1)
 	await get_tree().create_timer(explode_sound.stream.get_length()).timeout
 	queue_free()
 
 func _on_hit() -> void:
-	$HitSound.play()
 	health -= 1
 	if health <= 0:
 		died.emit()
+		return
+		
+	$HitSound.play()
+	
+	sprite.modulate = Color.RED
+	var tween = get_tree().create_tween()
+	tween.tween_callback(sprite.set_modulate.bind(Color.WHITE)).set_delay(0.1)
+	collision_box.set_deferred("disabled", true)
+	await get_tree().create_timer(1).timeout
+	collision_box.set_deferred("disabled", false)
