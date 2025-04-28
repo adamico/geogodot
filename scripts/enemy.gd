@@ -7,15 +7,19 @@ const GRID_SIZE = 32
 @onready var level: TileMapLayer = $"../../Level"
 
 signal died
+signal hit
 
 #TODO: add state chart for enemies
 var astar_grid: AStarGrid2D
-var is_moving : bool
+var is_moving: bool
+var max_health: int = 3
+var health: int = max_health
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	astar_grid = setup_astar_grid()
 	died.connect(_on_death)
+	hit.connect(_on_hit)
 
 func _physics_process(_delta: float) -> void:
 	if is_moving:
@@ -71,10 +75,20 @@ func setup_astar_grid() -> AStarGrid2D:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	print(area)
 	area.get_parent().died.emit()
-	died.emit()
+	hit.emit()
 
 
 func _on_death() -> void:
+	var explode_sound = $ExplodeSound
+	explode_sound.play()
+	sprite.visible = false
+	$Sprite2D/Area2D/CollisionShape2D.set_deferred("disabled", true)
+	await get_tree().create_timer(explode_sound.stream.get_length()).timeout
 	queue_free()
+
+func _on_hit() -> void:
+	$HitSound.play()
+	health -= 1
+	if health <= 0:
+		died.emit()

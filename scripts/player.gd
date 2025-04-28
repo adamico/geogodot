@@ -21,12 +21,16 @@ var captured_cells: PackedVector2Array
 
 signal died
 
+
 ### Native functions
+func _ready() -> void:
+	died.connect(_on_death)
+	
+	
 func _process(_delta: float) -> void:
 	handle_move_input()
 	handle_capture_input()
 	handle_shoot_input()
-	died.connect(_on_death)
 
 
 ### Custom functions

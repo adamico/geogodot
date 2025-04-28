@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cd3lqhgc3pj52"]
+[gd_scene load_steps=6 format=3 uid="uid://cd3lqhgc3pj52"]
 
 [ext_resource type="Script" uid="uid://btwgvtyeoc32i" path="res://scripts/enemy.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://cco7ab6oeq5mn" path="res://assets/sprites/robot_3Dred.png" id="2_4ra3w"]
+[ext_resource type="AudioStream" uid="uid://cnaylx1olrrk3" path="res://assets/sounds/impactGlass_medium_004.ogg" id="3_4ra3w"]
+[ext_resource type="AudioStream" uid="uid://73ewggciawpo" path="res://assets/sounds/explosionCrunch_000.ogg" id="4_5uy6h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
 radius = 16.0
@@ -19,5 +21,11 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
 shape = SubResource("CircleShape2D_tbgi4")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_4ra3w")
+
+[node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_5uy6h")
 
 [connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]

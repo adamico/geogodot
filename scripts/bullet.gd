@@ -9,7 +9,6 @@ signal died
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Sound.play()
 	sprite.rotate(direction.angle())
 	died.connect(_on_death)
 

@@ -4,16 +4,18 @@ extends Node2D
 
 @export var rate: float
 @export var direction: Vector2
-@export var bullet_parent_path: NodePath
+@export var bullet_sibling_path: NodePath
 @export var sprite_path: NodePath
+@onready var character: Node2D = $"../Character"
 
 
 func spawn_bullet() -> void:
 	var bullet = bullet_scene.instantiate()
 	
-	var bullet_parent = get_node(bullet_parent_path)
+	var bullet_sibling = get_node(bullet_sibling_path)
 	bullet.global_position = get_node(sprite_path).global_position
-	bullet_parent.add_child(bullet)
+	bullet_sibling.add_sibling(bullet)
+	$Sound.play()
 
 
 func _on_cooldown_state_entered() -> void:
