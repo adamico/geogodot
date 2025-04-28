@@ -96,7 +96,7 @@ shoot_down={
 
 2d_physics/layer_1="Enemy"
 2d_physics/layer_2="Bullet"
-2d_physics/layer_3="Layer 3"
+2d_physics/layer_3="Player"
 2d_physics/layer_4="Layer 4"
 
 [physics]

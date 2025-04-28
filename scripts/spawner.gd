@@ -4,12 +4,10 @@ extends Marker2D
 @onready var state_chart: StateChart = $StateChart
 @export var enemy_scene: PackedScene
 
-signal enemy_died
-
 var spawned: Array
-var max_spawned: int = 4
+var max_spawned: int = 2
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if spawned.size() >= max_spawned:
 		state_chart.send_event("disable")
 		return

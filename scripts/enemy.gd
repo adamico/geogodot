@@ -19,7 +19,9 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if is_moving:
-		sprite.global_position = sprite.global_position.move_toward(global_position, 1)
+		sprite.global_position = sprite.global_position.move_toward(
+			global_position, 1
+		)
 		if sprite.global_position != global_position: return
 	
 	is_moving = false
@@ -49,7 +51,7 @@ func move() -> void:
 	for occupied_position in occupied_positions:
 		astar_grid.set_point_solid(occupied_position, false)
 	
-	if path.is_empty() or path.size() == 1: return
+	if path.is_empty(): return
 	
 	var original_position = Vector2(global_position)
 	
@@ -69,8 +71,8 @@ func setup_astar_grid() -> AStarGrid2D:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.get_node("../..").is_in_group("enemies"): return
-	area.get_parent().queue_free()
+	print(area)
+	area.get_parent().died.emit()
 	died.emit()
 
 

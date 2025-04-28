@@ -13,23 +13,20 @@ const GRID_SIZE = 32
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Node2D = $Character
+@onready var ray_casts: Node2D = $Character/AnimatedSprite2D/RayCasts
 
-@onready var raycasts: Dictionary = {
-	Vector2.LEFT: [$Character/LTRayCast, $Character/LBRayCast],
-	Vector2.RIGHT: [$Character/RTRayCast, $Character/RBRayCast],
-	Vector2.UP: [$Character/TLRayCast, $Character/TRRayCast],
-	Vector2.DOWN: [$Character/BLRayCast, $Character/BRRayCast],
-}
 
 var direction: Vector2 = Vector2.ZERO
 var captured_cells: PackedVector2Array
 
+signal died
 
 ### Native functions
 func _process(_delta: float) -> void:
 	handle_move_input()
 	handle_capture_input()
 	handle_shoot_input()
+	died.connect(_on_death)
 
 
 ### Custom functions
@@ -86,19 +83,6 @@ func play_animation() -> void:
 	sprite.play(directions_to_sprites[direction])
 
 
-func raycast_collisions(direction) -> Array:
-	var collisions: Array
-	
-	for collider in raycasts[direction].map(raycast_collider):
-		if collider: collisions.append(collider)
-	
-	return collisions
-
-
-func raycast_collider(raycast: RayCast2D) -> CollisionObject2D:
-	return raycast.get_collider()
-
-
 func ram(target: Area2D) -> void:
 	var enemy = target.get_node("../..")
 	enemy.died.emit()
@@ -118,7 +102,7 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	if not tile_data.get_custom_data("walkable"): return
 	
 	if direction != Vector2.ZERO:
-		var collisions = raycast_collisions(direction)
+		var collisions = ray_casts.get_collisions(direction)
 		for collision in collisions:
 			ram(collision)
 	
@@ -150,3 +134,6 @@ func _on_finish_capturing_state_exited() -> void:
 	)
 	level.set_cell(current_map_position, 1, Vector2i(number, 0))
 	captured_cells.append(current_map_position)
+
+func _on_death() -> void:
+	pass
