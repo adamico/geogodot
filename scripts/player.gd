@@ -1,24 +1,32 @@
+extends Node2D
 class_name Player
 
-extends Node2D
-
+#TODO: move this to a global autoload
 const GRID_SIZE = 32
 
 @export var speed: float = 100.0
 @export var capture: Node2D
+@export var level: TileMapLayer
 @export var state_chart: StateChart
 @export var number: int
+@export var shoot: Node2D
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Node2D = $Character
 @onready var ray_cast_2d: RayCast2D = $Character/RayCast2D
-@onready var level: TileMapLayer = $"../World/Level"
-
-@onready var shoot: Node2D = $Shoot
 
 var direction: Vector2 = Vector2.ZERO
+var captured_cells: PackedVector2Array
 
+### Native functions
 func _process(_delta: float) -> void:
+	handle_move_input()
+	handle_capture_input()
+	handle_shoot_input()
+
+
+### Custom functions
+func handle_move_input() -> void:
 	if Input.is_action_pressed("ui_left"):
 		direction = Vector2.LEFT
 		sprite.play("move_left")
@@ -34,21 +42,24 @@ func _process(_delta: float) -> void:
 	else:
 		direction = Vector2.ZERO
 		sprite.play("idle")
-	
+		
 	if direction != Vector2.ZERO:
 		state_chart.send_event("try_move")
-	
+
+
+func handle_capture_input() -> void:
 	if Input.is_action_pressed("capture"):
 		var current_map_position: Vector2i = level.local_to_map(
 			character.global_position
 		)
-		var tile_data := level.get_cell_tile_data(current_map_position)
-		if tile_data.get_custom_data("owned_by_player") == number: return
+		if captured_cells.has(current_map_position): return
 		state_chart.send_event("capture")
 	
 	if Input.is_action_just_released("capture"):
 		state_chart.send_event("stop_capturing")
 
+
+func handle_shoot_input() -> void:
 	if Input.is_action_pressed("shoot_left"):
 		shoot.direction = Vector2.LEFT
 		state_chart.send_event("shoot")
@@ -62,6 +73,7 @@ func _process(_delta: float) -> void:
 		shoot.direction = Vector2.DOWN
 		state_chart.send_event("shoot")
 
+### Signal Callbacks
 func _on_try_moving_state_processing(_delta: float) -> void:
 	var current_map_position: Vector2i = level.local_to_map(
 		character.global_position
@@ -100,5 +112,8 @@ func _on_moving_state_processing(delta: float) -> void:
 	)
 
 func _on_finish_capturing_state_exited() -> void:
-	var current_map_position: Vector2i = level.local_to_map(character.global_position)
+	var current_map_position: Vector2i = level.local_to_map(
+		character.global_position
+	)
 	level.set_cell(current_map_position, 1, Vector2i(number, 0))
+	captured_cells.append(current_map_position)

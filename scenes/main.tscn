@@ -37,6 +37,7 @@ process_physics_priority = 300
 script = ExtResource("3_sugp2")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[node name="Player" parent="." instance=ExtResource("2_0wfyh")]
+[node name="Player" parent="." node_paths=PackedStringArray("level") instance=ExtResource("2_0wfyh")]
 position = Vector2(48, 48)
+level = NodePath("../World/Level")
 number = 1
