@@ -29,22 +29,16 @@ func _process(_delta: float) -> void:
 func handle_move_input() -> void:
 	if Input.is_action_pressed("ui_left"):
 		direction = Vector2.LEFT
-		sprite.play("move_left")
 	elif Input.is_action_pressed("ui_right"):
 		direction = Vector2.RIGHT
-		sprite.play("move_right")
 	elif Input.is_action_pressed("ui_up"):
 		direction = Vector2.UP
-		sprite.play("move_up")
 	elif Input.is_action_pressed("ui_down"):
 		direction = Vector2.DOWN
-		sprite.play("move_down")
 	else:
 		direction = Vector2.ZERO
-		sprite.play("idle")
 		
-	if direction != Vector2.ZERO:
-		state_chart.send_event("try_move")
+	if direction != Vector2.ZERO: state_chart.send_event("try_move")
 
 
 func handle_capture_input() -> void:
@@ -62,16 +56,27 @@ func handle_capture_input() -> void:
 func handle_shoot_input() -> void:
 	if Input.is_action_pressed("shoot_left"):
 		shoot.direction = Vector2.LEFT
-		state_chart.send_event("shoot")
 	elif Input.is_action_pressed("shoot_right"):
 		shoot.direction = Vector2.RIGHT
-		state_chart.send_event("shoot")
 	elif Input.is_action_pressed("shoot_up"):
 		shoot.direction = Vector2.UP
-		state_chart.send_event("shoot")
 	elif Input.is_action_pressed("shoot_down"):
 		shoot.direction = Vector2.DOWN
-		state_chart.send_event("shoot")
+	else:
+		shoot.direction = Vector2.ZERO
+	
+	if shoot.direction != Vector2.ZERO: state_chart.send_event("shoot")
+
+
+func play_animation() -> void:
+	var directions_to_sprites: Dictionary = {
+		Vector2.LEFT: "move_left",
+		Vector2.RIGHT: "move_right",
+		Vector2.UP: "move_up",
+		Vector2.DOWN: "move_down",
+		Vector2.ZERO: "idle"
+	}
+	sprite.play(directions_to_sprites[direction])
 
 ### Signal Callbacks
 func _on_try_moving_state_processing(_delta: float) -> void:
@@ -102,6 +107,8 @@ func _on_moving_state_processing(delta: float) -> void:
 	if character.global_position == sprite.global_position:
 		state_chart.send_event("stop_moving")
 		return
+	
+	play_animation()
 	
 	var target_position = character.global_position
 	sprite.global_position = sprite.global_position.move_toward(
