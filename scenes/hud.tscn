@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://6awtsapo231u"]
+[gd_scene load_steps=3 format=3 uid="uid://6awtsapo231u"]
 
 [ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://scripts/hud.gd" id="1_ahhtf"]
+
+[sub_resource type="SystemFont" id="SystemFont_ahhtf"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -11,25 +13,48 @@ script = ExtResource("1_ahhtf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-offset_left = 916.0
-offset_top = 8.0
-offset_right = 1144.0
-offset_bottom = 160.0
-color = Color(0, 0, 0, 1)
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+offset_right = 1152.0
+offset_bottom = 96.0
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/ColorRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
 columns = 2
 
-[node name="CharacterPosLabel" type="Label" parent="CanvasLayer/ColorRect/GridContainer"]
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Char:"
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "SCORE:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ScoreValue" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "     0"
 horizontal_alignment = 2
 
-[node name="CharacterPosValue" type="Label" parent="CanvasLayer/ColorRect/GridContainer"]
+[node name="PercentageLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "0"
-horizontal_alignment = 1
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "CAPTURED:"
+vertical_alignment = 1
+
+[node name="PercentageValue" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "0%"
+horizontal_alignment = 2

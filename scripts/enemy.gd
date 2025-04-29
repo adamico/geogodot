@@ -121,10 +121,12 @@ func _on_death() -> void:
 	var explode_sound = $ExplodeSound
 	explode_sound.play()
 	collision_box.set_deferred("disabled", true)
+	Score.update_score_values(1, 100)
 	var tween = get_tree().create_tween()
 	sprite.modulate = Color.BLACK
 	tween.tween_property(sprite, "scale", Vector2(), 0.1)
 	await get_tree().create_timer(explode_sound.stream.get_length()).timeout
+
 	queue_free()
 
 

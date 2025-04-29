@@ -238,7 +238,8 @@ collision_layer = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Character/AnimatedSprite2D/HitBox"]
 shape = SubResource("CircleShape2D_oprun")
 
-[node name="Capture" parent="." instance=ExtResource("6_3v2ag")]
+[node name="Capture" parent="." node_paths=PackedStringArray("capturer") instance=ExtResource("6_3v2ag")]
+capturer = NodePath("..")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_tuyoq")

@@ -13,6 +13,7 @@ const GRID_SIZE = 32
 @export var move_action:GUIDEAction
 @export var capture_action:GUIDEAction
 @export var shoot_action:GUIDEAction
+@export var game: Node
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Node2D = $Character
@@ -79,6 +80,7 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 		var collisions = ray_casts.get_collisions(direction)
 		for collision in collisions:
 			ram(collision)
+			break
 	
 	state_chart.send_event("move")
 	

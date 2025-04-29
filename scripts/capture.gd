@@ -4,6 +4,8 @@ extends Node2D
 @onready var finished_capturing_sound: AudioStreamPlayer2D = $FinishedCapturing
 @onready var capturing_sound: AudioStreamPlayer2D = $Capturing
 
+@export var capturer: Node2D
+
 var state_chart: StateChart
 
 signal capturing
@@ -48,4 +50,4 @@ func _on_finish_capturing_state_exited() -> void:
 	reset_progress_bar()
 	state_chart.send_event("allow_shoot")
 	state_chart.send_event("allow_move")
-	stop_capturing.emit()
+	Score.update_capture_percentage(capturer.number, 1)
