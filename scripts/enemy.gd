@@ -62,11 +62,6 @@ func calculate_path(from, to) -> void:
 
 
 func _on_try_moving_state_processing(_delta: float) -> void:
-	calculate_path(
-		level.local_to_map(global_position),
-		level.local_to_map(player_character.global_position),
-		)
-	
 	if path.is_empty(): return
 	
 	var original_position = Vector2(global_position)
@@ -125,3 +120,13 @@ func _on_hit() -> void:
 	collision_box.set_deferred("disabled", true)
 	await get_tree().create_timer(0.1).timeout
 	collision_box.set_deferred("disabled", false)
+
+
+func _on_calm_state_processing(delta: float) -> void:
+	pass
+
+func _on_alerted_state_processing(delta: float) -> void:
+	calculate_path(
+		level.local_to_map(global_position),
+		level.local_to_map(player_character.global_position),
+	)
