@@ -1,11 +1,14 @@
-[gd_scene load_steps=29 format=3 uid="uid://p86k4pemyw71"]
+[gd_scene load_steps=32 format=3 uid="uid://p86k4pemyw71"]
 
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
 [ext_resource type="Texture2D" uid="uid://ca5qrubikhrw4" path="res://assets/sprites/geosprites2.png" id="1_g2els"]
+[ext_resource type="Resource" uid="uid://csbmlpvj6i1xv" path="res://guide/contexts/game/move.tres" id="2_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://4ct2dpo3bfs3" path="res://assets/sprites/geosprites.png" id="2_qhqgy"]
 [ext_resource type="Resource" uid="uid://euybd2w0bax" path="res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_2d_tween.tres" id="2_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_y4r1p"]
+[ext_resource type="Resource" uid="uid://cqfhkkleeethw" path="res://guide/contexts/game/capture.tres" id="3_fulsm"]
 [ext_resource type="Script" uid="uid://chxvj76d3tc3w" path="res://scripts/player.gd" id="3_qlg0r"]
+[ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://guide/contexts/game/shoot.tres" id="4_4r5pv"]
 [ext_resource type="PackedScene" uid="uid://ucms7gv5yqle" path="res://scenes/capture.tscn" id="6_3v2ag"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="7_smehm"]
@@ -126,6 +129,9 @@ script = ExtResource("3_qlg0r")
 capture = NodePath("Capture")
 state_chart = NodePath("StateChart")
 shoot = NodePath("Shoot")
+move_action = ExtResource("2_qfm1y")
+capture_action = ExtResource("3_fulsm")
+shoot_action = ExtResource("4_4r5pv")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false

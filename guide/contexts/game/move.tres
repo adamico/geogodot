@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="GUIDEAction" load_steps=2 format=3 uid="uid://csbmlpvj6i1xv"]
+
+[ext_resource type="Script" uid="uid://cen24dhos1eh3" path="res://addons/guide/guide_action.gd" id="1_24ybe"]
+
+[resource]
+script = ExtResource("1_24ybe")
+name = &""
+action_value_type = 2
+block_lower_priority_actions = true
+emit_as_godot_actions = false
+is_remappable = false
+display_name = ""
+display_category = ""
+metadata/_custom_type_script = "uid://cen24dhos1eh3"

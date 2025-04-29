@@ -99,14 +99,14 @@ func _on_player_stop_capturing(_player) -> void:
 	state_chart.send_event("player_stops_capturing")
 
 
-func _on_calm_state_processing(delta: float) -> void:
+func _on_calm_state_processing(_delta: float) -> void:
 	var from = level.local_to_map(global_position)
-	var random_position = Vector2i(randi_range(1,2), randi_range(1,32))
+	var random_position = Vector2i(randi_range(1,2), randi_range(1,2))
 	var to = level.local_to_map(home_position) + random_position
 	calculate_path(from, to)
 
 
-func _on_alerted_state_processing(delta: float) -> void:
+func _on_alerted_state_processing(_delta: float) -> void:
 	calculate_path(
 		level.local_to_map(global_position),
 		level.local_to_map(player_character.global_position),

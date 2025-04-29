@@ -10,71 +10,39 @@ const GRID_SIZE = 32
 @export var state_chart: StateChart
 @export var number: int
 @export var shoot: Node2D
+@export var move_action:GUIDEAction
+@export var capture_action:GUIDEAction
+@export var shoot_action:GUIDEAction
 
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Node2D = $Character
 @onready var ray_casts: Node2D = $Character/AnimatedSprite2D/RayCasts
 
-
-var direction: Vector2 = Vector2.ZERO
+var direction := Vector2.ZERO
+var last_direction := Vector2.ZERO
 var captured_cells: PackedVector2Array
 
 signal died
 signal capturing
 signal stop_capturing
 
+
 ### Native functions
 func _ready() -> void:
 	died.connect(_on_death)
 	add_to_group("players")
 	
-	
+	capture_action.triggered.connect(_on_capture_action_triggered)
+	capture_action.completed.connect(_on_capture_action_completed)
+
 func _process(_delta: float) -> void:
-	handle_move_input()
-	handle_capture_input()
-	handle_shoot_input()
-
-
-### Custom functions
-func handle_move_input() -> void:
-	if Input.is_action_pressed("ui_left"):
-		direction = Vector2.LEFT
-	elif Input.is_action_pressed("ui_right"):
-		direction = Vector2.RIGHT
-	elif Input.is_action_pressed("ui_up"):
-		direction = Vector2.UP
-	elif Input.is_action_pressed("ui_down"):
-		direction = Vector2.DOWN
-	else:
-		direction = Vector2.ZERO
-		
+	direction = move_action.value_axis_2d
+	var diagonals = [Vector2(1,1), Vector2(-1,1), Vector2(1,-1), Vector2(-1,-1)]
+	if diagonals.find(direction) != -1: direction = last_direction
 	if direction != Vector2.ZERO: state_chart.send_event("try_move")
-
-
-func handle_capture_input() -> void:
-	if Input.is_action_pressed("capture"):
-		var current_map_position: Vector2i = level.local_to_map(
-			character.global_position
-		)
-		if captured_cells.has(current_map_position): return
-		state_chart.send_event("capture")
+	last_direction = direction
 	
-	if Input.is_action_just_released("capture"):
-		state_chart.send_event("stop_capturing")
-
-
-func handle_shoot_input() -> void:
-	if Input.is_action_pressed("shoot_left"):
-		shoot.direction = Vector2.LEFT
-	elif Input.is_action_pressed("shoot_right"):
-		shoot.direction = Vector2.RIGHT
-	elif Input.is_action_pressed("shoot_up"):
-		shoot.direction = Vector2.UP
-	elif Input.is_action_pressed("shoot_down"):
-		shoot.direction = Vector2.DOWN
-	else:
-		shoot.direction = Vector2.ZERO
-	
+	shoot.direction = shoot_action.value_axis_2d
 	if shoot.direction != Vector2.ZERO: state_chart.send_event("shoot")
 
 
@@ -119,6 +87,7 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	sprite.global_position = level.map_to_local(current_map_position)
 	capture.global_position = level.map_to_local(current_map_position)
 	
+	
 func _on_moving_state_processing(delta: float) -> void:
 	if character.global_position == sprite.global_position:
 		state_chart.send_event("stop_moving")
@@ -134,12 +103,14 @@ func _on_moving_state_processing(delta: float) -> void:
 		target_position, speed*delta
 	)
 
+
 func _on_finish_capturing_state_exited() -> void:
 	var current_map_position: Vector2i = level.local_to_map(
 		character.global_position
 	)
 	level.set_cell(current_map_position, 1, Vector2i(number, 0))
 	captured_cells.append(current_map_position)
+
 
 func _on_death() -> void:
 	pass
@@ -151,3 +122,17 @@ func _on_capture_capturing() -> void:
 
 func _on_capture_stop_capturing() -> void:
 	stop_capturing.emit()
+	
+	
+
+func _on_capture_action_triggered() -> void:
+	var current_map_position: Vector2i = level.local_to_map(
+			character.global_position
+		)
+	if captured_cells.has(current_map_position): return
+	
+	state_chart.send_event("capture")
+	
+
+func _on_capture_action_completed() -> void:
+	state_chart.send_event("stop_capturing")

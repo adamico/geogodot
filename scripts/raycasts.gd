@@ -4,7 +4,7 @@ extends Node2D
 	Vector2.LEFT: [$LTRayCast, $LBRayCast],
 	Vector2.RIGHT: [$RTRayCast, $RBRayCast],
 	Vector2.UP: [$TLRayCast, $TRRayCast],
-	Vector2.DOWN: [$BLRayCast, $BRRayCast],
+	Vector2.DOWN: [$BLRayCast, $BRRayCast]
 }
 
 @onready var player: Player = $"../../.."
