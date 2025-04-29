@@ -20,11 +20,13 @@ var direction: Vector2 = Vector2.ZERO
 var captured_cells: PackedVector2Array
 
 signal died
-
+signal capturing
+signal stop_capturing
 
 ### Native functions
 func _ready() -> void:
 	died.connect(_on_death)
+	add_to_group("players")
 	
 	
 func _process(_delta: float) -> void:
@@ -141,3 +143,11 @@ func _on_finish_capturing_state_exited() -> void:
 
 func _on_death() -> void:
 	pass
+
+
+func _on_capture_capturing() -> void:
+	capturing.emit()
+
+
+func _on_capture_stop_capturing() -> void:
+	stop_capturing.emit()

@@ -26,6 +26,7 @@ func spawn() -> void:
 	enemy.position = enemy_spawn_location.position
 	
 	enemy.died.connect(_on_enemy_died.bind(enemy))
+
 	add_child(enemy)
 	spawned.append(enemy.get_instance_id())
 
@@ -37,3 +38,4 @@ func _on_cool_down_state_entered() -> void:
 func _on_enemy_died(enemy: Node) -> void:
 	var enemy_id = enemy.get_instance_id()
 	spawned.erase(enemy_id)
+	

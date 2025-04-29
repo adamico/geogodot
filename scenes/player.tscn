@@ -320,7 +320,7 @@ delay_in_seconds = "0.0"
 [node name="Moving" type="Node" parent="StateChart/Root/Move"]
 script = ExtResource("8_ur7pv")
 
-[node name="ToNotMoving" type="Node" parent="StateChart/Root/Move/Moving"]
+[node name="OnStopMoving" type="Node" parent="StateChart/Root/Move/Moving"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../CanMove")
 event = &"stop_moving"
@@ -378,6 +378,8 @@ to = NodePath("../../CanShoot")
 event = &"allow_shoot"
 delay_in_seconds = "0.0"
 
+[connection signal="capturing" from="Capture" to="." method="_on_capture_capturing"]
+[connection signal="stop_capturing" from="Capture" to="." method="_on_capture_stop_capturing"]
 [connection signal="state_entered" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_processing"]

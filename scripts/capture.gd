@@ -6,6 +6,9 @@ extends Node2D
 
 var state_chart: StateChart
 
+signal capturing
+signal stop_capturing
+
 ### Native functions
 func _ready() -> void:
 	state_chart = get_parent().get_node("StateChart")
@@ -19,7 +22,9 @@ func reset_progress_bar() -> void:
 
 
 ### Signal Callbacks
+
 func _on_capturing_state_entered() -> void:
+	capturing.emit()
 	state_chart.send_event("prevent_shoot")
 	state_chart.send_event("prevent_move")
 	capturing_sound.play()
@@ -36,9 +41,11 @@ func _on_capturing_state_exited() -> void:
 	reset_progress_bar()
 	state_chart.send_event("allow_shoot")
 	state_chart.send_event("allow_move")
+	stop_capturing.emit()
 
 func _on_finish_capturing_state_exited() -> void:
 	finished_capturing_sound.play()
 	reset_progress_bar()
 	state_chart.send_event("allow_shoot")
 	state_chart.send_event("allow_move")
+	stop_capturing.emit()

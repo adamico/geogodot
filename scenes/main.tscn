@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bxyya8t6j4v7v" path="res://scenes/spawner.tscn" id="4_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://scenes/level1.tscn" id="4_tefeu"]
 
-[node name="Main" type="Node"]
+[node name="Game" type="Node"]
 script = ExtResource("1_tbgi4")
 
 [node name="HUD" parent="." instance=ExtResource("1_jyhfs")]
@@ -41,3 +41,5 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 position = Vector2(48, 48)
 level = NodePath("../World/Level")
 number = 1
+
+[connection signal="capturing" from="Player" to="." method="_on_player_capturing"]
