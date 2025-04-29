@@ -81,12 +81,16 @@ func _on_moving_state_processing(delta: float) -> void:
 	if sprite.global_position == global_position:
 		state_chart.send_event("stop_moving")
 		return
-	
+
 	sprite.global_position = sprite.global_position.move_toward(
 		global_position, speed*delta
 	)
 
 
+func _on_stop_moving_state_processing(delta: float) -> void:
+		sprite.rotate(randf_range(PI, -PI)*delta)
+	
+	
 func _on_player_capturing(_player) -> void:
 	state_chart.send_event("player_is_capturing")
 	
@@ -97,7 +101,8 @@ func _on_player_stop_capturing(_player) -> void:
 
 func _on_calm_state_processing(delta: float) -> void:
 	var from = level.local_to_map(global_position)
-	var to = level.local_to_map(home_position)
+	var random_position = Vector2i(randi_range(1,2), randi_range(1,32))
+	var to = level.local_to_map(home_position) + random_position
 	calculate_path(from, to)
 
 
@@ -106,8 +111,7 @@ func _on_alerted_state_processing(delta: float) -> void:
 		level.local_to_map(global_position),
 		level.local_to_map(player_character.global_position),
 	)
-
-
+	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	area.get_parent().died.emit()
 	hit.emit()
