@@ -30,9 +30,10 @@ in this game the player has to
 			- fire multiple bullets
 			- ram multiple monsters
 
+TODO:
+
 Scenes
 	- title screen
-	- main game
 	- end of level
 	- back to main game
 	- game over
@@ -42,33 +43,20 @@ Scenes
 Entities
   Player
 	- add muzzle flash with direction
-	- restart the hover timer when moving again
-  Loot (Position, Sprite/Drawable?, Container, Owner/Contained?, Health)
-  Explosion (Position, Health?, Animation, Sprite/Drawable?)
-  Arena Exit? (Position, Animation, Sprite/Drawable?)
-  Particle (Position, Physics, Particle, Health, Color, Sprite/Drawable)
-  Floating Text (Position, Color, Label)
+	- add hover ?
+  Loot (custom resource)
+  Explosion (particle system)
+  Arena Exit?
+  Floating Text
 
 GameLoop
   Title
 	- add cursor to click buttons with keyboard or gamepad or touch
-	- implement quit button
 	- move cursor to select buttons
   Play
-	- calculate capture score, current player +1 and tile owner -1
-		- implement loot in captured tile
-
-Systems
-  -- refine collision
-  -- checkPlayerForm ?
-  -- playerTurn? ?
-  -- getPowerUp
-  -- drawPowerups
-  -- drawParticles
-  -- drawFloats
-  -- spawnLoot
-  -- harmLoot
-  -- doEndLevel
+	- calculate decrease capture score when enemies or other players capture another player's cells
+	- implement loot in captured tile
+	- enemies drop loot
 
 Old ★todo★
 
