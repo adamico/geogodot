@@ -8,11 +8,14 @@ const GRID_SIZE = 32
 @onready var collision_box: CollisionShape2D = $Sprite2D/Area2D/CollisionShape2D
 @onready var state_chart: StateChart = $StateChart
 
+@export var home_position: Vector2
+
 var astar_grid: AStarGrid2D
 var max_health: int = 3
 var health: int = max_health
 var speed: float = 60.0
 var path: Array[Vector2i]
+
 
 signal died
 signal hit
@@ -62,7 +65,9 @@ func calculate_path(from, to) -> void:
 
 
 func _on_try_moving_state_processing(_delta: float) -> void:
-	if path.is_empty(): return
+	if path.is_empty():
+		state_chart.send_event("no_path")
+		return
 	
 	var original_position = Vector2(global_position)
 	
@@ -88,6 +93,19 @@ func _on_player_capturing(_player) -> void:
 	
 func _on_player_stop_capturing(_player) -> void:
 	state_chart.send_event("player_stops_capturing")
+
+
+func _on_calm_state_processing(delta: float) -> void:
+	var from = level.local_to_map(global_position)
+	var to = level.local_to_map(home_position)
+	calculate_path(from, to)
+
+
+func _on_alerted_state_processing(delta: float) -> void:
+	calculate_path(
+		level.local_to_map(global_position),
+		level.local_to_map(player_character.global_position),
+	)
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
@@ -120,13 +138,3 @@ func _on_hit() -> void:
 	collision_box.set_deferred("disabled", true)
 	await get_tree().create_timer(0.1).timeout
 	collision_box.set_deferred("disabled", false)
-
-
-func _on_calm_state_processing(delta: float) -> void:
-	pass
-
-func _on_alerted_state_processing(delta: float) -> void:
-	calculate_path(
-		level.local_to_map(global_position),
-		level.local_to_map(player_character.global_position),
-	)

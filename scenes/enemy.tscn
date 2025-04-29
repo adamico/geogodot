@@ -78,12 +78,12 @@ delay_in_seconds = "0.0"
 
 [node name="Task" type="Node" parent="StateChart/Root"]
 script = ExtResource("7_8qclf")
-initial_state = NodePath("CanMove")
+initial_state = NodePath("Search")
 
-[node name="CanMove" type="Node" parent="StateChart/Root/Task"]
+[node name="Search" type="Node" parent="StateChart/Root/Task"]
 script = ExtResource("8_w8i8w")
 
-[node name="OnTryMove" type="Node" parent="StateChart/Root/Task/CanMove"]
+[node name="OnTryMove" type="Node" parent="StateChart/Root/Task/Search"]
 script = ExtResource("9_ipns3")
 to = NodePath("../../TryMoving")
 event = &"try_move"
@@ -98,17 +98,29 @@ to = NodePath("../../Moving")
 event = &"move"
 delay_in_seconds = "0.0"
 
+[node name="OnNoPath" type="Node" parent="StateChart/Root/Task/TryMoving"]
+script = ExtResource("9_ipns3")
+to = NodePath("../../StopMoving")
+event = &"no_path"
+delay_in_seconds = "0.0"
+
 [node name="Moving" type="Node" parent="StateChart/Root/Task"]
 script = ExtResource("8_w8i8w")
 
 [node name="OnStopMoving" type="Node" parent="StateChart/Root/Task/Moving"]
 script = ExtResource("9_ipns3")
-to = NodePath("../../CanMove")
+to = NodePath("../../Search")
 event = &"stop_moving"
-delay_in_seconds = "0.0"
+delay_in_seconds = "0.0
+"
 
 [node name="StopMoving" type="Node" parent="StateChart/Root/Task"]
 script = ExtResource("8_w8i8w")
+
+[node name="ToCanMove" type="Node" parent="StateChart/Root/Task/StopMoving"]
+script = ExtResource("9_ipns3")
+to = NodePath("../../Search")
+delay_in_seconds = "0.0"
 
 [connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="state_processing" from="StateChart/Root/Emotion/Calm" to="." method="_on_calm_state_processing"]

@@ -22,12 +22,12 @@ func spawn() -> void:
 	# Choose a random location on Path2D.
 	var enemy_spawn_location = $SpawnPath/SpawnLocation
 	enemy_spawn_location.progress_ratio = randf()
-	
 	enemy.position = enemy_spawn_location.position
 	
 	enemy.died.connect(_on_enemy_died.bind(enemy))
 
 	add_child(enemy)
+	enemy.home_position = enemy.global_position
 	spawned.append(enemy.get_instance_id())
 
 
