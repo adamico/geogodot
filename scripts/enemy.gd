@@ -12,6 +12,7 @@ var astar_grid: AStarGrid2D
 var max_health: int = 3
 var health: int = max_health
 var speed: float = 60.0
+var path: Array[Vector2i]
 
 signal died
 signal hit
@@ -42,7 +43,7 @@ func setup_astar_grid() -> AStarGrid2D:
 	return grid
 
 
-func _on_try_moving_state_processing(_delta: float) -> void:
+func calculate_path(from, to) -> void:
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	var occupied_positions = []
 	
@@ -53,13 +54,18 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	for occupied_position in occupied_positions:
 		astar_grid.set_point_solid(occupied_position)
 	
-	var from = level.local_to_map(global_position)
-	var to = level.local_to_map(player_character.global_position)
-	var path =  astar_grid.get_id_path(from, to)
+	path = astar_grid.get_id_path(from, to)
 	path.pop_front()
 	
 	for occupied_position in occupied_positions:
 		astar_grid.set_point_solid(occupied_position, false)
+
+
+func _on_try_moving_state_processing(_delta: float) -> void:
+	calculate_path(
+		level.local_to_map(global_position),
+		level.local_to_map(player_character.global_position),
+		)
 	
 	if path.is_empty(): return
 	
