@@ -15,15 +15,15 @@ var max_health: int = 3
 var health: int = max_health
 var speed: float = 60.0
 var path: Array[Vector2i]
+var player: Node2D
 
-
-signal died
-signal hit
+signal died(killer)
+signal hit(hitter)
 
 
 func _ready() -> void:
 	astar_grid = setup_astar_grid()
-	var player = get_tree().get_first_node_in_group("players")
+	player = get_tree().get_first_node_in_group("players")
 	player.capturing.connect(_on_player_capturing.bind(player))
 	player.stop_capturing.connect(_on_player_stop_capturing.bind(player))
 	died.connect(_on_death)
@@ -31,7 +31,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	# if it has a target (player or random cell)
 	state_chart.send_event("try_move")
 
 
@@ -113,15 +112,14 @@ func _on_alerted_state_processing(_delta: float) -> void:
 	)
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	area.get_parent().died.emit()
-	hit.emit()
+	hit.emit(area)
 
 
-func _on_death() -> void:
+func _on_death(killer) -> void:
 	var explode_sound = $ExplodeSound
 	explode_sound.play()
 	collision_box.set_deferred("disabled", true)
-	Score.update_score_values(1, 100)
+	Score.update_score_values(killer.number, 100)
 	var tween = get_tree().create_tween()
 	sprite.modulate = Color.BLACK
 	tween.tween_property(sprite, "scale", Vector2(), 0.1)
@@ -130,10 +128,11 @@ func _on_death() -> void:
 	queue_free()
 
 
-func _on_hit() -> void:
+func _on_hit(hitter) -> void:
+	hitter.hit.emit(self)
 	health -= 1
 	if health <= 0:
-		died.emit()
+		died.emit(hitter)
 		return
 		
 	$HitSound.play()

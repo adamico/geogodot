@@ -15,14 +15,18 @@ const GRID_SIZE = 32
 @export var shoot_action:GUIDEAction
 @export var game: Node
 
+var health: int = 3
+
 @onready var sprite: AnimatedSprite2D = $Character/AnimatedSprite2D
 @onready var character: Node2D = $Character
 @onready var ray_casts: Node2D = $Character/AnimatedSprite2D/RayCasts
+@onready var collision_box: CollisionShape2D = $Character/AnimatedSprite2D/HitBox/CollisionShape2D
 
 var direction := Vector2.ZERO
 var last_direction := Vector2.ZERO
 var captured_cells: PackedVector2Array
 
+signal hit(hitter)
 signal died
 signal capturing
 signal stop_capturing
@@ -30,6 +34,7 @@ signal stop_capturing
 
 ### Native functions
 func _ready() -> void:
+	hit.connect(_on_hit)
 	died.connect(_on_death)
 	add_to_group("players")
 	
@@ -62,6 +67,8 @@ func ram(target: Area2D) -> void:
 	var enemy = target.get_node("../..")
 	enemy.died.emit()
 	
+func get_killer() -> Node2D:
+	return self
 	
 ### Signal Callbacks
 func _on_try_moving_state_processing(_delta: float) -> void:
@@ -114,8 +121,24 @@ func _on_finish_capturing_state_exited() -> void:
 	captured_cells.append(current_map_position)
 
 
-func _on_death() -> void:
+func _on_death(_killer) -> void:
 	pass
+
+
+func _on_hit(hitter) -> void:
+	health -= 1
+	if health <= 0:
+		died.emit(hitter)
+		return
+		
+	#$HitSound.play()
+	
+	sprite.modulate = Color.RED
+	var tween = get_tree().create_tween()
+	tween.tween_callback(sprite.set_modulate.bind(Color.WHITE)).set_delay(0.1)
+	collision_box.set_deferred("disabled", true)
+	await get_tree().create_timer(0.1).timeout
+	collision_box.set_deferred("disabled", false)
 
 
 func _on_capture_capturing() -> void:

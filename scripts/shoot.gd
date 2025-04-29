@@ -14,6 +14,7 @@ func spawn_bullet() -> void:
 	
 	var bullet_sibling = get_node(bullet_sibling_path)
 	bullet.global_position = get_node(sprite_path).global_position
+	bullet.shooter = owner 
 	bullet_sibling.add_sibling(bullet)
 	$Sound.play()
 
