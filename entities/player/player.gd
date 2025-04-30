@@ -65,7 +65,7 @@ func play_animation() -> void:
 
 func ram(target: Area2D) -> void:
 	var enemy = target.get_node("../..")
-	enemy.died.emit()
+	enemy.died.emit(self)
 	
 func get_killer() -> Node2D:
 	return self

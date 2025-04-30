@@ -20,6 +20,11 @@
 [ext_resource type="Script" uid="uid://bghk8tlvtqr3u" path="res://entities/player/player_area.gd" id="13_60mlk"]
 [ext_resource type="Script" uid="uid://cn2gbprltpaug" path="res://components/raycasts.gd" id="15_oprun"]
 
+[sub_resource type="Resource" id="Resource_f1ej7"]
+script = ExtResource("11_3v2ag")
+state = NodePath("../../../Move/CanMove")
+metadata/_custom_type_script = "uid://bjd6fsu3o1ya5"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
 atlas = ExtResource("1_g2els")
 region = Rect2(33, 0, 32, 32)
@@ -119,11 +124,6 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_oprun"]
 radius = 15.0333
 
-[sub_resource type="Resource" id="Resource_f1ej7"]
-script = ExtResource("11_3v2ag")
-state = NodePath("../../../Move/CanMove")
-metadata/_custom_type_script = "uid://bjd6fsu3o1ya5"
-
 [node name="Player" type="Node2D" node_paths=PackedStringArray("capture", "state_chart", "shoot")]
 script = ExtResource("3_qlg0r")
 capture = NodePath("Capture")
@@ -133,10 +133,10 @@ move_action = ExtResource("2_qfm1y")
 capture_action = ExtResource("3_fulsm")
 shoot_action = ExtResource("4_4r5pv")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="StateChartDebuggerLayer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("2_y4r1p")]
+[node name="StateChartDebugger" parent="StateChartDebuggerLayer" instance=ExtResource("2_y4r1p")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_bottom = 0.0
@@ -146,100 +146,6 @@ offset_bottom = 324.0
 grow_horizontal = 0
 grow_vertical = 1
 initial_node_to_watch = NodePath("../../StateChart")
-
-[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
-unique_name_in_owner = true
-top_level = true
-script = ExtResource("1_dqkch")
-priority = 5
-follow_mode = 2
-follow_target = NodePath("../Character/AnimatedSprite2D")
-zoom = Vector2(2, 2)
-tween_resource = ExtResource("2_qlg0r")
-inactive_update_mode = 1
-follow_damping = true
-dead_zone_width = 0.25
-dead_zone_height = 0.25
-show_viewfinder_in_play = true
-draw_limits = true
-limit_left = -128
-limit_top = -128
-limit_right = 1152
-limit_bottom = 1152
-metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
-
-[node name="Shoot" parent="." instance=ExtResource("8_f1ej7")]
-rate = 0.5
-bullet_sibling_path = NodePath(".")
-sprite_path = NodePath("../Character/AnimatedSprite2D")
-
-[node name="Character" type="Node2D" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Character"]
-sprite_frames = SubResource("SpriteFrames_jej6c")
-animation = &"idle"
-autoplay = "idle"
-
-[node name="RayCasts" type="Node2D" parent="Character/AnimatedSprite2D"]
-script = ExtResource("15_oprun")
-
-[node name="BLRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(-9, 0)
-target_position = Vector2(0, 32)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="BRRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(9, 0)
-target_position = Vector2(0, 32)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="TLRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(-9, 0)
-target_position = Vector2(0, -32)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="TRRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(9, 0)
-target_position = Vector2(0, -32)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="LTRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(0, -9)
-target_position = Vector2(-32, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="LBRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(0, 9)
-target_position = Vector2(-32, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="RTRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(0, -9)
-target_position = Vector2(32, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="RBRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
-position = Vector2(0, 9)
-target_position = Vector2(32, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="HitBox" type="Area2D" parent="Character/AnimatedSprite2D"]
-collision_layer = 4
-script = ExtResource("13_60mlk")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Character/AnimatedSprite2D/HitBox"]
-shape = SubResource("CircleShape2D_oprun")
-
-[node name="Capture" parent="." node_paths=PackedStringArray("capturer") instance=ExtResource("6_3v2ag")]
-capturer = NodePath("..")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_tuyoq")
@@ -385,8 +291,100 @@ to = NodePath("../../CanShoot")
 event = &"allow_shoot"
 delay_in_seconds = "0.0"
 
-[connection signal="capturing" from="Capture" to="." method="_on_capture_capturing"]
-[connection signal="stop_capturing" from="Capture" to="." method="_on_capture_stop_capturing"]
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+unique_name_in_owner = true
+top_level = true
+script = ExtResource("1_dqkch")
+priority = 5
+follow_mode = 2
+follow_target = NodePath("../Character/AnimatedSprite2D")
+zoom = Vector2(2, 2)
+tween_resource = ExtResource("2_qlg0r")
+inactive_update_mode = 1
+follow_damping = true
+dead_zone_width = 0.25
+dead_zone_height = 0.25
+show_viewfinder_in_play = true
+draw_limits = true
+limit_left = -128
+limit_top = -128
+limit_right = 1152
+limit_bottom = 1152
+metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
+
+[node name="Shoot" parent="." instance=ExtResource("8_f1ej7")]
+rate = 0.5
+bullet_sibling_path = NodePath(".")
+sprite_path = NodePath("../Character/AnimatedSprite2D")
+
+[node name="Character" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Character"]
+sprite_frames = SubResource("SpriteFrames_jej6c")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="RayCasts" type="Node2D" parent="Character/AnimatedSprite2D"]
+script = ExtResource("15_oprun")
+
+[node name="BLRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(-9, 0)
+target_position = Vector2(0, 32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="BRRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(9, 0)
+target_position = Vector2(0, 32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="TLRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(-9, 0)
+target_position = Vector2(0, -32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="TRRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(9, 0)
+target_position = Vector2(0, -32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LTRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(0, -9)
+target_position = Vector2(-32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LBRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(0, 9)
+target_position = Vector2(-32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RTRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(0, -9)
+target_position = Vector2(32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RBRayCast" type="RayCast2D" parent="Character/AnimatedSprite2D/RayCasts"]
+position = Vector2(0, 9)
+target_position = Vector2(32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="HitBox" type="Area2D" parent="Character/AnimatedSprite2D"]
+collision_layer = 4
+script = ExtResource("13_60mlk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Character/AnimatedSprite2D/HitBox"]
+shape = SubResource("CircleShape2D_oprun")
+
+[node name="Capture" parent="." node_paths=PackedStringArray("capturer") instance=ExtResource("6_3v2ag")]
+capturer = NodePath("..")
+
 [connection signal="state_entered" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/Root/Capture/Capturing" to="Capture" method="_on_capturing_state_processing"]
@@ -395,3 +393,5 @@ delay_in_seconds = "0.0"
 [connection signal="state_processing" from="StateChart/Root/Move/TryMoving" to="." method="_on_try_moving_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Move/Moving" to="." method="_on_moving_state_processing"]
 [connection signal="state_entered" from="StateChart/Root/Shoot/Cooldown" to="Shoot" method="_on_cooldown_state_entered"]
+[connection signal="capturing" from="Capture" to="." method="_on_capture_capturing"]
+[connection signal="stop_capturing" from="Capture" to="." method="_on_capture_stop_capturing"]
