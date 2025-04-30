@@ -3,15 +3,16 @@ extends Node2D
 
 signal rammed(other_actor)
 
-
 @export var actor: Node2D
 @export var ray_casts: Node2D
 @export var visual_anchor: Marker2D
 @export var state_chart: StateChart
 @export var speed: float
+@export var animated_sprite_2d: AnimatedSprite2D
 
 var direction: Vector2
 var level: TileMapLayer
+
 
 func try_moving(_delta: float) -> void:
 	if direction == Vector2.ZERO: return
@@ -43,9 +44,23 @@ func try_moving(_delta: float) -> void:
 func moving(delta: float) -> void:
 	if actor.global_position == visual_anchor.global_position:
 		state_chart.send_event("stop_move")
+		animated_sprite_2d.play("idle")
 		return
+	
+	play_animation()
 	
 	var target_position = actor.global_position
 	visual_anchor.global_position = visual_anchor.global_position.move_toward(
 		target_position, speed * delta
 	)
+
+func play_animation() -> void:
+	var directions_to_sprites: Dictionary = {
+		Vector2.LEFT: "move_left",
+		Vector2.RIGHT: "move_right",
+		Vector2.UP: "move_up",
+		Vector2.DOWN: "move_down"
+	}
+	
+	if direction == Vector2.ZERO: return
+	animated_sprite_2d.play(directions_to_sprites[direction])

@@ -56,9 +56,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7thud")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wvtmh")
 }],
 "loop": true,
 "name": &"move_down",
@@ -67,9 +64,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a1qjk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wvtmh")
 }],
 "loop": true,
 "name": &"move_left",
@@ -78,9 +72,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j3ovn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wvtmh")
 }],
 "loop": true,
 "name": &"move_right",
@@ -89,9 +80,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_afbqv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wvtmh")
 }],
 "loop": true,
 "name": &"move_up",
@@ -143,12 +131,13 @@ capture_action = ExtResource("3_fulsm")
 state_chart = NodePath("../StateChart")
 actor = NodePath("..")
 
-[node name="GridMoveComponent" parent="." node_paths=PackedStringArray("actor", "ray_casts", "visual_anchor", "state_chart") instance=ExtResource("8_3wlsy")]
+[node name="GridMoveComponent" parent="." node_paths=PackedStringArray("actor", "ray_casts", "visual_anchor", "state_chart", "animated_sprite_2d") instance=ExtResource("8_3wlsy")]
 actor = NodePath("..")
 ray_casts = NodePath("../VisualAnchor/AnimatedSprite2D/RayCasts")
 visual_anchor = NodePath("../VisualAnchor")
 state_chart = NodePath("../StateChart")
 speed = 100.0
+animated_sprite_2d = NodePath("../VisualAnchor/AnimatedSprite2D")
 
 [node name="VisualAnchor" type="Marker2D" parent="."]
 
@@ -168,7 +157,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="VisualAnchor"]
 sprite_frames = SubResource("SpriteFrames_gx6sm")
-animation = &"move_down"
+animation = &"move_up"
 autoplay = "idle"
 
 [node name="RayCasts" type="Node2D" parent="VisualAnchor/AnimatedSprite2D"]
