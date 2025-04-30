@@ -2,7 +2,6 @@ extends Node
 
 @export var mapping_context:GUIDEMappingContext
 @onready var player: Player = $Player
-@onready var hud: Control = $HUD
 
 
 func _ready() -> void:

@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/lowRandom.ogg-74ef7762ca32907dd7a7c1bd69f6ebb
 
 [params]
 
-loop=false
-loop_offset=0
-bpm=0
-beat_count=0
+loop=true
+loop_offset=0.06
+bpm=140.0
+beat_count=1
 bar_beats=4
