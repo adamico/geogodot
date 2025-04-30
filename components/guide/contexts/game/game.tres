@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="GUIDEMappingContext" load_steps=41 format=3 uid="uid://ci6ojv8olouho"]
 
 [ext_resource type="Script" uid="uid://bli1p26risyo" path="res://addons/guide/guide_action_mapping.gd" id="1_flaa1"]
-[ext_resource type="Resource" uid="uid://csbmlpvj6i1xv" path="res://guide/contexts/game/move.tres" id="2_6o43h"]
+[ext_resource type="Resource" uid="uid://csbmlpvj6i1xv" path="res://components/guide/contexts/game/move.tres" id="2_6o43h"]
 [ext_resource type="Script" uid="uid://blw1qoru6nvtc" path="res://addons/guide/guide_mapping_context.gd" id="2_utvqw"]
 [ext_resource type="Script" uid="uid://dbhlt4aeqmiu6" path="res://addons/guide/guide_input_mapping.gd" id="3_0tkh4"]
 [ext_resource type="Script" uid="uid://bgrxgfju4orbl" path="res://addons/guide/inputs/guide_input_key.gd" id="4_1cu47"]
@@ -9,8 +9,8 @@
 [ext_resource type="Script" uid="uid://damk1j7r8veol" path="res://addons/guide/modifiers/guide_modifier_negate.gd" id="6_1cu47"]
 [ext_resource type="Script" uid="uid://iu6k8a7ksuoy" path="res://addons/guide/triggers/guide_trigger.gd" id="6_ex7sk"]
 [ext_resource type="Script" uid="uid://bb60bymcd14of" path="res://addons/guide/modifiers/guide_modifier_input_swizzle.gd" id="7_1flxt"]
-[ext_resource type="Resource" uid="uid://cqfhkkleeethw" path="res://guide/contexts/game/capture.tres" id="9_1flxt"]
-[ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://guide/contexts/game/shoot.tres" id="10_ex7sk"]
+[ext_resource type="Resource" uid="uid://cqfhkkleeethw" path="res://components/guide/contexts/game/capture.tres" id="9_1flxt"]
+[ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://components/guide/contexts/game/shoot.tres" id="10_ex7sk"]
 
 [sub_resource type="Resource" id="Resource_2gecj"]
 script = ExtResource("4_1cu47")

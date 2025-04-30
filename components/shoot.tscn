@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://byi1ofhaulafn"]
 
-[ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://scripts/shoot.gd" id="1_wt6h8"]
+[ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/shoot.gd" id="1_wt6h8"]
 [ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="2_nsl4x"]
 
 [node name="Shoot" type="Node2D"]
