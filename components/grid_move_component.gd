@@ -9,6 +9,9 @@ signal rammed(other_actor)
 @export var state_chart: StateChart
 @export var speed: float
 @export var animated_sprite_2d: AnimatedSprite2D
+@export var start_move_sound: AudioStreamPlayer
+@export var move_sound: AudioStreamPlayer
+@export var stop_move_sound: AudioStreamPlayer
 
 var direction: Vector2
 var level: TileMapLayer
@@ -64,3 +67,19 @@ func play_animation() -> void:
 	
 	if direction == Vector2.ZERO: return
 	animated_sprite_2d.play(directions_to_sprites[direction])
+
+
+func _on_moving_state_entered() -> void:
+	#start_move_sound.play()
+	#start_move_sound.finished.connect(play_move_sound_loop)
+	pass
+
+
+func play_move_sound_loop() -> void:
+	#move_sound.play()
+	pass
+
+func _on_moving_state_exited() -> void:
+	#move_sound.stop()
+	#stop_move_sound.play()
+	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=29 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
 [ext_resource type="PackedScene" uid="uid://dkr80d2pi0d41" path="res://addons/guide/debugger/guide_debugger.tscn" id="2_7thud"]
@@ -17,6 +17,9 @@
 [ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="9_ur7pv"]
 [ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="10_oprun"]
 [ext_resource type="Script" uid="uid://cn2gbprltpaug" path="res://components/raycasts.gd" id="15_oprun"]
+[ext_resource type="AudioStream" uid="uid://cu2hkn7dj1063" path="res://assets/sounds/radar3_start.ogg" id="18_mtric"]
+[ext_resource type="AudioStream" uid="uid://yv26nt7ccgbi" path="res://assets/sounds/radar3_loop.ogg" id="19_eyb6c"]
+[ext_resource type="AudioStream" uid="uid://d1157syoti6fr" path="res://assets/sounds/radar3_stop.ogg" id="20_221hk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqrof"]
 
@@ -131,13 +134,16 @@ capture_action = ExtResource("3_fulsm")
 state_chart = NodePath("../StateChart")
 actor = NodePath("..")
 
-[node name="GridMoveComponent" parent="." node_paths=PackedStringArray("actor", "ray_casts", "visual_anchor", "state_chart", "animated_sprite_2d") instance=ExtResource("8_3wlsy")]
+[node name="GridMoveComponent" parent="." node_paths=PackedStringArray("actor", "ray_casts", "visual_anchor", "state_chart", "animated_sprite_2d", "start_move_sound", "move_sound", "stop_move_sound") instance=ExtResource("8_3wlsy")]
 actor = NodePath("..")
 ray_casts = NodePath("../VisualAnchor/AnimatedSprite2D/RayCasts")
 visual_anchor = NodePath("../VisualAnchor")
 state_chart = NodePath("../StateChart")
 speed = 100.0
 animated_sprite_2d = NodePath("../VisualAnchor/AnimatedSprite2D")
+start_move_sound = NodePath("../StartMoving")
+move_sound = NodePath("../Moving")
+stop_move_sound = NodePath("../StopMoving")
 
 [node name="VisualAnchor" type="Marker2D" parent="."]
 
@@ -335,9 +341,18 @@ limit_right = 1152
 limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="StartMoving" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_mtric")
+
+[node name="Moving" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_eyb6c")
+
+[node name="StopMoving" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("20_221hk")
 
 [connection signal="state_processing" from="StateChart/ParallelState/Move/TryMoving" to="GridMoveComponent" method="try_moving"]
+[connection signal="state_entered" from="StateChart/ParallelState/Move/Moving" to="GridMoveComponent" method="_on_moving_state_entered"]
+[connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="GridMoveComponent" method="_on_moving_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Move/Moving" to="GridMoveComponent" method="moving"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_exited"]
