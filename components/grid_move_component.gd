@@ -1,5 +1,5 @@
 class_name GridMoveComponent
-extends Node
+extends Node2D
 
 signal rammed(other_actor)
 
