@@ -9,17 +9,13 @@ extends Node
 var level: TileMapLayer
 var captured_cells: PackedVector2Array
 
-@onready var finished_capturing: AudioStreamPlayer2D = $FinishedCapturing
-@onready var capturing: AudioStreamPlayer2D = $Capturing
-
+@onready var finished_capturing: AudioStreamPlayer = $FinishedCapturing
+@onready var capturing: AudioStreamPlayer = $Capturing
 
 func _ready() -> void:
 	reset_progress_bar()
 	capture_action.triggered.connect(try_capture)
 	capture_action.completed.connect(stop_capturing)
-	
-func _process(delta: float) -> void:
-	pass
 
 func reset_progress_bar() -> void:
 	progress_bar.value = 0
@@ -45,13 +41,16 @@ func stop_capturing() -> void:
 
 func _on_capturing_state_entered() -> void:
 	#state_chart.send_event("prevent_shoot")
+	capturing.play()
 	state_chart.send_event("prevent_move")
 
 func _on_capturing_state_exited() -> void:
+	capturing.stop()
 	state_chart.send_event("allow_move")
 	reset_progress_bar()
 
 func _on_successful_capture_state_entered() -> void:
+	finished_capturing.play()
 	var current_map_position: Vector2i = level.local_to_map(
 		actor.global_position
 	)

@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc1eq0hst23v"]
+
+[ext_resource type="Script" uid="uid://cn2gbprltpaug" path="res://components/raycasts.gd" id="1_kenxk"]
+
+[node name="RayCasts" type="Node2D"]
+script = ExtResource("1_kenxk")
+
+[node name="BLRayCast" type="RayCast2D" parent="."]
+position = Vector2(-9, 0)
+target_position = Vector2(0, 32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="BRRayCast" type="RayCast2D" parent="."]
+position = Vector2(9, 0)
+target_position = Vector2(0, 32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="TLRayCast" type="RayCast2D" parent="."]
+position = Vector2(-9, 0)
+target_position = Vector2(0, -32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="TRRayCast" type="RayCast2D" parent="."]
+position = Vector2(9, 0)
+target_position = Vector2(0, -32)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LTRayCast" type="RayCast2D" parent="."]
+position = Vector2(0, -9)
+target_position = Vector2(-32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LBRayCast" type="RayCast2D" parent="."]
+position = Vector2(0, 9)
+target_position = Vector2(-32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RTRayCast" type="RayCast2D" parent="."]
+position = Vector2(0, -9)
+target_position = Vector2(32, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RBRayCast" type="RayCast2D" parent="."]
+position = Vector2(0, 9)
+target_position = Vector2(32, 0)
+collide_with_areas = true
+collide_with_bodies = false

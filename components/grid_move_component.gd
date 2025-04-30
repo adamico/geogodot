@@ -1,85 +1,73 @@
 class_name GridMoveComponent
 extends Node2D
 
-signal rammed(other_actor)
-
 @export var actor: Node2D
-@export var ray_casts: Node2D
-@export var visual_anchor: Marker2D
 @export var state_chart: StateChart
 @export var speed: float
-@export var animated_sprite_2d: AnimatedSprite2D
 @export var start_move_sound: AudioStreamPlayer
 @export var move_sound: AudioStreamPlayer
 @export var stop_move_sound: AudioStreamPlayer
 
-var direction: Vector2
 var level: TileMapLayer
+var moving_direction: Vector2 = Vector2.ZERO
 
+@onready var ray_cast_2d: RayCast2D = $RayCast2D
 
-func try_moving(_delta: float) -> void:
-	if direction == Vector2.ZERO: return
-	
-	var current_map_position:= level.local_to_map(
-		actor.global_position
-	) as Vector2i
-	
-	var target_map_position:= Vector2i(
-		current_map_position.x + int(direction.x), 
-		current_map_position.y + int(direction.y)
-	)
-	
-	var tile_data:= level.get_cell_tile_data(target_map_position) as TileData
-	
-	if not tile_data.get_custom_data("walkable"): return
-	
-	# TODO: extract to collision component?
-	var collisions = ray_casts.get_collisions(direction)
-	for collision in collisions:
-		rammed.emit(collision)
-		break
+func _ready() -> void:
+	$RayCast2D.target_position = Vector2.DOWN * Constants.TILE_SIZE
 
-	actor.global_position = level.map_to_local(target_map_position)
-	visual_anchor.global_position = level.map_to_local(current_map_position)
-	
-	state_chart.send_event("move")
+func move(direction: Vector2) -> void:
+	if moving_direction.length() == 0 && direction.length() > 0:
+		var movement = Vector2.DOWN
+		if direction.y > 0: movement = Vector2.DOWN
+		elif direction.y < 0: movement = Vector2.UP
+		elif direction.x > 0: movement = Vector2.RIGHT
+		elif direction.x < 0: movement = Vector2.LEFT
 
-func moving(delta: float) -> void:
-	if actor.global_position == visual_anchor.global_position:
-		state_chart.send_event("stop_move")
-		animated_sprite_2d.play("idle")
-		return
-	
-	play_animation()
-	
-	var target_position = actor.global_position
-	visual_anchor.global_position = visual_anchor.global_position.move_toward(
-		target_position, speed * delta
-	)
+		ray_cast_2d.target_position = movement * Constants.TILE_SIZE
+		ray_cast_2d.force_raycast_update()
 
-func play_animation() -> void:
+		if !ray_cast_2d.is_colliding():
+			moving_direction = movement
+			
+			var new_position = actor.global_position + (moving_direction * Constants.TILE_SIZE)
+			var tween = create_tween()
+			tween.tween_property(
+				actor, "position",
+				new_position,
+				speed
+			).set_trans(Tween.TRANS_LINEAR)
+			moving_animation(moving_direction)
+			tween.tween_callback(func(): 
+				moving_direction = Vector2.ZERO
+				state_chart.send_event("stop_move")
+			)
+
+func moving_animation(direction: Vector2) -> void:
 	var directions_to_sprites: Dictionary = {
 		Vector2.LEFT: "move_left",
 		Vector2.RIGHT: "move_right",
 		Vector2.UP: "move_up",
-		Vector2.DOWN: "move_down"
+		Vector2.DOWN: "move_down",
+		Vector2.ZERO: "idle"
 	}
 	
-	if direction == Vector2.ZERO: return
-	animated_sprite_2d.play(directions_to_sprites[direction])
+	var diagonals = [
+		Vector2(1,1), Vector2(-1,1),
+		Vector2(1,-1), Vector2(-1,-1)
+	]
+	if diagonals.find(direction) != -1: return
+	actor.play(directions_to_sprites[direction])
 
-
-func _on_moving_state_entered() -> void:
-	#start_move_sound.play()
-	#start_move_sound.finished.connect(play_move_sound_loop)
-	pass
-
-
-func play_move_sound_loop() -> void:
-	#move_sound.play()
-	pass
+func _on_not_moving_state_processing(_delta: float) -> void:
+	if moving_direction.length() > 0:
+		state_chart.send_event("move")
 
 func _on_moving_state_exited() -> void:
-	#move_sound.stop()
-	#stop_move_sound.play()
-	pass
+	actor.play("idle")
+
+func _on_cannot_move_state_processing(_delta: float) -> void:
+	moving_direction = Vector2.ONE
+
+func _on_cannot_move_state_exited() -> void:
+	moving_direction = Vector2.ZERO

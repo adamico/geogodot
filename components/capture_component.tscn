@@ -4,14 +4,13 @@
 [ext_resource type="AudioStream" uid="uid://cfvslm74uuoqb" path="res://assets/sounds/zapThreeToneUp.ogg" id="2_x72kl"]
 [ext_resource type="AudioStream" uid="uid://c8vaj36vv6y63" path="res://assets/sounds/lowRandom.ogg" id="3_dthdy"]
 
-[node name="Capture" type="Node2D"]
+[node name="CaptureComponent" type="Node2D"]
 script = ExtResource("1_xb21o")
 
-[node name="FinishedCapturing" type="AudioStreamPlayer2D" parent="."]
+[node name="Capturing" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dthdy")
+parameters/looping = true
+
+[node name="FinishedCapturing" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_x72kl")
 volume_db = 1.0
-
-[node name="Capturing" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_dthdy")
-pitch_scale = 1.5
-parameters/looping = true

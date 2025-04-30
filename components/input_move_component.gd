@@ -16,8 +16,6 @@ func calculate_direction() -> Vector2:
 	
 	if diagonals.find(direction) != -1:
 		direction = last_direction
-	if direction != Vector2.ZERO:
-		state_chart.send_event("input_direction")
 
 	last_direction = direction
 	return direction
