@@ -1,10 +1,12 @@
 class_name Player
 extends Node2D
 
+@warning_ignore("unused_signal")
 signal capturing
+@warning_ignore("unused_signal")
 signal stop_capturing
 
-@export var level:TileMapLayer
+@export var level: TileMapLayer
 @export var move_action: GUIDEAction
 
 var number: int = 0

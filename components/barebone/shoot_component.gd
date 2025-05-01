@@ -42,3 +42,10 @@ func spawn_laser() -> void:
 	laser.rotate(target_direction.angle())
 
 	player.add_sibling(laser)
+
+func _on_cannot_shoot_state_processing(_delta: float) -> void:
+	target_direction = Vector2.ZERO
+
+
+func _on_cannot_shoot_state_exited() -> void:
+	pass

@@ -40,16 +40,17 @@ func stop_capturing() -> void:
 	state_chart.send_event("stop_capture")
 
 func _on_capturing_state_entered() -> void:
-	actor.capturing.emit()
-	#state_chart.send_event("prevent_shoot")
 	capturing.play()
+	actor.capturing.emit()
+	state_chart.send_event("prevent_shoot")
 	state_chart.send_event("prevent_move")
 
 func _on_capturing_state_exited() -> void:
-	actor.stop_capturing.emit()
 	capturing.stop()
-	state_chart.send_event("allow_move")
 	reset_progress_bar()
+	actor.stop_capturing.emit()
+	state_chart.send_event("allow_move")
+	state_chart.send_event("allow_shoot")
 
 func _on_successful_capture_state_entered() -> void:
 	finished_capturing.play()

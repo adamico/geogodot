@@ -42,7 +42,8 @@ Scenes
 
 Entities
   Player
-	- add muzzle flash with direction
+	- add muzzle flash 
+	- add separate shooting turret sprite that rotates with the target action direction
 	- add hover ?
   Loot (custom resource)
   Explosion (particle system)

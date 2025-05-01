@@ -237,6 +237,7 @@ metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 [node name="OnAllowShoot" type="Node" parent="StateChart/ParallelState/Shoot/CannotShoot"]
 script = ExtResource("9_ur7pv")
 to = NodePath("../../CanShoot")
+event = &"allow_shoot"
 delay_in_seconds = "0.0"
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
@@ -337,3 +338,4 @@ metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="capture"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Shoot/Cooldown" to="ShootComponent" method="_on_cooldown_state_entered"]
+[connection signal="state_processing" from="StateChart/ParallelState/Shoot/CannotShoot" to="ShootComponent" method="_on_cannot_shoot_state_processing"]

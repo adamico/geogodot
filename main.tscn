@@ -48,7 +48,6 @@ z_index = 40
 offset_left = 701.0
 offset_right = -3.0
 offset_bottom = -338.0
-initial_node_to_watch = NodePath("../../World/BaseEnemy")
+initial_node_to_watch = NodePath("../../World/Player")
 
 [node name="GuideDebugger" parent="CanvasLayer" instance=ExtResource("8_kek77")]
-visible = false
