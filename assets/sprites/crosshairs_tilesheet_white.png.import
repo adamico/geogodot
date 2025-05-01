@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfqbkebqiouvx"
-path="res://.godot/imported/target_b.png-f975b8ab993ebddc8e5d3ca98d8dc715.ctex"
+uid="uid://b0h0vc5xusdbt"
+path="res://.godot/imported/crosshairs_tilesheet_white.png-79fad8d7f4276963dacaa2c43efd9538.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/target_b.png"
-dest_files=["res://.godot/imported/target_b.png-f975b8ab993ebddc8e5d3ca98d8dc715.ctex"]
+source_file="res://assets/sprites/crosshairs_tilesheet_white.png"
+dest_files=["res://.godot/imported/crosshairs_tilesheet_white.png-79fad8d7f4276963dacaa2c43efd9538.ctex"]
 
 [params]
 
