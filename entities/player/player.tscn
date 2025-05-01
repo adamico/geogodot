@@ -21,14 +21,14 @@
 [ext_resource type="AudioStream" uid="uid://yv26nt7ccgbi" path="res://assets/sounds/radar3_loop.ogg" id="19_eyb6c"]
 [ext_resource type="AudioStream" uid="uid://d1157syoti6fr" path="res://assets/sounds/radar3_stop.ogg" id="20_221hk"]
 
-[sub_resource type="Resource" id="Resource_we0b7"]
+[sub_resource type="Resource" id="Resource_eyb6c"]
 script = ExtResource("16_eyb6c")
 state = NodePath("../../../Move/Moving")
 metadata/_custom_type_script = "uid://bjd6fsu3o1ya5"
 
 [sub_resource type="Resource" id="Resource_mtric"]
 script = ExtResource("13_b2kln")
-guard = SubResource("Resource_we0b7")
+guard = SubResource("Resource_eyb6c")
 metadata/_custom_type_script = "uid://pfdv51lppmck"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wvtmh"]
@@ -99,7 +99,7 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3wlsy"]
 bg_color = Color(0.141176, 0.388235, 0.690196, 1)
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" groups=["players"]]
 z_index = 5
 script = ExtResource("1_b2kln")
 move_action = ExtResource("2_we0b7")
@@ -290,14 +290,11 @@ stream = ExtResource("19_eyb6c")
 [node name="StopMoving" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("20_221hk")
 
-[node name="GridMoveComponent" parent="." node_paths=PackedStringArray("actor", "sprite", "state_chart", "start_move_sound", "move_sound", "stop_move_sound") instance=ExtResource("8_3wlsy")]
+[node name="GridMoveComponent" parent="." node_paths=PackedStringArray("actor", "sprite", "state_chart") instance=ExtResource("8_3wlsy")]
 actor = NodePath("..")
 sprite = NodePath("../AnimatedSprite2d")
 state_chart = NodePath("../StateChart")
 speed = 0.35
-start_move_sound = NodePath("../StartMoving")
-move_sound = NodePath("../Moving")
-stop_move_sound = NodePath("../StopMoving")
 
 [node name="CaptureComponent" parent="." node_paths=PackedStringArray("progress_bar", "state_chart", "actor") instance=ExtResource("6_3v2ag")]
 progress_bar = NodePath("../ProgressBar")

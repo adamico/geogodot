@@ -1,26 +1,26 @@
 [gd_scene load_steps=12 format=3 uid="uid://cd3lqhgc3pj52"]
 
-[ext_resource type="Script" uid="uid://btwgvtyeoc32i" path="res://entities/enemy/enemy.gd" id="1_78jik"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_o3pv7"]
-[ext_resource type="Texture2D" uid="uid://cco7ab6oeq5mn" path="res://assets/sprites/robot_3Dred.png" id="3_xoplw"]
-[ext_resource type="AudioStream" uid="uid://dtk8ui7f4utx6" path="res://assets/sounds/impactPlate_medium_000.ogg" id="4_6yflr"]
-[ext_resource type="AudioStream" uid="uid://73ewggciawpo" path="res://assets/sounds/explosionCrunch_000.ogg" id="5_gf88j"]
-[ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="6_tbw0t"]
-[ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="7_wjonb"]
-[ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="8_rovcg"]
-[ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="9_n2hyd"]
-[ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="10_c6eq3"]
+[ext_resource type="Script" uid="uid://btwgvtyeoc32i" path="res://entities/enemy/old_enemy.gd" id="1_thywa"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="2_dct5i"]
+[ext_resource type="Texture2D" uid="uid://cco7ab6oeq5mn" path="res://assets/sprites/robot_3Dred.png" id="3_wihmu"]
+[ext_resource type="AudioStream" uid="uid://dtk8ui7f4utx6" path="res://assets/sounds/impactPlate_medium_000.ogg" id="4_wpq2w"]
+[ext_resource type="AudioStream" uid="uid://73ewggciawpo" path="res://assets/sounds/explosionCrunch_000.ogg" id="5_421mq"]
+[ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="6_qod5s"]
+[ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="7_w12k0"]
+[ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="8_su2b7"]
+[ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="9_ppfx4"]
+[ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="10_twxi8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tbgi4"]
 radius = 16.0
 
 [node name="Enemy" type="Node2D" groups=["enemies"]]
-script = ExtResource("1_78jik")
+script = ExtResource("1_thywa")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("2_o3pv7")]
+[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("2_dct5i")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_bottom = 0.0
@@ -33,7 +33,7 @@ initial_node_to_watch = NodePath("../../StateChart")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("3_xoplw")
+texture = ExtResource("3_wihmu")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
 scale = Vector2(4, 4)
@@ -43,83 +43,83 @@ collision_mask = 6
 shape = SubResource("CircleShape2D_tbgi4")
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_6yflr")
+stream = ExtResource("4_wpq2w")
 
 [node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_gf88j")
+stream = ExtResource("5_421mq")
 
 [node name="StateChart" type="Node" parent="."]
-script = ExtResource("6_tbw0t")
+script = ExtResource("6_qod5s")
 metadata/_custom_type_script = "uid://bmucxhobuv3i"
 
 [node name="Root" type="Node" parent="StateChart"]
-script = ExtResource("7_wjonb")
+script = ExtResource("7_w12k0")
 
 [node name="Emotion" type="Node" parent="StateChart/Root"]
-script = ExtResource("8_rovcg")
+script = ExtResource("8_su2b7")
 initial_state = NodePath("Calm")
 
 [node name="Calm" type="Node" parent="StateChart/Root/Emotion"]
-script = ExtResource("9_n2hyd")
+script = ExtResource("9_ppfx4")
 
 [node name="OnPlayerCapturingToAlerted" type="Node" parent="StateChart/Root/Emotion/Calm"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../Alerted")
 event = &"player_is_capturing"
 delay_in_seconds = "0.0"
 
 [node name="Alerted" type="Node" parent="StateChart/Root/Emotion"]
-script = ExtResource("9_n2hyd")
+script = ExtResource("9_ppfx4")
 
 [node name="OnPlayerStopCapturingToCalm" type="Node" parent="StateChart/Root/Emotion/Alerted"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../Calm")
 event = &"player_stops_capturing"
 delay_in_seconds = "0.0"
 
 [node name="Task" type="Node" parent="StateChart/Root"]
-script = ExtResource("8_rovcg")
+script = ExtResource("8_su2b7")
 initial_state = NodePath("Search")
 
 [node name="Search" type="Node" parent="StateChart/Root/Task"]
-script = ExtResource("9_n2hyd")
+script = ExtResource("9_ppfx4")
 
 [node name="OnTryMove" type="Node" parent="StateChart/Root/Task/Search"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../TryMoving")
 event = &"try_move"
 delay_in_seconds = "0.0"
 
 [node name="TryMoving" type="Node" parent="StateChart/Root/Task"]
-script = ExtResource("9_n2hyd")
+script = ExtResource("9_ppfx4")
 
 [node name="OnMove" type="Node" parent="StateChart/Root/Task/TryMoving"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../Moving")
 event = &"move"
 delay_in_seconds = "0.0"
 
 [node name="OnNoPath" type="Node" parent="StateChart/Root/Task/TryMoving"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../StopMoving")
 event = &"no_path"
 delay_in_seconds = "0.0"
 
 [node name="Moving" type="Node" parent="StateChart/Root/Task"]
-script = ExtResource("9_n2hyd")
+script = ExtResource("9_ppfx4")
 
 [node name="OnStopMoving" type="Node" parent="StateChart/Root/Task/Moving"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../Search")
 event = &"stop_moving"
 delay_in_seconds = "0.0
 "
 
 [node name="StopMoving" type="Node" parent="StateChart/Root/Task"]
-script = ExtResource("9_n2hyd")
+script = ExtResource("9_ppfx4")
 
 [node name="ToCanMove" type="Node" parent="StateChart/Root/Task/StopMoving"]
-script = ExtResource("10_c6eq3")
+script = ExtResource("10_twxi8")
 to = NodePath("../../Search")
 delay_in_seconds = "1.0"
 

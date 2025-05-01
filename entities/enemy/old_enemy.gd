@@ -29,10 +29,8 @@ func _ready() -> void:
 	died.connect(_on_death)
 	hit.connect(_on_hit)
 
-
 func _process(_delta: float) -> void:
 	state_chart.send_event("try_move")
-
 
 ### Custom functions
 func setup_astar_grid() -> AStarGrid2D:
@@ -43,7 +41,6 @@ func setup_astar_grid() -> AStarGrid2D:
 	grid.update()
 
 	return grid
-
 
 func calculate_path(from, to) -> void:
 	var enemies = get_tree().get_nodes_in_group("enemies")
@@ -62,7 +59,6 @@ func calculate_path(from, to) -> void:
 	for occupied_position in occupied_positions:
 		astar_grid.set_point_solid(occupied_position, false)
 
-
 func _on_try_moving_state_processing(_delta: float) -> void:
 	if path.is_empty():
 		state_chart.send_event("no_path")
@@ -75,7 +71,6 @@ func _on_try_moving_state_processing(_delta: float) -> void:
 	
 	state_chart.send_event("move")
 
-
 func _on_moving_state_processing(delta: float) -> void:
 	if sprite.global_position == global_position:
 		state_chart.send_event("stop_moving")
@@ -85,25 +80,20 @@ func _on_moving_state_processing(delta: float) -> void:
 		global_position, speed*delta
 	)
 
-
 func _on_stop_moving_state_processing(delta: float) -> void:
 		sprite.rotate(randf_range(PI, -PI)*delta)
-	
 	
 func _on_player_capturing(_player) -> void:
 	state_chart.send_event("player_is_capturing")
 	
-	
 func _on_player_stop_capturing(_player) -> void:
 	state_chart.send_event("player_stops_capturing")
-
 
 func _on_calm_state_processing(_delta: float) -> void:
 	var from = level.local_to_map(global_position)
 	var random_position = Vector2i(randi_range(1,2), randi_range(1,2))
 	var to = level.local_to_map(home_position) + random_position
 	calculate_path(from, to)
-
 
 func _on_alerted_state_processing(_delta: float) -> void:
 	calculate_path(
@@ -113,7 +103,6 @@ func _on_alerted_state_processing(_delta: float) -> void:
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	hit.emit(area)
-
 
 func _on_death(killer) -> void:
 	var explode_sound = $ExplodeSound
@@ -126,7 +115,6 @@ func _on_death(killer) -> void:
 	await get_tree().create_timer(explode_sound.stream.get_length()).timeout
 
 	queue_free()
-
 
 func _on_hit(hitter) -> void:
 	hitter.hit.emit(self)

@@ -1,6 +1,9 @@
 class_name Player
 extends Node2D
 
+signal capturing
+signal stop_capturing
+
 @export var level:TileMapLayer
 @export var move_action: GUIDEAction
 
@@ -11,7 +14,6 @@ var number: int = 0
 
 
 func _ready() -> void:
-	grid_move_component.level = level
 	capture_component.level = level
 	position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
 	position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)

@@ -5,17 +5,13 @@ extends Node2D
 @export var sprite: AnimatedSprite2D
 @export var state_chart: StateChart
 @export var speed: float
-@export var start_move_sound: AudioStreamPlayer
-@export var move_sound: AudioStreamPlayer
-@export var stop_move_sound: AudioStreamPlayer
 
-var level: TileMapLayer
 var moving_direction: Vector2 = Vector2.ZERO
 
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 func _ready() -> void:
-	$RayCast2D.target_position = Vector2.DOWN * Constants.TILE_SIZE
+	ray_cast_2d.target_position = Vector2.DOWN * Constants.TILE_SIZE
 
 func move(direction: Vector2) -> void:
 	if moving_direction.length() == 0 && direction.length() > 0:
