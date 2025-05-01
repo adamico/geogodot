@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1pscxvfjwley"]
+
+[ext_resource type="Script" uid="uid://hopb3qk4m8ti" path="res://entities/projectile/laser.gd" id="1_5v6mp"]
+[ext_resource type="Texture2D" uid="uid://c8ol0c7ouu4t" path="res://assets/sprites/laserBlue01.png" id="2_s0ev4"]
+[ext_resource type="Script" uid="uid://ddqb83lllpvik" path="res://components/barebone/move_component.gd" id="3_s0ev4"]
+
+[node name="Laser" type="Node2D"]
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_5v6mp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_s0ev4")
+
+[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("3_s0ev4")
+actor = NodePath("..")
+direction = Vector2(1, 0)
+speed = 200.0
+metadata/_custom_type_script = "uid://ddqb83lllpvik"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0.5, -9.53674e-07)
+scale = Vector2(0.45, 2.7)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -9,17 +9,17 @@
 [ext_resource type="Resource" uid="uid://cqfhkkleeethw" path="res://components/guide/contexts/game/capture.tres" id="3_fulsm"]
 [ext_resource type="Script" uid="uid://chxvj76d3tc3w" path="res://entities/player/old_player.gd" id="3_qlg0r"]
 [ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://components/guide/contexts/game/shoot.tres" id="4_4r5pv"]
-[ext_resource type="PackedScene" uid="uid://ucms7gv5yqle" path="res://components/capture_component.tscn" id="6_3v2ag"]
+[ext_resource type="PackedScene" uid="uid://ucms7gv5yqle" path="res://components/scenes/capture_component.tscn" id="6_3v2ag"]
 [ext_resource type="PackedScene" uid="uid://dkr80d2pi0d41" path="res://addons/guide/debugger/guide_debugger.tscn" id="6_btx0k"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="7_smehm"]
-[ext_resource type="PackedScene" uid="uid://byi1ofhaulafn" path="res://components/shoot_component.tscn" id="8_f1ej7"]
+[ext_resource type="PackedScene" uid="uid://byi1ofhaulafn" path="res://components/scenes/shoot_component.tscn" id="8_f1ej7"]
 [ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="8_ur7pv"]
 [ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="9_ur7pv"]
 [ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="10_oprun"]
 [ext_resource type="Script" uid="uid://bjd6fsu3o1ya5" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="11_3v2ag"]
 [ext_resource type="Script" uid="uid://bghk8tlvtqr3u" path="res://entities/player/player_area.gd" id="13_60mlk"]
-[ext_resource type="Script" uid="uid://cn2gbprltpaug" path="res://components/raycasts.gd" id="15_oprun"]
+[ext_resource type="Script" uid="uid://cn2gbprltpaug" path="res://components/barebone/raycasts.gd" id="15_oprun"]
 
 [sub_resource type="Resource" id="Resource_f1ej7"]
 script = ExtResource("11_3v2ag")
@@ -316,9 +316,6 @@ limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Shoot" parent="." instance=ExtResource("8_f1ej7")]
-rate = 0.5
-bullet_sibling_path = NodePath(".")
-sprite_path = NodePath("../Character/AnimatedSprite2D")
 
 [node name="Character" type="Node2D" parent="."]
 

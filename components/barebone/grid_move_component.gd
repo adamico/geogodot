@@ -2,6 +2,7 @@ class_name GridMoveComponent
 extends Node2D
 
 @export var actor: Node2D
+@export var sprite: AnimatedSprite2D
 @export var state_chart: StateChart
 @export var speed: float
 @export var start_move_sound: AudioStreamPlayer
@@ -57,14 +58,14 @@ func moving_animation(direction: Vector2) -> void:
 		Vector2(1,-1), Vector2(-1,-1)
 	]
 	if diagonals.find(direction) != -1: return
-	actor.play(directions_to_sprites[direction])
+	sprite.play(directions_to_sprites[direction])
 
 func _on_not_moving_state_processing(_delta: float) -> void:
 	if moving_direction.length() > 0:
 		state_chart.send_event("move")
 
 func _on_moving_state_exited() -> void:
-	actor.play("idle")
+	sprite.play("idle")
 
 func _on_cannot_move_state_processing(_delta: float) -> void:
 	moving_direction = Vector2.ONE

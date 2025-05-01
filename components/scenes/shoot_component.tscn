@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://byi1ofhaulafn"]
+
+[ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/barebone/shoot_component.gd" id="1_wt6h8"]
+[ext_resource type="Texture2D" uid="uid://cfqbkebqiouvx" path="res://assets/sprites/target_b.png" id="2_2uapt"]
+[ext_resource type="Resource" uid="uid://b1i236l2hsih0" path="res://components/guide/contexts/game/target.tres" id="2_q5mvf"]
+[ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://components/guide/contexts/game/shoot.tres" id="3_83pkg"]
+[ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="5_da4hi"]
+
+[node name="ShootComponent" type="Node2D"]
+script = ExtResource("1_wt6h8")
+target_action = ExtResource("2_q5mvf")
+shoot_action = ExtResource("3_83pkg")
+
+[node name="TargetSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_2uapt")
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_da4hi")

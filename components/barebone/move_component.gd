@@ -1,0 +1,9 @@
+class_name MoveComponent
+extends Node
+
+@export var actor: Node2D
+@export var direction: Vector2
+@export var speed: float
+
+func _process(delta: float) -> void:
+	actor.translate(direction * speed * delta)

@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://dcrp1dtqem57s"]
+[gd_scene load_steps=10 format=4 uid="uid://dcrp1dtqem57s"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://ci6ojv8olouho" path="res://components/guide/contexts/game/game.tres" id="2_grrlh"]
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://world/level1.tscn" id="5_fwcvl"]
+[ext_resource type="Resource" uid="uid://csbmlpvj6i1xv" path="res://components/guide/contexts/game/move.tres" id="5_kek77"]
+[ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://components/guide/contexts/game/shoot.tres" id="6_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_73k8k"]
 [ext_resource type="PackedScene" uid="uid://32gl4r1eefhu" path="res://entities/player/player.tscn" id="8_5xyti"]
@@ -20,6 +22,8 @@ tile_map_data = PackedByteArray("AAABAAAAAQACAAEAAAACAAAAAQACAAEAAAADAAAAAQACAAE
 [node name="Player" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("8_5xyti")]
 position = Vector2(48, 48)
 level = NodePath("../Level")
+move_action = ExtResource("5_kek77")
+shoot_action = ExtResource("6_4c57u")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(160, 48)
@@ -37,7 +41,6 @@ script = ExtResource("7_73k8k")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("7_5vw27")]
 visible = false
