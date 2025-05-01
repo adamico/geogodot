@@ -35,6 +35,10 @@ version_control/autoload_on_startup=true
 
 enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
+[global_group]
+
+enemies=""
+
 [input]
 
 ui_left={
@@ -72,10 +76,8 @@ ui_down={
 
 [layer_names]
 
-2d_physics/layer_1="Enemy"
-2d_physics/layer_2="Bullet"
-2d_physics/layer_3="Player"
-2d_physics/layer_4="Layer 4"
+2d_physics/layer_1="player_hurtbox"
+2d_physics/layer_2="enemy_hurtbox"
 
 [physics]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=42 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -20,6 +20,15 @@
 [ext_resource type="AudioStream" uid="uid://cu2hkn7dj1063" path="res://assets/sounds/radar3_start.ogg" id="18_mtric"]
 [ext_resource type="AudioStream" uid="uid://yv26nt7ccgbi" path="res://assets/sounds/radar3_loop.ogg" id="19_eyb6c"]
 [ext_resource type="AudioStream" uid="uid://d1157syoti6fr" path="res://assets/sounds/radar3_stop.ogg" id="20_221hk"]
+[ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/barebone/hitbox_component.gd" id="21_221hk"]
+[ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/barebone/hurtbox_component.gd" id="22_ghoj8"]
+[ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/barebone/stats_component.gd" id="23_ghoj8"]
+[ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/barebone/death_component.gd" id="24_wuv6x"]
+[ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/barebone/spawner_component.gd" id="25_qpopc"]
+[ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="26_wq0jh"]
+[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/barebone/flash_component.gd" id="27_wq0jh"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="28_gt4e4"]
+[ext_resource type="Script" uid="uid://k2h0r714n0mp" path="res://components/barebone/hurt_component.gd" id="29_gt4e4"]
 
 [sub_resource type="Resource" id="Resource_eyb6c"]
 script = ExtResource("16_eyb6c")
@@ -98,6 +107,11 @@ animations = [{
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3wlsy"]
 bg_color = Color(0.141176, 0.388235, 0.690196, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
+radius = 16.0
 
 [node name="Player" type="Node2D" groups=["players"]]
 z_index = 5
@@ -328,6 +342,53 @@ limit_top = -128
 limit_right = 1152
 limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("21_221hk")
+metadata/_custom_type_script = "uid://csga2ypo703ny"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+visible = false
+shape = SubResource("CircleShape2D_t1t22")
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+collision_mask = 0
+script = ExtResource("22_ghoj8")
+metadata/_custom_type_script = "uid://bdy33sbgoncok"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_221hk")
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("23_ghoj8")
+health = 3
+metadata/_custom_type_script = "uid://bmq4ev24n01ct"
+
+[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]
+script = ExtResource("24_wuv6x")
+actor = NodePath("..")
+stats_component = NodePath("../StatsComponent")
+death_effect_spawner_component = NodePath("../ExplosionSpawnerComponent")
+metadata/_custom_type_script = "uid://btvdcwmic1jcu"
+
+[node name="ExplosionSpawnerComponent" type="Node2D" parent="."]
+script = ExtResource("25_qpopc")
+scene = ExtResource("26_wq0jh")
+metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
+
+[node name="FlashComponent" type="Node" parent="." node_paths=PackedStringArray("sprite")]
+script = ExtResource("27_wq0jh")
+flash_material = ExtResource("28_gt4e4")
+sprite = NodePath("../AnimatedSprite2d")
+metadata/_custom_type_script = "uid://b4i7mx467ysy7"
+
+[node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
+script = ExtResource("29_gt4e4")
+stats_component = NodePath("../StatsComponent")
+hurtbox_component = NodePath("../HurtboxComponent")
+metadata/_custom_type_script = "uid://k2h0r714n0mp"
 
 [connection signal="state_processing" from="StateChart/ParallelState/Move/NotMoving" to="GridMoveComponent" method="_on_not_moving_state_processing"]
 [connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="GridMoveComponent" method="_on_moving_state_exited"]

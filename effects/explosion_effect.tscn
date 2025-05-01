@@ -1,0 +1,55 @@
+[gd_scene load_steps=12 format=3 uid="uid://dtq5lq22d46rs"]
+
+[ext_resource type="Script" uid="uid://epj45r83en2h" path="res://components/barebone/onetime_animated_effect.gd" id="1_27qt3"]
+[ext_resource type="Texture2D" uid="uid://y4fyjp75ikcq" path="res://assets/sprites/pixelExplosion00.png" id="1_psdv4"]
+[ext_resource type="Texture2D" uid="uid://dl6mhjpwxpa4k" path="res://assets/sprites/pixelExplosion01.png" id="2_ubf64"]
+[ext_resource type="Texture2D" uid="uid://c72jn5pp4oggv" path="res://assets/sprites/pixelExplosion02.png" id="3_webgj"]
+[ext_resource type="Texture2D" uid="uid://b0a3wse4qpswh" path="res://assets/sprites/pixelExplosion03.png" id="4_y0cg7"]
+[ext_resource type="Texture2D" uid="uid://bilvtxso58gb" path="res://assets/sprites/pixelExplosion04.png" id="5_pnkha"]
+[ext_resource type="Texture2D" uid="uid://dqycmmy1syanj" path="res://assets/sprites/pixelExplosion05.png" id="6_4te46"]
+[ext_resource type="Texture2D" uid="uid://th7ec5h2opb8" path="res://assets/sprites/pixelExplosion06.png" id="7_8blnp"]
+[ext_resource type="Texture2D" uid="uid://wshrjegoh480" path="res://assets/sprites/pixelExplosion07.png" id="8_heyeu"]
+[ext_resource type="Texture2D" uid="uid://brx8ph5x4ow6o" path="res://assets/sprites/pixelExplosion08.png" id="9_ogsxs"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nbyoj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_psdv4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ubf64")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_webgj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y0cg7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pnkha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_4te46")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8blnp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_heyeu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ogsxs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="ExplosionEffect" type="AnimatedSprite2D"]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_nbyoj")
+autoplay = "default"
+frame_progress = 0.651741
+script = ExtResource("1_27qt3")
+metadata/_custom_type_script = "uid://epj45r83en2h"

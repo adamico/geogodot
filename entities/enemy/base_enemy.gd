@@ -12,7 +12,7 @@ var path: Array[Vector2i]
 @onready var sprite_2d: AnimatedSprite2D = $Sprite2D
 @onready var state_chart: StateChart = $StateChart
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	global_position = home_position
 	astar_grid = setup_astar_grid()

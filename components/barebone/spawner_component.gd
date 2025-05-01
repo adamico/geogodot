@@ -10,7 +10,8 @@ func spawn(
 	assert(scene is PackedScene,
 		"Error: the scene export was never set on this spawner component")
 	var instance: Node2D = scene.instantiate()
-	parent.add_child(instance)
 	instance.global_position = spawn_global_position
+	parent.add_child(instance)
+
 	
 	return instance
