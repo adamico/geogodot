@@ -1,5 +1,5 @@
 class_name GridMoveComponent
-extends Node2D
+extends Node
 
 @export var actor: Node2D
 @export var sprite: AnimatedSprite2D
@@ -8,9 +8,10 @@ extends Node2D
 
 var moving_direction: Vector2 = Vector2.ZERO
 
-@onready var ray_cast_2d: RayCast2D = $RayCast2D
+var ray_cast_2d: RayCast2D
 
 func _ready() -> void:
+	ray_cast_2d = actor.get_node("RayCast2D")
 	ray_cast_2d.target_position = Vector2.DOWN * Constants.TILE_SIZE
 
 func move(direction: Vector2) -> void:

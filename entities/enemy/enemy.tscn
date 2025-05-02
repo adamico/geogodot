@@ -1,15 +1,15 @@
 [gd_scene load_steps=11 format=3 uid="uid://crmynushq3uf4"]
 
 [ext_resource type="Script" uid="uid://b2ro1emf8d427" path="res://entities/enemy/enemy.gd" id="1_78jik"]
-[ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/barebone/stats_component.gd" id="2_im2q6"]
-[ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/barebone/hurtbox_component.gd" id="3_dt443"]
-[ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/barebone/hitbox_component.gd" id="4_4wwj3"]
-[ext_resource type="Script" uid="uid://k2h0r714n0mp" path="res://components/barebone/hurt_component.gd" id="5_4wwj3"]
-[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/barebone/flash_component.gd" id="6_d50e0"]
-[ext_resource type="Script" uid="uid://dqwr7ryn4yekc" path="res://components/barebone/shake_component.gd" id="7_61ikd"]
-[ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/barebone/spawner_component.gd" id="8_721x4"]
+[ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/stats_component.gd" id="2_im2q6"]
+[ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="3_dt443"]
+[ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="4_4wwj3"]
+[ext_resource type="Script" uid="uid://k2h0r714n0mp" path="res://components/hurt_component.gd" id="5_4wwj3"]
+[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="6_d50e0"]
+[ext_resource type="Script" uid="uid://dqwr7ryn4yekc" path="res://components/shake_component.gd" id="7_61ikd"]
+[ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="8_721x4"]
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="9_eaj7m"]
-[ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/barebone/death_component.gd" id="10_a8fs5"]
+[ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="10_a8fs5"]
 
 [node name="Enemy" type="Node2D" groups=["enemies"]]
 script = ExtResource("1_78jik")

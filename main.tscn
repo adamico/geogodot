@@ -42,7 +42,6 @@ script = ExtResource("7_73k8k")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("7_5vw27")]
 z_index = 40

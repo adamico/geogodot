@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bth872ij6mkpc"]
-
-[ext_resource type="Script" uid="uid://cxi71uw5oq6an" path="res://components/barebone/grid_move_component.gd" id="1_q3j7q"]
-
-[node name="GridMoveComponent" type="Node2D"]
-script = ExtResource("1_q3j7q")
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 8

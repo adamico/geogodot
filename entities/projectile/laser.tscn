@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://hopb3qk4m8ti" path="res://entities/projectile/laser.gd" id="1_5v6mp"]
 [ext_resource type="Texture2D" uid="uid://c8ol0c7ouu4t" path="res://assets/sprites/laserBlue01.png" id="2_s0ev4"]
-[ext_resource type="Script" uid="uid://ddqb83lllpvik" path="res://components/barebone/move_component.gd" id="3_s0ev4"]
-[ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/barebone/hitbox_component.gd" id="4_sbnw8"]
+[ext_resource type="Script" uid="uid://ddqb83lllpvik" path="res://components/move_component.gd" id="3_s0ev4"]
+[ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="4_sbnw8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xqbwo"]
 radius = 4.0

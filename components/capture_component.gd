@@ -4,12 +4,12 @@ extends Node
 @export var progress_bar: ProgressBar
 @export var state_chart: StateChart
 @export var actor: Node2D
+@export var capturing: AudioStreamPlayer
+@export var finished_capturing: AudioStreamPlayer
 
 var level: TileMapLayer
 var captured_cells: PackedVector2Array
 
-@onready var finished_capturing: AudioStreamPlayer = $FinishedCapturing
-@onready var capturing: AudioStreamPlayer = $Capturing
 
 func _ready() -> void:
 	reset_progress_bar()
@@ -19,14 +19,12 @@ func reset_progress_bar() -> void:
 	progress_bar.hide()
 
 func try_capture() -> void:
-	var current_map_position: Vector2i = level.local_to_map(
-		actor.global_position
-	)
-	if captured_cells.has(current_map_position): return
+	var map_cell_to_capture: Vector2i = level.local_to_map(actor.global_position)
+	if captured_cells.has(map_cell_to_capture): return
 	
 	state_chart.send_event("capture")
 
-func capture(delta: float) -> void:
+func _on_capturing_state_processing(delta: float) -> void:
 	progress_bar.show()
 	if progress_bar.value < 100:
 		progress_bar.value += 50 * delta

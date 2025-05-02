@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c3jjco16t64er" path="res://entities/enemy/base_enemy.gd" id="1_815kx"]
 [ext_resource type="Texture2D" uid="uid://ohx4cuoac64h" path="res://assets/sprites/simpleSpace_tilesheet.png" id="1_gtfva"]
-[ext_resource type="PackedScene" uid="uid://bth872ij6mkpc" path="res://components/scenes/grid_move_component.tscn" id="2_mk5di"]
+[ext_resource type="PackedScene" uid="uid://bth872ij6mkpc" path="res://components/grid_move_component.tscn" id="2_mk5di"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="4_mk5di"]
 [ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="5_jx2kc"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="6_vseg5"]

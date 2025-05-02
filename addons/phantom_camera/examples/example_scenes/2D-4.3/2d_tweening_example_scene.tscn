@@ -237,10 +237,6 @@ visible = false
 physics_interpolation_mode = 1
 position = Vector2(227, -28)
 process_callback = 0
-limit_left = -387
-limit_top = -528
-limit_right = 433
-limit_bottom = 288
 position_smoothing_speed = 10.0
 editor_draw_limits = true
 
