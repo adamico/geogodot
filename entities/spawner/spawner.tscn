@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bxyya8t6j4v7v"]
+[gd_scene load_steps=8 format=3 uid="uid://bxyya8t6j4v7v"]
 
-[ext_resource type="Script" uid="uid://chvjvwwvwxhrl" path="res://entities/spawner.gd" id="1_2vbf6"]
-[ext_resource type="PackedScene" uid="uid://cd3lqhgc3pj52" path="res://entities/enemy/old_enemy.tscn" id="2_ik2nu"]
+[ext_resource type="Script" uid="uid://chvjvwwvwxhrl" path="res://entities/spawner/spawner.gd" id="1_2vbf6"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="3_4wbs5"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="3_30a77"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="4_30a77"]
@@ -16,7 +15,6 @@ point_count = 5
 
 [node name="Spawner" type="Marker2D"]
 script = ExtResource("1_2vbf6")
-enemy_scene = ExtResource("2_ik2nu")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
