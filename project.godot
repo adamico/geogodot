@@ -24,7 +24,13 @@ Constants="*res://constants.gd"
 
 [display]
 
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/resizable=false
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+window/stretch/scale_mode="integer"
 
 [editor]
 
@@ -79,14 +85,11 @@ ui_down={
 2d_physics/layer_1="player_hurtbox"
 2d_physics/layer_2="enemy_hurtbox"
 
-[physics]
-
-common/physics_interpolation=true
-
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/lossless_compression/force_png=true
 environment/defaults/default_clear_color=Color(0.471341, 0.24991, 0.422619, 1)
-2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

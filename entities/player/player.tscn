@@ -28,7 +28,7 @@
 [ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="21_221hk"]
 [ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="22_8q4fm"]
 [ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="22_ghoj8"]
-[ext_resource type="Texture2D" uid="uid://b0h0vc5xusdbt" path="res://assets/sprites/crosshairs_tilesheet_white.png" id="23_0eo6o"]
+[ext_resource type="Texture2D" uid="uid://d0ya4npi3qql1" path="res://assets/sprites/crosshair146.png" id="23_0eo6o"]
 [ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/stats_component.gd" id="23_ghoj8"]
 [ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="24_wuv6x"]
 [ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="25_qpopc"]
@@ -310,13 +310,14 @@ parameters/looping = true
 stream = ExtResource("18_8q4fm")
 volume_db = 1.0
 
-[node name="CaptureComponent" type="Node" parent="." node_paths=PackedStringArray("progress_bar", "state_chart", "actor", "capturing", "finished_capturing")]
+[node name="CaptureComponent" type="Node" parent="." node_paths=PackedStringArray("progress_bar", "state_chart", "actor", "capturing", "finished_capturing", "target_component")]
 script = ExtResource("19_np63p")
 progress_bar = NodePath("../ProgressBar")
 state_chart = NodePath("../StateChart")
 actor = NodePath("..")
 capturing = NodePath("../Sounds/Capturing")
 finished_capturing = NodePath("../Sounds/FinishedCapturing")
+target_component = NodePath("../TargetComponent")
 metadata/_custom_type_script = "uid://87on3p4ch1e7"
 
 [node name="GridMoveComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "sprite", "state_chart")]
@@ -339,7 +340,6 @@ metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 [node name="TargetComponent" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("23_0eo6o")
-region_enabled = true
 region_rect = Rect2(85, 430, 32, 32)
 script = ExtResource("22_8q4fm")
 metadata/_custom_type_script = "uid://cvldao1arx3t3"
@@ -351,8 +351,8 @@ script = ExtResource("1_dqkch")
 priority = 5
 follow_mode = 2
 follow_target = NodePath("..")
-zoom = Vector2(2, 2)
 tween_resource = ExtResource("2_qlg0r")
+tween_on_load = false
 inactive_update_mode = 1
 follow_damping = true
 dead_zone_width = 0.25
@@ -434,6 +434,10 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_3wlsy")
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
+[connection signal="state_processing" from="StateChart/ParallelState/Move/NotMoving" to="GridMoveComponent" method="_on_not_moving_state_processing"]
+[connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="GridMoveComponent" method="_on_moving_state_exited"]
+[connection signal="state_exited" from="StateChart/ParallelState/Move/CannotMove" to="GridMoveComponent" method="_on_cannot_move_state_exited"]
+[connection signal="state_processing" from="StateChart/ParallelState/Move/CannotMove" to="GridMoveComponent" method="_on_cannot_move_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]

@@ -27,7 +27,7 @@ position = Vector2(48, 48)
 level = NodePath("../Level")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(160, 48)
+position = Vector2(48, 48)
 zoom = Vector2(2, 2)
 limit_left = -128
 limit_top = -128
@@ -42,6 +42,7 @@ script = ExtResource("7_73k8k")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("7_5vw27")]
 z_index = 40
