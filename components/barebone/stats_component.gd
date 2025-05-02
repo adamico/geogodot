@@ -4,7 +4,7 @@ extends Node
 signal health_changed
 signal no_health
 
-@export var health: int = 1:
+@export var health: = 1.0:
 	set(value):
 		health = value
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=44 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -6,6 +6,8 @@
 [ext_resource type="Resource" uid="uid://euybd2w0bax" path="res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_2d_tween.tres" id="2_qlg0r"]
 [ext_resource type="Resource" uid="uid://csbmlpvj6i1xv" path="res://components/guide/contexts/game/move.tres" id="2_we0b7"]
 [ext_resource type="Resource" uid="uid://cqfhkkleeethw" path="res://components/guide/contexts/game/capture.tres" id="3_fulsm"]
+[ext_resource type="Resource" uid="uid://uh2ntr56dhi6" path="res://components/guide/contexts/game/shoot.tres" id="4_bwdx1"]
+[ext_resource type="Resource" uid="uid://b1i236l2hsih0" path="res://components/guide/contexts/game/target.tres" id="5_vewsg"]
 [ext_resource type="PackedScene" uid="uid://ucms7gv5yqle" path="res://components/scenes/capture_component.tscn" id="6_3v2ag"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="7_smehm"]
@@ -39,6 +41,11 @@ metadata/_custom_type_script = "uid://bjd6fsu3o1ya5"
 script = ExtResource("13_b2kln")
 guard = SubResource("Resource_eyb6c")
 metadata/_custom_type_script = "uid://pfdv51lppmck"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqrof"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3wlsy"]
+bg_color = Color(0.141176, 0.388235, 0.690196, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wvtmh"]
 atlas = ExtResource("2_qhqgy")
@@ -103,11 +110,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqrof"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3wlsy"]
-bg_color = Color(0.141176, 0.388235, 0.690196, 1)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
@@ -117,6 +119,10 @@ radius = 16.0
 z_index = 5
 script = ExtResource("1_b2kln")
 move_action = ExtResource("2_we0b7")
+capture_action = ExtResource("3_fulsm")
+shoot_action = ExtResource("4_bwdx1")
+target_action = ExtResource("5_vewsg")
+metadata/_edit_group_ = true
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("6_tuyoq")
@@ -277,11 +283,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "0,0"
 
-[node name="AnimatedSprite2d" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_gx6sm")
-animation = &"move_up"
-autoplay = "idle"
-
 [node name="ProgressBar" type="ProgressBar" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
@@ -313,7 +314,6 @@ speed = 0.35
 
 [node name="CaptureComponent" parent="." node_paths=PackedStringArray("progress_bar", "state_chart", "actor") instance=ExtResource("6_3v2ag")]
 progress_bar = NodePath("../ProgressBar")
-capture_action = ExtResource("3_fulsm")
 state_chart = NodePath("../StateChart")
 actor = NodePath("..")
 
@@ -343,6 +343,11 @@ limit_right = 1152
 limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
+[node name="AnimatedSprite2d" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gx6sm")
+animation = &"move_up"
+autoplay = "idle"
+
 [node name="HitboxComponent" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
@@ -363,7 +368,6 @@ shape = SubResource("CircleShape2D_221hk")
 
 [node name="StatsComponent" type="Node" parent="."]
 script = ExtResource("23_ghoj8")
-health = 3
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
 [node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]

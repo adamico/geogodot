@@ -137,9 +137,6 @@ script = ExtResource("7_7euji")
 to = NodePath("../../Search")
 delay_in_seconds = "1.0"
 
-[node name="StatsComponent" parent="." index="2"]
-health = 3
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
 self_modulate = Color(1, 0.04, 0.04, 1)
 polygon = PackedVector2Array(-15, 1, -15, -1, -1, -15, 1, -15, 15, -1, 15, 1, 1, 15, -1, 15)

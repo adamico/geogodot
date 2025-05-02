@@ -2,7 +2,6 @@ class_name CaptureComponent
 extends Node
 
 @export var progress_bar: ProgressBar
-@export var capture_action: GUIDEAction
 @export var state_chart: StateChart
 @export var actor: Node2D
 
@@ -14,8 +13,6 @@ var captured_cells: PackedVector2Array
 
 func _ready() -> void:
 	reset_progress_bar()
-	capture_action.triggered.connect(try_capture)
-	capture_action.completed.connect(stop_capturing)
 
 func reset_progress_bar() -> void:
 	progress_bar.value = 0
