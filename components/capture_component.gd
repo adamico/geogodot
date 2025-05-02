@@ -8,6 +8,10 @@ extends Node
 @export var finished_capturing: AudioStreamPlayer
 @export var target_component: TargetComponent
 
+@onready var target_animation_player: AnimationPlayer = $"../TargetComponent/AnimationPlayer"
+
+const CROSSHAIR_146 = preload("res://assets/sprites/crosshair146.png")
+const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
 var level: TileMapLayer
 var captured_cells: PackedVector2Array
 
@@ -34,6 +38,9 @@ func try_capture() -> void:
     state_chart.send_event("capture")
 
 func _on_capturing_state_processing(delta: float) -> void:
+    target_component.texture = CROSSHAIR_146
+    target_animation_player.play("capture_target_modulate_pulse")
+
     progress_bar.show()
     if progress_bar.value < 100:
         progress_bar.value += 50 * delta
@@ -46,10 +53,11 @@ func stop_capturing() -> void:
 func _on_capturing_state_entered() -> void:
     capturing.play()
     actor.capturing.emit()
-    #state_chart.send_event("prevent_shoot")
     state_chart.send_event("prevent_move")
 
 func _on_capturing_state_exited() -> void:
+    target_animation_player.stop()
+    target_component.texture = CROSSHAIR_008
     capturing.stop()
     reset_progress_bar()
     actor.stop_capturing.emit()

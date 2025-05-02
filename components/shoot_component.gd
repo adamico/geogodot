@@ -7,11 +7,14 @@ extends Node2D
 @export var target_component: TargetComponent
 @export var shoot_sound: AudioStreamPlayer
 
+@onready var target_animation_player: AnimationPlayer = $"../TargetComponent/AnimationPlayer"
+
 func fire_laser() -> void:
     state_chart.send_event("shoot")
 
 func _on_cooldown_state_entered() -> void:
     if target_component.target_direction == Vector2.ZERO: return
+    target_animation_player.play("shoot_target_flash_red_once")
     shoot_sound.play()
     spawn_laser()
 
