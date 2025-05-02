@@ -22,6 +22,7 @@ func _ready() -> void:
     hurtbox_component.hurt.connect(func(_hitbox_component: HitboxComponent):
         flash_component.flash()
         shake_component.tween_shake()
+        state_chart.send_event("hurt_by_player")
     )
     stats_component.no_health.connect(queue_free)
     base_ai_component.level = level

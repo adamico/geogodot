@@ -50,6 +50,12 @@ func _on_alerted_state_processing(_delta: float) -> void:
         level.local_to_map(player.global_position),
     )
 
+func _on_angry_state_processing(delta: float) -> void:
+    calculate_path(
+        level.local_to_map(actor.global_position),
+        level.local_to_map(player.global_position),
+    )
+
 func _on_search_state_processing(_delta: float) -> void:
     if path.is_empty():
         state_chart.send_event("no_path")

@@ -89,6 +89,12 @@ to = NodePath("../../Alerted")
 event = &"player_is_capturing"
 delay_in_seconds = "0.0"
 
+[node name="OnHurtByPlayer" type="Node" parent="StateChart/Root/Emotion/Calm" index="1"]
+script = ExtResource("7_7euji")
+to = NodePath("../../Angry")
+event = &"hurt_by_player"
+delay_in_seconds = "0.0"
+
 [node name="Alerted" type="Node" parent="StateChart/Root/Emotion" index="1"]
 script = ExtResource("6_odcmk")
 
@@ -97,6 +103,10 @@ script = ExtResource("7_7euji")
 to = NodePath("../../Calm")
 event = &"player_stops_capturing"
 delay_in_seconds = "0.0"
+
+[node name="Angry" type="Node" parent="StateChart/Root/Emotion" index="2"]
+script = ExtResource("6_odcmk")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
 [node name="Task" type="Node" parent="StateChart/Root" index="1"]
 script = ExtResource("5_3am2s")
@@ -141,6 +151,9 @@ script = ExtResource("7_7euji")
 to = NodePath("../../Search")
 delay_in_seconds = "1.0"
 
+[node name="StatsComponent" parent="." index="2"]
+health = 3.0
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
 self_modulate = Color(1, 0.04, 0.04, 1)
 polygon = PackedVector2Array(-15, 1, -15, -1, -1, -15, 1, -15, 15, -1, 15, 1, 1, 15, -1, 15)
@@ -177,5 +190,6 @@ metadata/_custom_type_script = "uid://cxi71uw5oq6an"
 
 [connection signal="state_processing" from="StateChart/Root/Emotion/Calm" to="BaseAIComponent" method="_on_calm_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Emotion/Alerted" to="BaseAIComponent" method="_on_alerted_state_processing"]
+[connection signal="state_processing" from="StateChart/Root/Emotion/Angry" to="BaseAIComponent" method="_on_angry_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Task/Search" to="BaseAIComponent" method="_on_search_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Task/Moving" to="." method="_on_moving_state_processing"]
