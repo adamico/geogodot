@@ -515,12 +515,6 @@ to = NodePath("../../Cooldown")
 event = &"shoot"
 delay_in_seconds = "0.0"
 
-[node name="OnPreventShoot" type="Node" parent="StateChart/ParallelState/Shoot/CanShoot"]
-script = ExtResource("9_ur7pv")
-to = NodePath("../../CannotShoot")
-event = &"prevent_shoot"
-delay_in_seconds = "0.0"
-
 [node name="Cooldown" type="Node" parent="StateChart/ParallelState/Shoot"]
 script = ExtResource("8_ur7pv")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
@@ -529,16 +523,6 @@ metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 script = ExtResource("9_ur7pv")
 to = NodePath("../../CanShoot")
 delay_in_seconds = "1.0"
-
-[node name="CannotShoot" type="Node" parent="StateChart/ParallelState/Shoot"]
-script = ExtResource("8_ur7pv")
-metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
-
-[node name="OnAllowShoot" type="Node" parent="StateChart/ParallelState/Shoot/CannotShoot"]
-script = ExtResource("9_ur7pv")
-to = NodePath("../../CanShoot")
-event = &"allow_shoot"
-delay_in_seconds = "0.0"
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 
@@ -613,10 +597,12 @@ shoot_sound = NodePath("../Sounds/ShootSound")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
 [node name="TargetComponent" type="Sprite2D" parent="."]
+position = Vector2(32, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("23_0eo6o")
 region_rect = Rect2(85, 430, 32, 32)
 script = ExtResource("22_8q4fm")
+tween_position_speed = 0.2
 metadata/_custom_type_script = "uid://cvldao1arx3t3"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TargetComponent"]
@@ -734,4 +720,3 @@ metadata/_edit_use_anchors_ = true
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Shoot/Cooldown" to="ShootComponent" method="_on_cooldown_state_entered"]
-[connection signal="state_processing" from="StateChart/ParallelState/Shoot/CannotShoot" to="ShootComponent" method="_on_cannot_shoot_state_processing"]

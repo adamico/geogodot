@@ -48,7 +48,7 @@ transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
 z_index = 40
 offset_left = 960.0
 offset_right = 640.0
-offset_bottom = -104.0
+offset_bottom = 56.0
 initial_node_to_watch = NodePath("../../World/Player")
 
 [node name="GuideDebugger" parent="CanvasLayer" instance=ExtResource("8_kek77")]

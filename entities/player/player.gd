@@ -11,9 +11,7 @@ signal stop_capturing
 @export var move_action: GUIDEAction
 @export var shoot_action: GUIDEAction
 @export var target_action: GUIDEAction
-
-var number: int = 0
-var target_direction: Vector2
+@export var number: int
 
 @onready var capture_component: CaptureComponent = $CaptureComponent
 @onready var flash_component: FlashComponent = $FlashComponent
@@ -34,15 +32,13 @@ func _ready() -> void:
     capture_action.triggered.connect(capture_component.try_capture)
     capture_action.completed.connect(capture_component.stop_capturing)
 
-    show_sprite(false)
-    target_action.triggered.connect(show_sprite.bind(true))
-    target_action.completed.connect(show_sprite.bind(false))
     shoot_action.triggered.connect(shoot_component.fire_laser)
+    shoot_action.completed.connect(shoot_component.stop_firing)
 
 func _process(_delta: float) -> void:
     var input_direction: Vector2 = move_action.value_axis_2d
     grid_move_component.move(input_direction)
-    target_component.target_direction = target_action.value_axis_2d
 
-func show_sprite(must_show: bool) -> void:
-    target_component.visible = must_show
+    var target_direction = target_action.value_axis_2d
+    if not target_direction: return
+    target_component.direction = target_direction

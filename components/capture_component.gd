@@ -25,12 +25,12 @@ func reset_progress_bar() -> void:
     progress_bar.hide()
 
 func try_capture() -> void:
-    if target_component.target_direction == Vector2.ZERO: return
+    if target_component.direction == Vector2.ZERO: return
 
     var actor_current_map_cell = level.local_to_map(actor.global_position)
     map_cell_to_capture = actor_current_map_cell + Vector2i(
-        int(target_component.target_direction.x),
-        int(target_component.target_direction.y)
+        int(target_component.direction.x),
+        int(target_component.direction.y)
     )
     if captured_cells.has(map_cell_to_capture):
         return
@@ -62,7 +62,6 @@ func _on_capturing_state_exited() -> void:
     reset_progress_bar()
     actor.stop_capturing.emit()
     state_chart.send_event("allow_move")
-    state_chart.send_event("allow_shoot")
 
 func _on_successful_capture_state_entered() -> void:
     finished_capturing.play()
