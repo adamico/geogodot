@@ -4,4 +4,4 @@ extends Node
 
 
 func _ready() -> void:
-	GUIDE.enable_mapping_context(mapping_context)
+    GUIDE.enable_mapping_context(mapping_context)

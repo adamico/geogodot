@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://4scqd80kx7kf"]
+
+[ext_resource type="Script" uid="uid://fwmk7xqcdo8h" path="res://alien_space_background.gd" id="1_lnqlc"]
+[ext_resource type="Texture2D" uid="uid://brenxqshuc7db" path="res://assets/sprites/purple.png" id="2_rwhhu"]
+
+[node name="AlienSpaceBackground" type="ParallaxBackground"]
+script = ExtResource("1_lnqlc")
+
+[node name="SpaceLayer" type="ParallaxLayer" parent="."]
+unique_name_in_owner = true
+motion_mirroring = Vector2(640, 0)
+
+[node name="TextureRect" type="TextureRect" parent="SpaceLayer"]
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("2_rwhhu")
+stretch_mode = 1
