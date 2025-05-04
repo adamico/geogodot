@@ -1,11 +1,13 @@
 class_name CaptureComponent
 extends Node
 
+signal successful_capture
+
 @export var progress_bar: ProgressBar
 @export var state_chart: StateChart
 @export var actor: Node2D
-@export var capturing: AudioStreamPlayer
-@export var finished_capturing: AudioStreamPlayer
+@export var capturing_sound: AudioStreamPlayer
+@export var finished_capturing_sound: AudioStreamPlayer
 @export var target_component: TargetComponent
 
 @onready var target_animation_player: AnimationPlayer = $"../TargetComponent/AnimationPlayer"
@@ -13,7 +15,6 @@ extends Node
 const CROSSHAIR_146 = preload("res://assets/sprites/crosshair146.png")
 const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
 var level: TileMapLayer
-var captured_cells: PackedVector2Array
 
 var map_cell_to_capture: Vector2i
 
@@ -32,7 +33,7 @@ func try_capture() -> void:
         int(target_component.direction.x),
         int(target_component.direction.y)
     )
-    if captured_cells.has(map_cell_to_capture):
+    if actor.captured_cells.has(map_cell_to_capture):
         return
 
     state_chart.send_event("capture")
@@ -51,31 +52,14 @@ func stop_capturing() -> void:
     state_chart.send_event("stop_capture")
 
 func _on_capturing_state_entered() -> void:
-    capturing.play()
-    actor.capturing.emit()
     state_chart.send_event("prevent_move")
 
 func _on_capturing_state_exited() -> void:
     target_animation_player.stop()
     target_component.texture = CROSSHAIR_008
-    capturing.stop()
+    capturing_sound.stop()
     reset_progress_bar()
-    actor.stop_capturing.emit()
     state_chart.send_event("allow_move")
 
 func _on_successful_capture_state_entered() -> void:
-    var found_pickup = pickup()
-    if found_pickup and actor.has_signal("picked_up"): actor.picked_up.emit(found_pickup)
-
-    finished_capturing.play()
-    level.set_cell(map_cell_to_capture, 1, Vector2i(actor.number+1, 0))
-    captured_cells.append(map_cell_to_capture)
-
-func pickup() -> Node:
-    var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
-    var found_pickup: Node
-
-    for a_pickup in pickups:
-        if a_pickup.map_position == map_cell_to_capture: found_pickup = a_pickup
-
-    return found_pickup
+    successful_capture.emit(map_cell_to_capture)

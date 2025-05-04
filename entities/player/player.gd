@@ -1,10 +1,6 @@
 class_name Player
 extends Node2D
 
-@warning_ignore("unused_signal")
-signal capturing
-@warning_ignore("unused_signal")
-signal stop_capturing
 signal picked_up(item)
 
 @export var level: TileMapLayer
@@ -14,20 +10,21 @@ signal picked_up(item)
 @export var target_action: GUIDEAction
 @export var number: int
 
+var captured_cells: PackedVector2Array
+
 @onready var capture_component: CaptureComponent = $CaptureComponent
-@onready var flash_component: FlashComponent = $FlashComponent
 @onready var grid_move_component: GridMoveComponent = $GridMoveComponent
-@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 @onready var shoot_component: ShootComponent = $ShootComponent
 @onready var target_component: TargetComponent = $TargetComponent
+@onready var finished_capturing: AudioStreamPlayer = $Sounds/FinishedCapturing
+@onready var capturing: AudioStreamPlayer = $Sounds/Capturing
+@onready var laser: AudioStreamPlayer = $Sounds/Laser
+@onready var capture: AudioStreamPlayer = $Sounds/Capture
+@onready var up: AudioStreamPlayer = $Sounds/Up
 
 func _ready() -> void:
     position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
-
-    hurtbox_component.hurt.connect(func(_hitbox_component: HitboxComponent):
-        flash_component.flash()
-    )
 
     capture_component.level = level
     capture_action.triggered.connect(capture_component.try_capture)
@@ -35,8 +32,6 @@ func _ready() -> void:
 
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
-
-    picked_up.connect(_on_picked_up)
 
 func _process(_delta: float) -> void:
     var input_direction: Vector2 = move_action.value_axis_2d
@@ -46,5 +41,31 @@ func _process(_delta: float) -> void:
     if not target_direction: return
     target_component.direction = target_direction
 
-func _on_picked_up(item) -> void:
-    print("picked up ", item.label_text, " pickup at ", item.map_position)
+func _on_capturing_state_entered() -> void:
+    capturing.play()
+
+func _on_capture_component_successful_capture(cell) -> void:
+    set_captured(cell)
+
+    finished_capturing.play()
+
+    var found_pickup: Pickup = pickup(cell)
+    if not found_pickup: return
+
+    var tween = create_tween()
+    tween.tween_callback(func() -> void:
+        picked_up.emit(found_pickup)
+    ).set_delay(finished_capturing.stream.get_length())
+
+func pickup(cell) -> Node:
+    var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
+    var found_pickup: Node
+
+    for a_pickup: Pickup in pickups:
+        if a_pickup.map_position == cell: found_pickup = a_pickup
+
+    return found_pickup
+
+func set_captured(cell) -> void:
+    level.set_cell(cell, 1, Vector2i(number+1, 0))
+    captured_cells.append(cell)

@@ -1,3 +1,4 @@
+class_name Pickup
 extends Node2D
 
 @export var label_text: String

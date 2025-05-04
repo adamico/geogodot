@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=80 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -16,16 +16,14 @@
 [ext_resource type="Script" uid="uid://bjd6fsu3o1ya5" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="16_eyb6c"]
 [ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="16_vewsg"]
 [ext_resource type="AudioStream" uid="uid://c8vaj36vv6y63" path="res://assets/sounds/lowRandom.ogg" id="17_2soq1"]
+[ext_resource type="AudioStream" uid="uid://cfvslm74uuoqb" path="res://assets/sounds/zapThreeToneUp.ogg" id="18_8q4fm"]
 [ext_resource type="PackedScene" uid="uid://b1pscxvfjwley" path="res://entities/projectile/laser.tscn" id="18_221hk"]
-[ext_resource type="AudioStream" uid="uid://pfjv31c71468" path="res://assets/sounds/zapThreeToneUp_short.ogg" id="18_geky7"]
 [ext_resource type="AudioStream" uid="uid://cu2hkn7dj1063" path="res://assets/sounds/radar3_start.ogg" id="18_mtric"]
 [ext_resource type="AudioStream" uid="uid://yv26nt7ccgbi" path="res://assets/sounds/radar3_loop.ogg" id="19_eyb6c"]
 [ext_resource type="AudioStream" uid="uid://c8inhbdr340yh" path="res://assets/sounds/laser.mp3" id="19_geky7"]
 [ext_resource type="Script" uid="uid://87on3p4ch1e7" path="res://components/capture_component.gd" id="19_np63p"]
 [ext_resource type="Script" uid="uid://cxi71uw5oq6an" path="res://components/grid_move_component.gd" id="20_2soq1"]
 [ext_resource type="AudioStream" uid="uid://d1157syoti6fr" path="res://assets/sounds/radar3_stop.ogg" id="20_221hk"]
-[ext_resource type="AudioStream" uid="uid://cihaispit321r" path="res://assets/sounds/up.mp3" id="20_qwspa"]
-[ext_resource type="AudioStream" uid="uid://coc60monvp7gs" path="res://assets/sounds/capture.mp3" id="20_r633c"]
 [ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/shoot_component.gd" id="21_0eo6o"]
 [ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="21_221hk"]
 [ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="22_8q4fm"]
@@ -570,17 +568,11 @@ stream = ExtResource("17_2soq1")
 parameters/looping = true
 
 [node name="FinishedCapturing" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("18_geky7")
-volume_db = -4.0
+stream = ExtResource("18_8q4fm")
+volume_db = 1.0
 
-[node name="Laser" type="AudioStreamPlayer" parent="Sounds"]
+[node name="PickedUpLaser" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("19_geky7")
-
-[node name="Capture" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("20_r633c")
-
-[node name="Up" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("20_qwspa")
 
 [node name="CaptureComponent" type="Node" parent="." node_paths=PackedStringArray("progress_bar", "state_chart", "actor", "capturing_sound", "finished_capturing_sound", "target_component")]
 script = ExtResource("19_np63p")
@@ -693,9 +685,8 @@ stats_component = NodePath("../StatsComponent")
 hurtbox_component = NodePath("../HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
 
-[node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
+[node name="PowerUpComponent" type="Node" parent="."]
 script = ExtResource("36_wy7bt")
-actor = NodePath("..")
 metadata/_custom_type_script = "uid://csqkc8o4iruir"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
