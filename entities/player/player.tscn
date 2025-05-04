@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=79 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -37,6 +37,7 @@
 [ext_resource type="Script" uid="uid://k2h0r714n0mp" path="res://components/hurt_component.gd" id="29_gt4e4"]
 [ext_resource type="Texture2D" uid="uid://b6gvj6tesjwca" path="res://assets/sprites/scanning.png" id="36_0eo6o"]
 [ext_resource type="Texture2D" uid="uid://b2yr1qlap3gve" path="res://assets/sprites/body.png" id="36_ttr27"]
+[ext_resource type="Script" uid="uid://csqkc8o4iruir" path="res://components/power_up_component.gd" id="36_wy7bt"]
 [ext_resource type="Texture2D" uid="uid://btttbpil6e1vi" path="res://assets/sprites/engines.png" id="37_ttr27"]
 
 [sub_resource type="Resource" id="Resource_eyb6c"]
@@ -395,7 +396,7 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3wlsy"]
 bg_color = Color(0.141176, 0.388235, 0.690196, 1)
 
-[node name="Player" type="Node2D" groups=["players"]]
+[node name="Player" type="Node2D"]
 z_index = 5
 script = ExtResource("1_b2kln")
 capture_action = ExtResource("3_fulsm")
@@ -678,6 +679,10 @@ script = ExtResource("29_gt4e4")
 stats_component = NodePath("../StatsComponent")
 hurtbox_component = NodePath("../HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
+
+[node name="PowerUpComponent" type="Node" parent="."]
+script = ExtResource("36_wy7bt")
+metadata/_custom_type_script = "uid://csqkc8o4iruir"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collision_mask = 8

@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyiyy88gtfth1"]
-
-[ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="1_vcc4r"]
-
-[node name="SpawnerComponent" type="Node2D"]
-script = ExtResource("1_vcc4r")
-metadata/_custom_type_script = "uid://dsy5yj0hshq3h"

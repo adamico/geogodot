@@ -64,6 +64,18 @@ func _on_capturing_state_exited() -> void:
     state_chart.send_event("allow_move")
 
 func _on_successful_capture_state_entered() -> void:
+    var found_pickup = pickup()
+    if found_pickup and actor.has_signal("picked_up"): actor.picked_up.emit(found_pickup)
+
     finished_capturing.play()
     level.set_cell(map_cell_to_capture, 1, Vector2i(actor.number+1, 0))
     captured_cells.append(map_cell_to_capture)
+
+func pickup() -> Node:
+    var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
+    var found_pickup: Node
+
+    for a_pickup in pickups:
+        if a_pickup.map_position == map_cell_to_capture: found_pickup = a_pickup
+
+    return found_pickup

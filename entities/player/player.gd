@@ -5,6 +5,7 @@ extends Node2D
 signal capturing
 @warning_ignore("unused_signal")
 signal stop_capturing
+signal picked_up(item)
 
 @export var level: TileMapLayer
 @export var capture_action: GUIDEAction
@@ -35,6 +36,8 @@ func _ready() -> void:
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
 
+    picked_up.connect(_on_picked_up)
+
 func _process(_delta: float) -> void:
     var input_direction: Vector2 = move_action.value_axis_2d
     grid_move_component.move(input_direction)
@@ -42,3 +45,6 @@ func _process(_delta: float) -> void:
     var target_direction = target_action.value_axis_2d
     if not target_direction: return
     target_component.direction = target_direction
+
+func _on_picked_up(item) -> void:
+    print("picked up ", item.label_text, " pickup at ", item.map_position)
