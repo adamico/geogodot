@@ -667,6 +667,8 @@ shape = SubResource("CircleShape2D_221hk")
 [node name="StatsComponent" type="Node" parent="."]
 script = ExtResource("23_ghoj8")
 health = 3.0
+capture_power = 2
+laser_power = 2
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
 [node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]

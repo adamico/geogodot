@@ -1,6 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://6awtsapo231u"]
+[gd_scene load_steps=8 format=3 uid="uid://6awtsapo231u"]
 
 [ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://ui/hud.gd" id="1_ahhtf"]
+[ext_resource type="FontFile" uid="uid://bemr8f53d5p6y" path="res://assets/fonts/Kenney Space.ttf" id="2_7ihmi"]
+[ext_resource type="LabelSettings" uid="uid://c0ap0tl6vobp3" path="res://ui/hud_label.tres" id="3_546lt"]
+[ext_resource type="LabelSettings" uid="uid://dm1nnmjndo0yo" path="res://ui/hud_label_off.tres" id="4_7ihmi"]
+[ext_resource type="Texture2D" uid="uid://dlbst4xpdbl1u" path="res://assets/sprites/rank042.png" id="4_en2x2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1v5rv"]
+font = ExtResource("2_7ihmi")
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
 
 [sub_resource type="SystemFont" id="SystemFont_ahhtf"]
 subpixel_positioning = 0
@@ -14,48 +24,138 @@ script = ExtResource("1_ahhtf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
-offset_right = 1152.0
-offset_bottom = 96.0
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_right = 190.0
+offset_bottom = 45.0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="Player1" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "P1"
+label_settings = SubResource("LabelSettings_1v5rv")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_right = 32
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
-columns = 2
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="ScoreContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
 theme_override_font_sizes/font_size = 32
 text = "SCORE:"
+label_settings = ExtResource("3_546lt")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScoreValue" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="ScoreValue" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
 theme_override_font_sizes/font_size = 32
 text = "     0"
-horizontal_alignment = 2
+label_settings = ExtResource("3_546lt")
+horizontal_alignment = 1
 
-[node name="PercentageLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="Spacer" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "   "
+label_settings = ExtResource("3_546lt")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PercentageLabel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
 theme_override_font_sizes/font_size = 32
 text = "CAPTURED:"
+label_settings = ExtResource("3_546lt")
 vertical_alignment = 1
 
-[node name="PercentageValue" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="PercentageValue" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
 theme_override_font_sizes/font_size = 32
 text = "0%"
+label_settings = ExtResource("3_546lt")
 horizontal_alignment = 2
+
+[node name="Spacer2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/ScoreContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "   "
+label_settings = ExtResource("3_546lt")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PowerupContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer"]
+layout_mode = 2
+texture = ExtResource("4_en2x2")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CaptureLevel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "C"
+label_settings = ExtResource("4_7ihmi")
+
+[node name="CaptureLevel2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "C"
+label_settings = ExtResource("4_7ihmi")
+
+[node name="CaptureLevel3" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "C"
+label_settings = ExtResource("4_7ihmi")
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer"]
+layout_mode = 2
+texture = ExtResource("4_en2x2")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="LaserLevel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "L"
+label_settings = ExtResource("4_7ihmi")
+
+[node name="LaserLevel2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "L"
+label_settings = ExtResource("4_7ihmi")
+
+[node name="LaserLevel3" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "L"
+label_settings = ExtResource("4_7ihmi")

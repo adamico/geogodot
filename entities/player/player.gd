@@ -15,6 +15,7 @@ var captured_cells: PackedVector2Array
 @onready var capture_component: CaptureComponent = $CaptureComponent
 @onready var grid_move_component: GridMoveComponent = $GridMoveComponent
 @onready var shoot_component: ShootComponent = $ShootComponent
+@onready var stats_component: StatsComponent = $StatsComponent
 @onready var target_component: TargetComponent = $TargetComponent
 @onready var finished_capturing: AudioStreamPlayer = $Sounds/FinishedCapturing
 @onready var capturing: AudioStreamPlayer = $Sounds/Capturing

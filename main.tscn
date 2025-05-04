@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://dcrp1dtqem57s"]
+[gd_scene load_steps=10 format=4 uid="uid://dcrp1dtqem57s"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://ci6ojv8olouho" path="res://components/guide/contexts/game/game.tres" id="2_grrlh"]
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://levels/level1.tscn" id="5_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_5vw27"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_73k8k"]
+[ext_resource type="PackedScene" uid="uid://6awtsapo231u" path="res://ui/hud.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://32gl4r1eefhu" path="res://entities/player/player.tscn" id="8_5xyti"]
 [ext_resource type="PackedScene" uid="uid://dkr80d2pi0d41" path="res://addons/guide/debugger/guide_debugger.tscn" id="8_kek77"]
 [ext_resource type="PackedScene" uid="uid://cveyowqdvm0c3" path="res://entities/items/Pickup.tscn" id="9_kek77"]
@@ -22,6 +23,18 @@ tile_map_data = PackedByteArray("AAABAAAAAQACAAEAAAACAAAAAQACAAEAAAADAAAAAQACAAE
 position = Vector2(48, 48)
 level = NodePath("../Level")
 
+[node name="LaserPickup" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(80, 112)
+label_text = "laser"
+label_char = "L"
+level = NodePath("../Level")
+
+[node name="CapturePickup" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(112, 112)
+label_text = "capture"
+label_char = "C"
+level = NodePath("../Level")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(192, 52)
 limit_left = -128
@@ -36,6 +49,9 @@ process_physics_priority = 300
 script = ExtResource("7_73k8k")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
+[node name="HUD" parent="." node_paths=PackedStringArray("players") instance=ExtResource("7_kek77")]
+players = [NodePath("../World/Player")]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 scale = Vector2(0.5, 0.5)
@@ -49,13 +65,3 @@ offset_bottom = 56.0
 initial_node_to_watch = NodePath("../../World/Player")
 
 [node name="GuideDebugger" parent="CanvasLayer" instance=ExtResource("8_kek77")]
-
-[node name="L" parent="." node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
-position = Vector2(80, 112)
-label_text = "L"
-level = NodePath("../World/Level")
-
-[node name="C" parent="." node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
-position = Vector2(112, 112)
-label_text = "C"
-level = NodePath("../World/Level")
