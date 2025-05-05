@@ -50,7 +50,7 @@ func _on_capture_component_successful_capture(cell) -> void:
 
     finished_capturing.play()
 
-    var found_pickup: Pickup = pickup(cell)
+    var found_pickup: Pickup = pickup_at(cell)
     if not found_pickup: return
 
     var tween = create_tween()
@@ -58,7 +58,7 @@ func _on_capture_component_successful_capture(cell) -> void:
         picked_up.emit(found_pickup)
     ).set_delay(finished_capturing.stream.get_length())
 
-func pickup(cell) -> Node:
+func pickup_at(cell) -> Node:
     var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
     var found_pickup: Node
 
