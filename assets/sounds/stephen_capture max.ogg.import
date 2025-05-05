@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://v6slhw2khias"
+path="res://.godot/imported/stephen_capture max.ogg-7ce35c205343e79102fda2361ade8aef.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/stephen_capture max.ogg"
+dest_files=["res://.godot/imported/stephen_capture max.ogg-7ce35c205343e79102fda2361ade8aef.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
