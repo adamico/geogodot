@@ -29,8 +29,44 @@ label_text = "laser"
 label_char = "L"
 level = NodePath("../Level")
 
+[node name="LaserPickup2" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(80, 144)
+label_text = "laser"
+label_char = "L"
+level = NodePath("../Level")
+
+[node name="LaserPickup3" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(80, 175)
+label_text = "laser"
+label_char = "L"
+level = NodePath("../Level")
+
+[node name="LaserPickup4" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(80, 208)
+label_text = "laser"
+label_char = "L"
+level = NodePath("../Level")
+
 [node name="CapturePickup" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
 position = Vector2(112, 112)
+label_text = "capture"
+label_char = "C"
+level = NodePath("../Level")
+
+[node name="CapturePickup2" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(112, 144)
+label_text = "capture"
+label_char = "C"
+level = NodePath("../Level")
+
+[node name="CapturePickup3" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(112, 175)
+label_text = "capture"
+label_char = "C"
+level = NodePath("../Level")
+
+[node name="CapturePickup4" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("9_kek77")]
+position = Vector2(112, 208)
 label_text = "capture"
 label_char = "C"
 level = NodePath("../Level")
