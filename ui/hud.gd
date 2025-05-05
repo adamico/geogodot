@@ -26,7 +26,8 @@ func _process(_delta: float) -> void:
 func process_labels_for(stat_name) -> void:
     for player in players:
         var stat_value = player.stats_component.get(stat_name)
-        var stat_labels = get_tree().get_nodes_in_group(stat_name)
+        var group_name = stat_name + "_p" + str(player.number+1) 
+        var stat_labels = get_tree().get_nodes_in_group(group_name)
         for i in range(stat_value):
             var stat_label = stat_labels[i] as Label
             stat_label.set_label_settings(HUD_LABEL)

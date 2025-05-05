@@ -118,19 +118,19 @@ texture = ExtResource("4_en2x2")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="CaptureLevel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power"]]
+[node name="CaptureLevel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power_p1"]]
 unique_name_in_owner = true
 layout_mode = 2
 text = "C"
 label_settings = ExtResource("4_7ihmi")
 
-[node name="CaptureLevel2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power"]]
+[node name="CaptureLevel2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power_p1"]]
 unique_name_in_owner = true
 layout_mode = 2
 text = "C"
 label_settings = ExtResource("4_7ihmi")
 
-[node name="CaptureLevel3" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power"]]
+[node name="CaptureLevel3" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["capture_power_p1"]]
 unique_name_in_owner = true
 layout_mode = 2
 text = "C"
@@ -142,19 +142,19 @@ texture = ExtResource("4_en2x2")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="LaserLevel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power"]]
+[node name="LaserLevel" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power_p1"]]
 unique_name_in_owner = true
 layout_mode = 2
 text = "L"
 label_settings = ExtResource("4_7ihmi")
 
-[node name="LaserLevel2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power"]]
+[node name="LaserLevel2" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power_p1"]]
 unique_name_in_owner = true
 layout_mode = 2
 text = "L"
 label_settings = ExtResource("4_7ihmi")
 
-[node name="LaserLevel3" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power"]]
+[node name="LaserLevel3" type="Label" parent="CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/VBoxContainer/PowerupContainer" groups=["laser_power_p1"]]
 unique_name_in_owner = true
 layout_mode = 2
 text = "L"
