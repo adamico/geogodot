@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://pfdv51lppmck" path="res://addons/godot_state_charts/not_guard.gd" id="13_b2kln"]
 [ext_resource type="Script" uid="uid://bjd6fsu3o1ya5" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="16_eyb6c"]
 [ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="16_vewsg"]
-[ext_resource type="AudioStream" uid="uid://c8vaj36vv6y63" path="res://assets/sounds/lowRandom.ogg" id="17_2soq1"]
 [ext_resource type="PackedScene" uid="uid://b1pscxvfjwley" path="res://entities/projectile/laser.tscn" id="18_221hk"]
 [ext_resource type="AudioStream" uid="uid://pfjv31c71468" path="res://assets/sounds/zapThreeToneUp_short.ogg" id="18_geky7"]
 [ext_resource type="AudioStream" uid="uid://cu2hkn7dj1063" path="res://assets/sounds/radar3_start.ogg" id="18_mtric"]
@@ -24,8 +23,9 @@
 [ext_resource type="Script" uid="uid://87on3p4ch1e7" path="res://components/capture_component.gd" id="19_np63p"]
 [ext_resource type="Script" uid="uid://cxi71uw5oq6an" path="res://components/grid_move_component.gd" id="20_2soq1"]
 [ext_resource type="AudioStream" uid="uid://d1157syoti6fr" path="res://assets/sounds/radar3_stop.ogg" id="20_221hk"]
+[ext_resource type="AudioStream" uid="uid://coc60monvp7gs" path="res://assets/sounds/capture.mp3" id="20_pacje"]
 [ext_resource type="AudioStream" uid="uid://cihaispit321r" path="res://assets/sounds/up.mp3" id="20_qwspa"]
-[ext_resource type="AudioStream" uid="uid://coc60monvp7gs" path="res://assets/sounds/capture.mp3" id="20_r633c"]
+[ext_resource type="AudioStream" uid="uid://bwflp4ff00aj5" path="res://assets/sounds/lowRandom_norm.ogg" id="20_r633c"]
 [ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/shoot_component.gd" id="21_0eo6o"]
 [ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="21_221hk"]
 [ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="22_8q4fm"]
@@ -566,7 +566,7 @@ stream = ExtResource("20_221hk")
 stream = ExtResource("16_vewsg")
 
 [node name="Capturing" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("17_2soq1")
+stream = ExtResource("20_r633c")
 parameters/looping = true
 
 [node name="FinishedCapturing" type="AudioStreamPlayer" parent="Sounds"]
@@ -577,7 +577,8 @@ volume_db = -4.0
 stream = ExtResource("19_geky7")
 
 [node name="Capture" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("20_r633c")
+stream = ExtResource("20_pacje")
+volume_db = 6.0
 
 [node name="Up" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("20_qwspa")
