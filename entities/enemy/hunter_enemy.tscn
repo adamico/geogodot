@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=14 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
 [ext_resource type="Texture2D" uid="uid://ohx4cuoac64h" path="res://assets/sprites/simpleSpace_tilesheet.png" id="2_48u5j"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="5_3am2s"]
 [ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="6_odcmk"]
 [ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="7_7euji"]
+[ext_resource type="PackedScene" uid="uid://dgvae28w5k7of" path="res://components/health_bar.tscn" id="8_7euji"]
 [ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="8_ac1bw"]
 [ext_resource type="Script" uid="uid://c5fv5s7nwj6q6" path="res://components/base_ai_component.gd" id="9_3am2s"]
 [ext_resource type="Script" uid="uid://cxi71uw5oq6an" path="res://components/grid_move_component.gd" id="10_odcmk"]
@@ -104,9 +105,21 @@ to = NodePath("../../Calm")
 event = &"player_stops_capturing"
 delay_in_seconds = "0.0"
 
+[node name="OnPlayerDead" type="Node" parent="StateChart/Root/Emotion/Alerted" index="1"]
+script = ExtResource("7_7euji")
+to = NodePath("../../Calm")
+event = &"player_dead"
+delay_in_seconds = "0.0"
+
 [node name="Angry" type="Node" parent="StateChart/Root/Emotion" index="2"]
 script = ExtResource("6_odcmk")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="OnPlayerDead" type="Node" parent="StateChart/Root/Emotion/Angry" index="0"]
+script = ExtResource("7_7euji")
+to = NodePath("../../Calm")
+event = &"player_dead"
+delay_in_seconds = "0.0"
 
 [node name="Task" type="Node" parent="StateChart/Root" index="1"]
 script = ExtResource("5_3am2s")
@@ -154,31 +167,37 @@ delay_in_seconds = "1.0"
 [node name="StatsComponent" parent="." index="2"]
 health = 3.0
 
+[node name="HealthBar" parent="." index="3" node_paths=PackedStringArray("stats_component") instance=ExtResource("8_7euji")]
+stats_component = NodePath("../StatsComponent")
+
+[node name="HurtboxComponent" parent="." index="4" node_paths=PackedStringArray("flash_component")]
+flash_component = NodePath("../FlashComponent")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
 self_modulate = Color(1, 0.04, 0.04, 1)
 polygon = PackedVector2Array(-15, 1, -15, -1, -1, -15, 1, -15, 15, -1, 15, 1, 1, 15, -1, 15)
 
-[node name="HitboxComponent" parent="." index="4"]
+[node name="HitboxComponent" parent="." index="5"]
 collision_mask = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent" index="0"]
 self_modulate = Color(0, 0.0666666, 1, 1)
 polygon = PackedVector2Array(-10, 0, 0, -10, 10, 0, 0, 10)
 
-[node name="FlashComponent" parent="." index="6"]
+[node name="FlashComponent" parent="." index="7"]
 flash_material = ExtResource("8_ac1bw")
 flash_duration = 0.1
 
-[node name="ShakeComponent" parent="." index="7" node_paths=PackedStringArray("node")]
+[node name="ShakeComponent" parent="." index="8" node_paths=PackedStringArray("node")]
 node = NodePath("../AnimatedSprite2D")
 
-[node name="BaseAIComponent" type="Node2D" parent="." index="10" node_paths=PackedStringArray("state_chart", "actor")]
+[node name="BaseAIComponent" type="Node2D" parent="." index="11" node_paths=PackedStringArray("state_chart", "actor")]
 script = ExtResource("9_3am2s")
 state_chart = NodePath("../StateChart")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://c5fv5s7nwj6q6"
 
-[node name="GridMoveComponent" type="Node" parent="." index="11" node_paths=PackedStringArray("actor", "sprite", "state_chart")]
+[node name="GridMoveComponent" type="Node" parent="." index="12" node_paths=PackedStringArray("actor", "sprite", "state_chart")]
 script = ExtResource("10_odcmk")
 actor = NodePath("..")
 sprite = NodePath("../AnimatedSprite2D")
@@ -186,7 +205,7 @@ state_chart = NodePath("../StateChart")
 speed = 0.5
 metadata/_custom_type_script = "uid://cxi71uw5oq6an"
 
-[node name="RayCast2D" type="RayCast2D" parent="." index="12"]
+[node name="RayCast2D" type="RayCast2D" parent="." index="13"]
 
 [connection signal="state_processing" from="StateChart/Root/Emotion/Calm" to="BaseAIComponent" method="_on_calm_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/Emotion/Alerted" to="BaseAIComponent" method="_on_alerted_state_processing"]

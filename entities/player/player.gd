@@ -1,7 +1,7 @@
 class_name Player
 extends Node2D
 
-signal picked_up(item)
+signal dead
 
 @export var level: TileMapLayer
 @export var capture_action: GUIDEAction
@@ -9,19 +9,18 @@ signal picked_up(item)
 @export var shoot_action: GUIDEAction
 @export var target_action: GUIDEAction
 @export var number: int
+@export var health_progress_bar: ProgressBar
 
 var captured_cells: PackedVector2Array
 
+@onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = $CaptureComponent
 @onready var grid_move_component: GridMoveComponent = $GridMoveComponent
 @onready var shoot_component: ShootComponent = $ShootComponent
 @onready var stats_component: StatsComponent = $StatsComponent
 @onready var target_component: TargetComponent = $TargetComponent
-@onready var finished_capturing: AudioStreamPlayer = $Sounds/FinishedCapturing
-@onready var capturing: AudioStreamPlayer = $Sounds/Capturing
-@onready var laser: AudioStreamPlayer = $Sounds/Laser
-@onready var capture: AudioStreamPlayer = $Sounds/Capture
-@onready var up: AudioStreamPlayer = $Sounds/Up
+@onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
+@onready var death_component: DeathComponent = $DeathComponent
 
 func _ready() -> void:
     position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
@@ -42,22 +41,6 @@ func _process(_delta: float) -> void:
     if not target_direction: return
     target_component.direction = target_direction
 
-func _on_capturing_state_entered() -> void:
-    capturing.play()
-
-func _on_capture_component_successful_capture(cell) -> void:
-    set_captured(cell)
-
-    finished_capturing.play()
-
-    var found_pickup: Pickup = pickup_at(cell)
-    if not found_pickup: return
-
-    var tween = create_tween()
-    tween.tween_callback(func() -> void:
-        picked_up.emit(found_pickup)
-    ).set_delay(finished_capturing.stream.get_length())
-
 func pickup_at(cell) -> Node:
     var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
     var found_pickup: Node
@@ -70,3 +53,15 @@ func pickup_at(cell) -> Node:
 func set_captured(cell) -> void:
     level.set_cell(cell, 1, Vector2i(number+1, 0))
     captured_cells.append(cell)
+
+func _on_capture_component_successful_capture(cell) -> void:
+    set_captured(cell)
+    finished_capturing_sound.play()
+
+    var found_pickup: Pickup = pickup_at(cell)
+    if not found_pickup: return
+
+    var tween = create_tween()
+    tween.tween_callback(func() -> void:
+        found_pickup.reveal.emit()
+    ).set_delay(finished_capturing_sound.stream.get_length())

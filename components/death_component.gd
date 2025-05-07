@@ -6,8 +6,9 @@ extends Node
 @export var death_effect_spawner_component: SpawnerComponent
 
 func _ready() -> void:
-	stats_component.no_health.connect(die)
+    stats_component.no_health.connect(die)
 
 func die() -> void:
-	death_effect_spawner_component.spawn(actor.global_position)
-	actor.queue_free()
+    death_effect_spawner_component.spawn(actor.global_position)
+    if actor.has_signal("dead"): actor.dead.emit()
+    actor.queue_free()

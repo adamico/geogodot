@@ -1,17 +1,16 @@
 class_name StatsComponent
 extends Node
 
-signal health_changed
+signal health_changed(health_value)
 signal no_health
 signal power_changed
 signal power_up
 signal power_max
 
-
 @export var health: = 1.0:
     set(value):
         health = value
-        health_changed.emit()
+        health_changed.emit(value)
         if health == 0: no_health.emit()
 
 @export var capture_power:= 0:

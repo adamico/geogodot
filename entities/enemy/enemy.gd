@@ -17,8 +17,8 @@ var player: Player
 
 func _ready() -> void:
     player = get_tree().get_first_node_in_group("players")
-    player.capturing.connect(_on_player_capturing)
-    player.stop_capturing.connect(_on_player_stop_capturing)
+    player.capture_component.capture.connect(_on_player_capturing)
+    player.capture_component.stop_capture.connect(_on_player_stop_capturing)
     hurtbox_component.hurt.connect(func(_hitbox_component: HitboxComponent):
         flash_component.flash()
         shake_component.tween_shake()
@@ -28,6 +28,11 @@ func _ready() -> void:
     base_ai_component.level = level
     base_ai_component.player = player
     base_ai_component.home_position = global_position
+
+    player.dead.connect(_on_player_dead)
+
+func _on_player_dead() -> void:
+    state_chart.send_event("player_dead")
 
 func _on_player_capturing() -> void:
     state_chart.send_event("player_is_capturing")

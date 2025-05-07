@@ -12,6 +12,7 @@ var player: Player
 
 func _ready() -> void:
     setup_astar_grid.call_deferred()
+    player = get_tree().get_first_node_in_group("players")
 
 func setup_astar_grid() -> void:
     astar_grid.region = level.get_used_rect()
