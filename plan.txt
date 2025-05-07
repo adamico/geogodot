@@ -1,92 +1,107 @@
 GeoArena "temp title"
 
 in this game the player has to
-	- capture a % of squares in a grid
-		- to capture a square the player must stand on a square and hold a button until the process ends
-		- capture time can be improved with power ups
-		- some monsters can also capture squares and these must be captured in two steps
-		- captured squares can contain power up shards
-	- kill monsters
-		- the player can ram monsters to reduce their health (and the player's)
-		- the player can acquire a laser weapon through power ups
-		- monsters can drop a Grow shard
-		- monsters can have different components (or lack one)
-			- movement
-			- shoot
-			- capture
-			
-	- get stronger with powerups
-		- to obtain a powerup the player needs three letter shards of the same type
-		- types:
-			- (L)aser => acquire a laser weapon and increase rate of fire
-			- (C)apture => increase capture speed
-			- (S)peed => increase movement speed
-			- (A)rmor => reduce damage taken and increase ram damage
-			- (G)row  => grow player body segments
-	- change form
-		- when the player body grows segments (O-O) the form can be changed with a button
-		- each segment can perform any action the player does:
-			- capture multiple squares
-			- fire multiple bullets
-			- ram multiple monsters
+    - capture a % of squares in a grid
+        - to capture a square the player must target a square and hold a button until the process ends
+        - capture time can be improved with power ups
+        - captured squares can reveal an item which can be collected right away or kept in the spot for future use
+    - survive waves of enemies
+    - get stronger with powerups either by capturing squares (hidden loot) or killing monsters (dropped loot)
 
-TODO:
+game loop:
+    1) game is divided in levels
+    2) to complete a level a certain number of cells must be captured (60-70%?)
+    3) to get to the next level a gate must be found
 
-Scenes
-	- title screen
-	- end of level
-	- back to main game
-	- game over
-	- back to title
-	- pause
+    level:
+    - a level is chosen from a set (different layouts)
+    - each level has a fixed elements:
+        - cells layout:
+            - monster spawn points which spawn monsters continuously in waves and give special loot at the end of the wave:
+                - R => reveal cells in a radius
+                - key_icon => a door to instantly go to the next level
+                - weapon type => new type of shooting pattern
+                - other stuff
+        - location of capturable cells
+        - other fixed elements (heal zones, fixed and weak defense turrets?)
+    - each level has different random elements:
+        - each capturable cell contain randomized loot
+    - the final objective is activated when the captured percentage threshold is reached:
+        - survive: survive the final wave
+        - boss: kill the boss
+        - search: find the key (randomly generated in a non captured cell after the objective is activated)
+        - conquer: reach 90% captured
+     - each final objective can be guessed either by:
+        - the kind of monsters spawned
+        - the level decorations
+        - the level "biome"
+    - the gate to the next level is revealed when the final objective is achieved
 
-Entities
-  Player
-	- add muzzle flash 
-	- add separate shooting turret sprite that rotates with the target action direction
-	- add hover ?
-  Loot (custom resource)
-  Explosion (particle system)
-  Arena Exit?
-  Floating Text
+    enemy:
+        - has different emotions:
+            - calm (do nothing)
+            - bored (find something to do)
+            - alerted (investigate)
+            - angry (attack the player)
+            - confused (randomly chooses an emotion)
+        - can spawn with different modules:
+            - capture
+            - movement
+            - shooting
+        - can be of different ranks:
+            - normal
+            - elite
+        - has a fixed home position where it spawns from and goes back to when not aggressive
+        - can have different behaviors:
+            - passive:
+                - base behavior: permanent confused emotion
+                - C: captures random cells
+                - M: moves to random cells within its home
+                - S: shoots randomly
+            - neutral:
+                - base behavior: calm, bored (gets angry if attacked)
+                - C: doesn't capture cells
+                - M: moves to random cells within its home
+                - S: shoots if angry
+            - protective:
+                - base behavior: calm, bored, alerted (gets angry if it sees a player)
+                - C: captures cells around its home
+                - M: moves to the location of a capturing player
+                - S: kytes the player
+            - aggressive:
+                - base behavior: always angry
+                - C: doesn't capture cells
+                - M: homes in to the nearest player
+                - S: always shoots when a player is in radius
 
-GameLoop
-  Title
-	- add cursor to click buttons with keyboard or gamepad or touch
-	- move cursor to select buttons
-  Play
-	- calculate decrease capture score when enemies or other players capture another player's cells
-	- implement loot in captured tile
-	- enemies drop loot
+    loot:
+        - (L)aser => acquire a laser weapon and increase rate of fire
+        - (C)apture => increase capture speed
+        - (S)peed => increase movement speed
+        - (A)rmor => reduce damage taken and increase ram damage
+        - (G)row  => grow player body segments
+        - (K)eep => keep gained powerups after dying
+        - (F)reeze => temporarily freeze monsters
+        - (R)adar => reveal cell loot in a zone
 
-Old ★todo★
+** Maybe
+- add player copies (options) with special loot
+- game modes (infinite, coop, free for all, pvp, true survivor (exp with skills))
+- meta progression
 
--- add key as loot to activate
---  portal to next level
-
--- more level layouts
-
--- more enemies
--- monster level pools
--- end game
-
--- add k powerup to retain
---   s,c,l
-
--- add f powerup to freeze mobs
-
--- add r powerup for radar
-
--- add rare loot to retain size
---  after death
-
--- zoundz
---  size up
-
--- game modes
--- preroll level
--- achievements
--- add juiciness
-
--- enlarge bullets with laser power
--- logo
+TODO
+Title
+    - cursor to click buttons with keyboard or gamepad or touch
+    - move cursor to select buttons
+Play
+    - calculate decrease capture score when enemies or other players capture another player's cells
+    - show loot after capturing a cell
+    - enemies drop loot
+Sounds
+    - size up/max
+    - armor up/max
+    - grow up/max
+Juiciness
+    - enlarge bullets with laser power
+    - logo
+    - screen shake
