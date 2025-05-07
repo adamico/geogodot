@@ -6,11 +6,14 @@ extends Node2D
 @export var laser_scene: PackedScene
 @export var target_component: TargetComponent
 @export var shoot_sound: AudioStreamPlayer
+@export var stats_component: StatsComponent
 
 const CROSSHAIR_102 = preload("res://assets/sprites/crosshair102.png")
 const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
 
 @onready var target_animation_player: AnimationPlayer = $"../TargetComponent/AnimationPlayer"
+@onready var to_can_shoot: Transition = $"../StateChart/ParallelState/Shoot/Cooldown/ToCanShoot"
+
 
 func fire_laser() -> void:
     target_component.texture = CROSSHAIR_102
@@ -29,6 +32,8 @@ func spawn_laser() -> void:
     actor.add_sibling(laser)
 
 func _on_cooldown_state_entered() -> void:
+    var shoot_cooldown = 1.0 / (stats_component.laser_power + 1)
+    to_can_shoot.delay_seconds = shoot_cooldown
     target_animation_player.play("shoot_target_flash_red_once")
     shoot_sound.play()
     spawn_laser()

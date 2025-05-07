@@ -620,13 +620,14 @@ state_chart = NodePath("../StateChart")
 speed = 0.35
 metadata/_custom_type_script = "uid://cxi71uw5oq6an"
 
-[node name="ShootComponent" type="Node2D" parent="." node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound")]
+[node name="ShootComponent" type="Node2D" parent="." node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
 script = ExtResource("21_0eo6o")
 actor = NodePath("..")
 state_chart = NodePath("../StateChart")
 laser_scene = ExtResource("18_221hk")
 target_component = NodePath("../TargetComponent")
 shoot_sound = NodePath("../Sounds/ShootSound")
+stats_component = NodePath("../StatsComponent")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
 [node name="TargetComponent" type="Sprite2D" parent="."]
@@ -666,6 +667,8 @@ limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="CollectorComponent" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("31_2h0qb")
 metadata/_custom_type_script = "uid://dp65ygycaj2yt"
 
@@ -722,9 +725,10 @@ stats_component = NodePath("../StatsComponent")
 hurtbox_component = NodePath("../HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
 
-[node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
+[node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "collector_component")]
 script = ExtResource("36_wy7bt")
 actor = NodePath("..")
+collector_component = NodePath("../CollectorComponent")
 metadata/_custom_type_script = "uid://csqkc8o4iruir"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

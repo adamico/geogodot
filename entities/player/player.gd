@@ -9,7 +9,6 @@ signal dead
 @export var shoot_action: GUIDEAction
 @export var target_action: GUIDEAction
 @export var number: int
-@export var health_progress_bar: ProgressBar
 
 var captured_cells: PackedVector2Array
 

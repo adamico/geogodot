@@ -103,7 +103,7 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_1v5rv")
 theme_override_styles/fill = ExtResource("4_q43x7")
-max_value = 4.0
+max_value = 3.0
 step = 1.0
 show_percentage = false
 
@@ -153,7 +153,7 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_1v5rv")
 theme_override_styles/fill = ExtResource("6_srpbi")
-max_value = 4.0
+max_value = 3.0
 step = 1.0
 show_percentage = false
 

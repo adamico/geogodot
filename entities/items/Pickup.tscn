@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cveyowqdvm0c3"]
+[gd_scene load_steps=8 format=3 uid="uid://cveyowqdvm0c3"]
 
 [ext_resource type="Script" uid="uid://vao80xccugyn" path="res://entities/items/pickup.gd" id="1_2gfkv"]
 [ext_resource type="LabelSettings" uid="uid://dvexdbnp2dfb3" path="res://assets/fonts/default_label_settings.tres" id="1_2j1ux"]
+[ext_resource type="Script" uid="uid://dv1k3bweg37qr" path="res://components/collectable_component.gd" id="3_2gfkv"]
 
 [sub_resource type="Animation" id="Animation_2gfkv"]
 length = 0.001
@@ -41,6 +42,9 @@ _data = {
 &"label_color_pulse": SubResource("Animation_iwnf1")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2gfkv"]
+size = Vector2(16, 16)
+
 [node name="Pickup" type="Node2D" groups=["pickups"]]
 script = ExtResource("1_2gfkv")
 
@@ -64,3 +68,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_ewvfm")
 }
 autoplay = "label_color_pulse"
+
+[node name="CollectableComponent" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_2gfkv")
+metadata/_custom_type_script = "uid://dv1k3bweg37qr"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableComponent"]
+shape = SubResource("RectangleShape2D_2gfkv")

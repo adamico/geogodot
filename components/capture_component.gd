@@ -49,7 +49,7 @@ func _on_capturing_state_processing(delta: float) -> void:
 
     capture_progress_bar.show()
     if capture_progress_bar.value < 100:
-        capture_progress_bar.value += (50 + stats_component.capture_power/Constants.MAX_POWER * 60) * delta
+         capture_progress_bar.value += (50 + stats_component.capture_power/Constants.POWER_RANKS * 60) * delta
     else:
         state_chart.send_event("finished_capture")
 

@@ -3,7 +3,6 @@ extends Node
 
 signal health_changed(health_value)
 signal no_health
-signal power_changed
 signal power_up
 signal power_max
 
@@ -15,20 +14,30 @@ signal power_max
 
 @export var capture_power:= 0:
     set(value):
-        capture_power = clampi(value, 0, Constants.MAX_POWER)
-        power_changed.emit("capture")
-        if capture_power % Constants.POWER_RANKS > 0: return
+        capture_power = clampi(value, 0, Constants.POWER_RANKS)
         if capture_power == 0: return
-        if capture_power > Constants.MAX_POWER: return
-        if capture_power == Constants.MAX_POWER: power_max.emit("capture")
+        if capture_power > Constants.POWER_RANKS: return
+        if capture_power == Constants.POWER_RANKS: power_max.emit("capture")
         else: power_up.emit("capture")
 
 @export var laser_power:= 0:
     set(value):
-        laser_power = clampi(value, 0, Constants.MAX_POWER)
-        power_changed.emit(name)
-        if laser_power % Constants.POWER_RANKS == 0 and laser_power > 0 and laser_power <= Constants.MAX_POWER:
-            if laser_power != Constants.MAX_POWER:
-                power_up.emit("laser")
-            else:
-                power_max.emit("laser")
+        laser_power = clampi(value, 0, Constants.POWER_RANKS)
+        if laser_power == 0: return
+        if laser_power > Constants.POWER_RANKS: return
+        if laser_power == Constants.POWER_RANKS: power_max.emit("laser")
+        else: power_up.emit("laser")
+
+@export var capture_power_shards:= 0:
+    set(value):
+        capture_power_shards = clampi(value, 0, Constants.POWER_SHARDS)
+        if capture_power_shards == Constants.POWER_SHARDS:
+            capture_power += 1
+            capture_power_shards = 0
+
+@export var laser_power_shards:= 0:
+    set(value):
+        laser_power_shards = clampi(value, 0, Constants.POWER_SHARDS)
+        if laser_power_shards == Constants.POWER_SHARDS:
+            laser_power += 1
+            laser_power_shards = 0

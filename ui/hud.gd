@@ -22,18 +22,18 @@ func _process(_delta: float) -> void:
     ["capture_power", "laser_power"].map(process_labels_for)
 
 func process_labels_for(stat_name) -> void:
-    for player in players:
+    for player: Player in players:
         if not player: return
-        var stat_value = player.stats_component.get(stat_name)
+        var shards_value = player.stats_component.get(stat_name + "_shards")
+        var rank_value = player.stats_component.get(stat_name)
         var group_name: String = stat_name + "_p" + str(player.number+1)
-        var rank_index: int = round(stat_value / Constants.POWER_RANKS)
         var rank_texture_rect: TextureRect = get_node("%Rank" + group_name.to_pascal_case())
-        rank_texture_rect.texture = RANKS[rank_index]
+        rank_texture_rect.texture = RANKS[rank_value]
         var progress_bar_node_path = "%" + stat_name.to_pascal_case() + "BarP" + str(player.number+1)
         var progress_bar: ProgressBar = get_node(progress_bar_node_path)
-        if stat_value < Constants.MAX_POWER:
-            progress_bar.value = stat_value % Constants.POWER_RANKS
+        if rank_value < Constants.POWER_RANKS:
+            progress_bar.value = shards_value
             progress_bar.add_theme_stylebox_override("fill", POWER_BAR_FILL_STYLE)
         else:
-            progress_bar.value = Constants.POWER_RANKS
+            progress_bar.value = Constants.POWER_SHARDS
             progress_bar.add_theme_stylebox_override("fill", POWER_BAR_FILL_STYLE_MAX)
