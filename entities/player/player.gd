@@ -50,7 +50,7 @@ func pickup_at(cell) -> Node:
     return found_pickup
 
 func set_captured(cell) -> void:
-    level.set_cell(cell, 1, Vector2i(number+1, 0))
+    level.set_cell(cell, 0, Vector2i(number+1, 0))
     captured_cells.append(cell)
 
 func _on_capture_component_successful_capture(cell) -> void:

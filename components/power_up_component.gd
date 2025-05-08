@@ -17,9 +17,9 @@ func _ready() -> void:
 
 func _on_picked_up(pickup: Pickup) -> void:
     var current_power_value = stats_component.get(pickup.label_text + "_power")
-    var current_power_shards_value = stats_component.get(pickup.label_text + "_shards")
+    var current_power_shards_value = stats_component.get(pickup.label_text + "_power_shards")
     if current_power_value == Constants.POWER_RANKS: return
-    stats_component.call("@" + pickup.label_text + "_shards" + "_setter", current_power_shards_value + 1)
+    stats_component.call("@" + pickup.label_text + "_power_shards_setter", current_power_shards_value + 1)
     pickup.queue_free()
 
 func _on_stats_component_power_up(label) -> void:
