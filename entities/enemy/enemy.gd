@@ -16,6 +16,7 @@ var player: Player
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var flash_component: FlashComponent = $FlashComponent
 @onready var shake_component: ShakeComponent = $ShakeComponent
+@onready var moving: AtomicState = %Moving
 
 
 func _ready() -> void:
@@ -26,21 +27,15 @@ func _ready() -> void:
     player.capture_component.stop_capture.connect(_on_player_stop_capturing)
     player.dead.connect(_on_player_dead)
 
-    hurtbox_component.hurt.connect(func(_hitbox_component: HitboxComponent):
-            flash_component.flash()
-            shake_component.tween_shake()
-            state_chart.send_event("hurt_by_player")
-    )
-    stats_component.no_health.connect(queue_free)
+    hurtbox_component.hurt.connect(_on_hurt_by_player)
+    stats_component.no_health.connect(_on_no_health)
+
+    moving.state_processing.connect(_on_moving_state_processing)
 
     if not base_ai_component: return
     base_ai_component.level = level
     base_ai_component.player = player
     base_ai_component.home_position = global_position
-
-
-func _on_player_dead() -> void:
-    state_chart.send_event("player_dead")
 
 
 func _on_player_capturing() -> void:
@@ -49,6 +44,20 @@ func _on_player_capturing() -> void:
 
 func _on_player_stop_capturing() -> void:
     state_chart.send_event("player_stops_capturing")
+
+
+func _on_player_dead() -> void:
+    state_chart.send_event("player_dead")
+
+
+func _on_hurt_by_player(_hitbox_component: HitboxComponent) -> void:
+    flash_component.flash()
+    shake_component.tween_shake()
+    state_chart.send_event("hurt_by_player")
+
+
+func _on_no_health() -> void:
+    queue_free()
 
 
 func _on_moving_state_processing(_delta: float) -> void:

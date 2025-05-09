@@ -212,5 +212,3 @@ collision_mask = 2
 script = ExtResource("9_3am2s")
 state_chart = NodePath("../StateChart")
 metadata/_custom_type_script = "uid://c5fv5s7nwj6q6"
-
-[connection signal="state_processing" from="StateChart/Root/Task/Moving" to="." method="_on_moving_state_processing"]
