@@ -5,8 +5,10 @@ extends Sprite2D
 
 @onready var direction: Vector2
 
+
 func _ready() -> void:
     direction = Vector2.RIGHT
 
+
 func _physics_process(_delta: float) -> void:
-    create_tween().tween_property(self, "position", direction*Constants.TILE_SIZE, tween_position_speed)
+    create_tween().tween_property(self, "position", direction * Constants.TILE_SIZE, tween_position_speed)

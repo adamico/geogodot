@@ -1,6 +1,8 @@
 class_name Enemy
 extends Node2D
 
+signal dead
+
 @export var level: TileMapLayer
 @export var state_chart: StateChart
 @export var base_ai_component: BaseAIComponent
@@ -15,30 +17,39 @@ var player: Player
 @onready var flash_component: FlashComponent = $FlashComponent
 @onready var shake_component: ShakeComponent = $ShakeComponent
 
+
 func _ready() -> void:
+    add_to_group("enemies")
+
     player = get_tree().get_first_node_in_group("players")
     player.capture_component.capture.connect(_on_player_capturing)
     player.capture_component.stop_capture.connect(_on_player_stop_capturing)
+    player.dead.connect(_on_player_dead)
+
     hurtbox_component.hurt.connect(func(_hitbox_component: HitboxComponent):
-        flash_component.flash()
-        shake_component.tween_shake()
-        state_chart.send_event("hurt_by_player")
+            flash_component.flash()
+            shake_component.tween_shake()
+            state_chart.send_event("hurt_by_player")
     )
     stats_component.no_health.connect(queue_free)
+
+    if not base_ai_component: return
     base_ai_component.level = level
     base_ai_component.player = player
     base_ai_component.home_position = global_position
 
-    player.dead.connect(_on_player_dead)
 
 func _on_player_dead() -> void:
     state_chart.send_event("player_dead")
 
+
 func _on_player_capturing() -> void:
     state_chart.send_event("player_is_capturing")
 
+
 func _on_player_stop_capturing() -> void:
     state_chart.send_event("player_stops_capturing")
+
 
 func _on_moving_state_processing(_delta: float) -> void:
     if base_ai_component.path.is_empty():

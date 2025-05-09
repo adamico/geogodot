@@ -18,10 +18,12 @@ var captured_cells: PackedVector2Array
 @onready var shoot_component: ShootComponent = $ShootComponent
 @onready var stats_component: StatsComponent = $StatsComponent
 @onready var target_component: TargetComponent = $TargetComponent
-@onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
+@onready var finished_capturing_sound: AudioStreamPlayer = $Sounds / FinishedCapturing
 @onready var death_component: DeathComponent = $DeathComponent
 
+
 func _ready() -> void:
+    add_to_group("players")
     position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
 
@@ -32,6 +34,7 @@ func _ready() -> void:
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
 
+
 func _process(_delta: float) -> void:
     var input_direction: Vector2 = move_action.value_axis_2d
     grid_move_component.move(input_direction)
@@ -40,18 +43,6 @@ func _process(_delta: float) -> void:
     if not target_direction: return
     target_component.direction = target_direction
 
-func pickup_at(cell) -> Node:
-    var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
-    var found_pickup: Node
-
-    for a_pickup: Pickup in pickups:
-        if a_pickup.map_position == cell: found_pickup = a_pickup
-
-    return found_pickup
-
-func set_captured(cell) -> void:
-    level.set_cell(cell, 0, Vector2i(number+1, 0))
-    captured_cells.append(cell)
 
 func _on_capture_component_successful_capture(cell) -> void:
     set_captured(cell)
@@ -62,5 +53,20 @@ func _on_capture_component_successful_capture(cell) -> void:
 
     var tween = create_tween()
     tween.tween_callback(func() -> void:
-        found_pickup.reveal.emit()
+            found_pickup.reveal.emit()
     ).set_delay(finished_capturing_sound.stream.get_length())
+
+
+func pickup_at(cell) -> Node:
+    var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
+    var found_pickup: Node
+
+    for a_pickup: Pickup in pickups:
+        if a_pickup.map_position == cell: found_pickup = a_pickup
+
+    return found_pickup
+
+
+func set_captured(cell) -> void:
+    level.set_cell(cell, 0, Vector2i(number + 1, 0))
+    captured_cells.append(cell)

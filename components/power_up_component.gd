@@ -10,10 +10,12 @@ extends Node
 @onready var up_sound: AudioStreamPlayer = $"../Sounds/Up"
 @onready var max_sound: AudioStreamPlayer = $"../Sounds/Max"
 
+
 func _ready() -> void:
     stats_component.power_up.connect(_on_stats_component_power_up)
     stats_component.power_max.connect(_on_stats_component_power_max)
     collector_component.picked_up.connect(_on_picked_up)
+
 
 func _on_picked_up(pickup: Pickup) -> void:
     var current_power_value = stats_component.get(pickup.label_text + "_power")
@@ -22,11 +24,14 @@ func _on_picked_up(pickup: Pickup) -> void:
     stats_component.call("@" + pickup.label_text + "_power_shards_setter", current_power_shards_value + 1)
     pickup.queue_free()
 
+
 func _on_stats_component_power_up(label) -> void:
     play_sound_for(label, "up")
 
+
 func _on_stats_component_power_max(label) -> void:
     play_sound_for(label, "max")
+
 
 func play_sound_for(label, suffix) -> void:
     var pickup_sounds: Dictionary = {
@@ -36,8 +41,9 @@ func play_sound_for(label, suffix) -> void:
 
     pickup_sounds[label].play()
     create_tween().tween_callback(func() -> void:
-        if suffix == "up": up_sound.play() else: max_sound.play()
-    ).set_delay(laser.stream.get_length()-1.3)
+            if suffix == "up": up_sound.play() else: max_sound.play()
+    ).set_delay(laser.stream.get_length() - 1.3)
+
 
 func power_maxed(label) -> bool:
     var current_power_value = stats_component.get(label + "_power")

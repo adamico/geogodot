@@ -4,7 +4,6 @@ extends Node2D
 
 @onready var move_component: MoveComponent = $MoveComponent
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
-@onready var sprite: Sprite2D = $Sprite2D
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
 
 func _ready() -> void:
