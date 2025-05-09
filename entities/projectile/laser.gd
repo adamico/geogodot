@@ -13,7 +13,7 @@ func _ready() -> void:
     hitbox_component.hit_hurtbox.connect(_on_hit)
 
 
-func _on_hit() -> void:
+func _on_hit(hurtbox) -> void:
     queue_free()
 
 

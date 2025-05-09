@@ -19,6 +19,7 @@ func _ready() -> void:
     ray_cast_2d.target_position = Vector2.DOWN * Constants.TILE_SIZE
     not_moving.state_processing.connect(_on_not_moving_state_processing)
     moving.state_exited.connect(_on_moving_state_exited)
+
     cannot_move.state_processing.connect(_on_cannot_move_state_processing)
     cannot_move.state_exited.connect(_on_cannot_move_state_exited)
 

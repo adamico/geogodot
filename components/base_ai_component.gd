@@ -13,7 +13,7 @@ var player: Player
 @onready var calm: AtomicState = %Calm
 @onready var alerted: AtomicState = %Alerted
 @onready var angry: AtomicState = %Angry
-@onready var search: AtomicState = %Search
+@onready var not_moving: AtomicState = %NotMoving
 @onready var moving: AtomicState = %Moving
 @onready var stop_moving: AtomicState = %StopMoving
 
@@ -26,7 +26,7 @@ func _ready() -> void:
     calm.state_processing.connect(_on_calm_state_processing)
     alerted.state_processing.connect(_on_alerted_state_processing)
     angry.state_processing.connect(_on_angry_state_processing)
-    search.state_processing.connect(_on_search_state_processing)
+    not_moving.state_processing.connect(_on_not_moving_state_processing)
 
 
 func _on_calm_state_processing(_delta: float) -> void:
@@ -50,7 +50,7 @@ func _on_angry_state_processing(_delta: float) -> void:
     )
 
 
-func _on_search_state_processing(_delta: float) -> void:
+func _on_not_moving_state_processing(_delta: float) -> void:
     if path.is_empty():
         state_chart.send_event("no_path")
     else:

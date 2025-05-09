@@ -126,19 +126,19 @@ delay_in_seconds = "0.0"
 
 [node name="Task" type="Node" parent="StateChart/Root" index="1"]
 script = ExtResource("5_3am2s")
-initial_state = NodePath("Search")
+initial_state = NodePath("NotMoving")
 
-[node name="Search" type="Node" parent="StateChart/Root/Task" index="0"]
+[node name="NotMoving" type="Node" parent="StateChart/Root/Task" index="0"]
 unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 
-[node name="OnTryMove" type="Node" parent="StateChart/Root/Task/Search" index="0"]
+[node name="OnTryMove" type="Node" parent="StateChart/Root/Task/NotMoving" index="0"]
 script = ExtResource("7_7euji")
 to = NodePath("../../Moving")
 event = &"move"
 delay_in_seconds = "0.0"
 
-[node name="OnNoPath" type="Node" parent="StateChart/Root/Task/Search" index="1"]
+[node name="OnNoPath" type="Node" parent="StateChart/Root/Task/NotMoving" index="1"]
 script = ExtResource("7_7euji")
 to = NodePath("../../StopMoving")
 event = &"no_path"
@@ -150,7 +150,7 @@ script = ExtResource("6_odcmk")
 
 [node name="OnStopMoving" type="Node" parent="StateChart/Root/Task/Moving" index="0"]
 script = ExtResource("7_7euji")
-to = NodePath("../../Search")
+to = NodePath("../../NotMoving")
 event = &"stop_move"
 delay_in_seconds = "0.0
 "
@@ -167,8 +167,13 @@ script = ExtResource("6_odcmk")
 
 [node name="ToCanMove" type="Node" parent="StateChart/Root/Task/StopMoving" index="0"]
 script = ExtResource("7_7euji")
-to = NodePath("../../Search")
+to = NodePath("../../NotMoving")
 delay_in_seconds = "1.0"
+
+[node name="CannotMove" type="Node" parent="StateChart/Root/Task" index="3"]
+unique_name_in_owner = true
+script = ExtResource("6_odcmk")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
 [node name="StatsComponent" parent="." index="2"]
 health = 3.0
