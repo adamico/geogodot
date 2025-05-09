@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=84 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -17,7 +17,6 @@
 [ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="16_vewsg"]
 [ext_resource type="PackedScene" uid="uid://b1pscxvfjwley" path="res://entities/projectile/laser.tscn" id="18_221hk"]
 [ext_resource type="AudioStream" uid="uid://pfjv31c71468" path="res://assets/sounds/zapThreeToneUp_short.ogg" id="18_geky7"]
-[ext_resource type="AudioStream" uid="uid://cu2hkn7dj1063" path="res://assets/sounds/radar3_start.ogg" id="18_mtric"]
 [ext_resource type="AudioStream" uid="uid://yv26nt7ccgbi" path="res://assets/sounds/radar3_loop.ogg" id="19_eyb6c"]
 [ext_resource type="Script" uid="uid://87on3p4ch1e7" path="res://components/capture_component.gd" id="19_np63p"]
 [ext_resource type="AudioStream" uid="uid://cjfcpyjhk1k55" path="res://assets/sounds/f_laser.ogg" id="19_r633c"]
@@ -559,17 +558,17 @@ text = "0,0"
 
 [node name="Sounds" type="Node" parent="."]
 
-[node name="StartMoving" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("18_mtric")
-
 [node name="Moving" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("19_eyb6c")
+volume_db = -12.0
 
 [node name="StopMoving" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("20_221hk")
+volume_db = -12.0
 
 [node name="ShootSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("16_vewsg")
+volume_db = 12.0
 
 [node name="Capturing" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("20_r633c")

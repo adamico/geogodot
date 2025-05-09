@@ -11,6 +11,7 @@ signal dead
 @export var number: int
 
 var captured_cells: PackedVector2Array
+var input_direction: Vector2
 
 @onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = $CaptureComponent
@@ -18,14 +19,20 @@ var captured_cells: PackedVector2Array
 @onready var shoot_component: ShootComponent = $ShootComponent
 @onready var stats_component: StatsComponent = $StatsComponent
 @onready var target_component: TargetComponent = $TargetComponent
-@onready var finished_capturing_sound: AudioStreamPlayer = $Sounds / FinishedCapturing
+@onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
 @onready var death_component: DeathComponent = $DeathComponent
+@onready var moving: AtomicState = %Moving
+@onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
+@onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
 
 
 func _ready() -> void:
     add_to_group("players")
     position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
+
+    move_action.completed.connect(_on_stopped_moving)
+    move_action.triggered.connect(_on_started_moving)
 
     capture_component.level = level
     capture_action.triggered.connect(capture_component.try_capture)
@@ -36,12 +43,21 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-    var input_direction: Vector2 = move_action.value_axis_2d
+    input_direction = move_action.value_axis_2d
     grid_move_component.move(input_direction)
 
     var target_direction = target_action.value_axis_2d
     if not target_direction: return
     target_component.direction = target_direction
+
+
+func _on_started_moving() -> void:
+    if not moving_sound.playing: moving_sound.play()
+
+
+func _on_stopped_moving() -> void:
+    moving_sound.stop()
+    stop_moving_sound.play()
 
 
 func _on_capture_component_successful_capture(cell) -> void:
