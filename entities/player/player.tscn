@@ -733,6 +733,8 @@ metadata/_custom_type_script = "uid://csqkc8o4iruir"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collision_mask = 8
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="BodySprite" type="Sprite2D" parent="."]
 texture = ExtResource("36_ttr27")
