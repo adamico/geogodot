@@ -1,40 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxyya8t6j4v7v"]
+[gd_scene load_steps=7 format=3 uid="uid://bxyya8t6j4v7v"]
 
 [ext_resource type="Script" uid="uid://chvjvwwvwxhrl" path="res://entities/spawner/spawner.gd" id="1_2vbf6"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="3_4wbs5"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="3_30a77"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="4_30a77"]
 [ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="5_p5s3f"]
 [ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="6_e3f8v"]
 
 [sub_resource type="Curve2D" id="Curve2D_o6xl0"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -48, -48, 0, 0, 0, 0, 48, -48, 0, 0, 0, 0, 48, 48, 0, 0, 0, 0, -48, 48, 0, 0, 0, 0, -48, -48)
+"points": PackedVector2Array(0, 0, 0, 0, -64, -64, 0, 0, 0, 0, 64, -64, 0, 0, 0, 0, 64, 64, 0, 0, 0, 0, -64, 64, 0, 0, 0, 0, -64, -64)
 }
 point_count = 5
 
 [node name="Spawner" type="Marker2D"]
 script = ExtResource("1_2vbf6")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("3_30a77")]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_bottom = 0.0
-offset_left = -320.0
-offset_right = 24.0
-offset_bottom = 324.0
-grow_horizontal = 0
-grow_vertical = 1
-initial_node_to_watch = NodePath("../../StateChart")
-
 [node name="SpawnPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_o6xl0")
 
 [node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath"]
-position = Vector2(-48, -48)
+unique_name_in_owner = true
+position = Vector2(-64, -64)
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("3_4wbs5")
@@ -45,6 +31,7 @@ script = ExtResource("4_30a77")
 initial_state = NodePath("Enabled")
 
 [node name="Enabled" type="Node" parent="StateChart/Root"]
+unique_name_in_owner = true
 script = ExtResource("5_p5s3f")
 
 [node name="OnSpawnToCoolDown" type="Node" parent="StateChart/Root/Enabled"]
@@ -61,15 +48,17 @@ delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
 
 [node name="CoolDown" type="Node" parent="StateChart/Root"]
+unique_name_in_owner = true
 script = ExtResource("5_p5s3f")
 
-[node name="BackToCanSpawn" type="Node" parent="StateChart/Root/CoolDown"]
+[node name="BackToEnabled" type="Node" parent="StateChart/Root/CoolDown"]
 script = ExtResource("6_e3f8v")
 to = NodePath("../../Enabled")
 delay_in_seconds = "1.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
 
 [node name="Disabled" type="Node" parent="StateChart/Root"]
+unique_name_in_owner = true
 script = ExtResource("5_p5s3f")
 
 [node name="OnEnableToEnabled" type="Node" parent="StateChart/Root/Disabled"]
@@ -78,5 +67,3 @@ to = NodePath("../../Enabled")
 event = &"enable"
 delay_in_seconds = "1.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
-
-[connection signal="state_entered" from="StateChart/Root/CoolDown" to="." method="_on_cool_down_state_entered"]

@@ -25,7 +25,7 @@ func _process(_delta: float) -> void:
 
 
 func process_labels_for(stat_name) -> void:
-    for player: Player in players:
+    for player in players:
         if not player: return
         var shards_value = player.stats_component.get(stat_name + "_shards")
         var rank_value = player.stats_component.get(stat_name)

@@ -5,12 +5,16 @@ extends Marker2D
 @export var level: TileMapLayer
 
 var spawned: Array
+
 @onready var state_chart: StateChart = $StateChart
+@onready var enabled: AtomicState = %Enabled
+@onready var disabled: AtomicState = %Disabled
+@onready var cool_down: AtomicState = %CoolDown
 
 
 func _ready() -> void:
     level = get_parent()
-
+    cool_down.state_entered.connect(_on_cool_down_state_entered)
 
 func _process(_delta: float) -> void:
     if spawned.size() >= max_spawned:
@@ -18,8 +22,7 @@ func _process(_delta: float) -> void:
         return
     else:
         state_chart.send_event("enable")
-
-    state_chart.send_event("spawn")
+        state_chart.send_event("spawn")
 
 
 func _on_cool_down_state_entered() -> void:
@@ -33,13 +36,12 @@ func _on_enemy_died(enemy: Node) -> void:
 
 func spawn() -> void:
     var enemy: Node2D = enemy_scene.instantiate()
-
-    # Choose a random location on Path2D.
-    var enemy_spawn_location = $SpawnPath / SpawnLocation
-    enemy_spawn_location.progress_ratio = randf()
-    enemy.position = enemy_spawn_location.position
+    var spawn_location = %SpawnLocation
+    spawn_location.progress_ratio = randf()
+    var spawn_position = spawn_location.position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     enemy.dead.connect(_on_enemy_died.bind(enemy))
     enemy.level = level
-    add_child(enemy)
-    enemy.base_ai_component.home_position = enemy.global_position
+    get_parent().add_child(enemy)
+    enemy.position = spawn_position + global_position
+
     spawned.append(enemy.get_instance_id())

@@ -2,18 +2,31 @@ class_name BaseAIComponent
 extends Node2D
 
 @export var state_chart: StateChart
-@export var actor: Node2D
 
+var actor: Node2D
 var astar_grid = AStarGrid2D.new()
 var home_position: Vector2
 var level: TileMapLayer
 var path: Array[Vector2i]
 var player: Player
 
+@onready var calm: AtomicState = %Calm
+@onready var alerted: AtomicState = %Alerted
+@onready var angry: AtomicState = %Angry
+@onready var search: AtomicState = %Search
+@onready var moving: AtomicState = %Moving
+@onready var stop_moving: AtomicState = %StopMoving
+
 
 func _ready() -> void:
+    actor = get_parent()
     setup_astar_grid.call_deferred()
     player = get_tree().get_first_node_in_group("players")
+
+    calm.state_processing.connect(_on_calm_state_processing)
+    alerted.state_processing.connect(_on_alerted_state_processing)
+    angry.state_processing.connect(_on_angry_state_processing)
+    search.state_processing.connect(_on_search_state_processing)
 
 
 func _on_calm_state_processing(_delta: float) -> void:
@@ -56,7 +69,7 @@ func calculate_path(from, to) -> Array[Vector2i]:
     var occupied_positions = []
 
     for enemy in enemies:
-        if enemy == self: continue
+        if enemy == actor: continue
         occupied_positions.append(level.local_to_map(enemy.global_position))
 
     for occupied_position in occupied_positions:

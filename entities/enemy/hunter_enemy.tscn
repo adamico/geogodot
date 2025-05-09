@@ -82,6 +82,7 @@ script = ExtResource("5_3am2s")
 initial_state = NodePath("Calm")
 
 [node name="Calm" type="Node" parent="StateChart/Root/Emotion" index="0"]
+unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 
 [node name="OnPlayerCapturingToAlerted" type="Node" parent="StateChart/Root/Emotion/Calm" index="0"]
@@ -97,6 +98,7 @@ event = &"hurt_by_player"
 delay_in_seconds = "0.0"
 
 [node name="Alerted" type="Node" parent="StateChart/Root/Emotion" index="1"]
+unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 
 [node name="OnPlayerStopCapturingToCalm" type="Node" parent="StateChart/Root/Emotion/Alerted" index="0"]
@@ -112,6 +114,7 @@ event = &"player_dead"
 delay_in_seconds = "0.0"
 
 [node name="Angry" type="Node" parent="StateChart/Root/Emotion" index="2"]
+unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
@@ -126,6 +129,7 @@ script = ExtResource("5_3am2s")
 initial_state = NodePath("Search")
 
 [node name="Search" type="Node" parent="StateChart/Root/Task" index="0"]
+unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 
 [node name="OnTryMove" type="Node" parent="StateChart/Root/Task/Search" index="0"]
@@ -141,6 +145,7 @@ event = &"no_path"
 delay_in_seconds = "0.0"
 
 [node name="Moving" type="Node" parent="StateChart/Root/Task" index="1"]
+unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 
 [node name="OnStopMoving" type="Node" parent="StateChart/Root/Task/Moving" index="0"]
@@ -157,6 +162,7 @@ event = &"no_path"
 delay_in_seconds = "0.0"
 
 [node name="StopMoving" type="Node" parent="StateChart/Root/Task" index="2"]
+unique_name_in_owner = true
 script = ExtResource("6_odcmk")
 
 [node name="ToCanMove" type="Node" parent="StateChart/Root/Task/StopMoving" index="0"]
@@ -191,13 +197,7 @@ flash_duration = 0.1
 [node name="ShakeComponent" parent="." index="8" node_paths=PackedStringArray("node")]
 node = NodePath("../AnimatedSprite2D")
 
-[node name="BaseAIComponent" type="Node2D" parent="." index="11" node_paths=PackedStringArray("state_chart", "actor")]
-script = ExtResource("9_3am2s")
-state_chart = NodePath("../StateChart")
-actor = NodePath("..")
-metadata/_custom_type_script = "uid://c5fv5s7nwj6q6"
-
-[node name="GridMoveComponent" type="Node" parent="." index="12" node_paths=PackedStringArray("actor", "sprite", "state_chart")]
+[node name="GridMoveComponent" type="Node" parent="." index="11" node_paths=PackedStringArray("actor", "sprite", "state_chart")]
 script = ExtResource("10_odcmk")
 actor = NodePath("..")
 sprite = NodePath("../AnimatedSprite2D")
@@ -205,10 +205,12 @@ state_chart = NodePath("../StateChart")
 speed = 0.5
 metadata/_custom_type_script = "uid://cxi71uw5oq6an"
 
-[node name="RayCast2D" type="RayCast2D" parent="." index="13"]
+[node name="RayCast2D" type="RayCast2D" parent="." index="12"]
+collision_mask = 2
 
-[connection signal="state_processing" from="StateChart/Root/Emotion/Calm" to="BaseAIComponent" method="_on_calm_state_processing"]
-[connection signal="state_processing" from="StateChart/Root/Emotion/Alerted" to="BaseAIComponent" method="_on_alerted_state_processing"]
-[connection signal="state_processing" from="StateChart/Root/Emotion/Angry" to="BaseAIComponent" method="_on_angry_state_processing"]
-[connection signal="state_processing" from="StateChart/Root/Task/Search" to="BaseAIComponent" method="_on_search_state_processing"]
+[node name="BaseAIComponent" type="Node2D" parent="." index="13" node_paths=PackedStringArray("state_chart")]
+script = ExtResource("9_3am2s")
+state_chart = NodePath("../StateChart")
+metadata/_custom_type_script = "uid://c5fv5s7nwj6q6"
+
 [connection signal="state_processing" from="StateChart/Root/Task/Moving" to="." method="_on_moving_state_processing"]
