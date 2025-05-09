@@ -5,6 +5,8 @@ signal hurt(hitbox)
 
 @export var flash_component: FlashComponent
 
+var level: TileMapLayer
+
 var is_invincible = false:
     set(value):
         is_invincible = value
@@ -17,6 +19,8 @@ var is_invincible = false:
 
 
 func _ready() -> void:
-    hurt.connect(func(_hitbox_component: HitboxComponent):
-            flash_component.flash()
-    )
+    hurt.connect(_on_hurt_by)
+
+
+func _on_hurt_by(_hitbox: HitboxComponent) -> void:
+    flash_component.flash()

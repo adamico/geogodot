@@ -13,4 +13,4 @@ func _ready() -> void:
 func die() -> void:
     death_effect_spawner_component.spawn(actor.global_position)
     if actor.has_signal("dead"): actor.dead.emit()
-    actor.queue_free()
+    actor.call_deferred("queue_free")
