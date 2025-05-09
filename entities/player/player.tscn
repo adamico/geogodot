@@ -425,6 +425,7 @@ initial_state = NodePath("NotMoving")
 metadata/_custom_type_script = "uid://jdqq8gw24d5i"
 
 [node name="NotMoving" type="Node" parent="StateChart/ParallelState/Move"]
+unique_name_in_owner = true
 script = ExtResource("8_ur7pv")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
@@ -442,6 +443,7 @@ event = &"move"
 delay_in_seconds = "0.0"
 
 [node name="Moving" type="Node" parent="StateChart/ParallelState/Move"]
+unique_name_in_owner = true
 script = ExtResource("8_ur7pv")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
@@ -453,6 +455,7 @@ delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
 
 [node name="CannotMove" type="Node" parent="StateChart/ParallelState/Move"]
+unique_name_in_owner = true
 script = ExtResource("8_ur7pv")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
@@ -732,7 +735,7 @@ collector_component = NodePath("../CollectorComponent")
 metadata/_custom_type_script = "uid://csqkc8o4iruir"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 8
+collision_mask = 9
 collide_with_areas = true
 collide_with_bodies = false
 
@@ -751,10 +754,6 @@ autoplay = "idle"
 frame = 10
 frame_progress = 0.552949
 
-[connection signal="state_processing" from="StateChart/ParallelState/Move/NotMoving" to="GridMoveComponent" method="_on_not_moving_state_processing"]
-[connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="GridMoveComponent" method="_on_moving_state_exited"]
-[connection signal="state_exited" from="StateChart/ParallelState/Move/CannotMove" to="GridMoveComponent" method="_on_cannot_move_state_exited"]
-[connection signal="state_processing" from="StateChart/ParallelState/Move/CannotMove" to="GridMoveComponent" method="_on_cannot_move_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/Capturing" to="." method="_on_capturing_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_entered"]
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="." method="_on_capturing_state_exited"]

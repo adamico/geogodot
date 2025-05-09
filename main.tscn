@@ -47,6 +47,7 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 [node name="HUD" parent="." instance=ExtResource("7_kek77")]
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
+visible = false
 scale = Vector2(0.5, 0.5)
 transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
 

@@ -7,6 +7,15 @@ extends Node2D
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
 
 func _ready() -> void:
-    visible_on_screen_notifier_2d.screen_exited.connect(queue_free)
     move_component.direction = direction
-    hitbox_component.hit_hurtbox.connect(queue_free.unbind(1))
+
+    visible_on_screen_notifier_2d.screen_exited.connect(_on_screen_exited)
+    hitbox_component.hit_hurtbox.connect(_on_hit)
+
+
+func _on_hit(hurtbox) -> void:
+    queue_free()
+
+
+func _on_screen_exited() -> void:
+    queue_free()
