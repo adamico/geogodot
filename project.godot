@@ -39,7 +39,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/nklbdev.importality/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/nklbdev.importality/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
 
 [global_group]
 
@@ -87,6 +87,7 @@ ui_down={
 2d_physics/layer_1="player_hurtbox"
 2d_physics/layer_2="enemy_hurtbox"
 2d_physics/layer_3="pickup_hurtbox"
+2d_physics/layer_4="bounds"
 
 [rendering]
 

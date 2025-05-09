@@ -7,12 +7,30 @@ extends Node
 @export var speed: float
 
 var moving_direction: Vector2 = Vector2.ZERO
-
 var ray_cast_2d: RayCast2D
+
 
 func _ready() -> void:
     ray_cast_2d = actor.get_node("RayCast2D")
     ray_cast_2d.target_position = Vector2.DOWN * Constants.TILE_SIZE
+
+
+func _on_not_moving_state_processing(_delta: float) -> void:
+    if moving_direction.length() > 0:
+        state_chart.send_event("move")
+
+
+func _on_moving_state_exited() -> void:
+    sprite.play("idle")
+
+
+func _on_cannot_move_state_processing(_delta: float) -> void:
+    moving_direction = Vector2.ONE
+
+
+func _on_cannot_move_state_exited() -> void:
+    moving_direction = Vector2.ZERO
+
 
 func move(direction: Vector2) -> void:
     if moving_direction.length() == 0 && direction.length() > 0:
@@ -31,15 +49,16 @@ func move(direction: Vector2) -> void:
             var new_position = actor.global_position + (moving_direction * Constants.TILE_SIZE)
             var tween = create_tween()
             tween.tween_property(
-                actor, "position",
-                new_position,
-                speed
+                    actor, "position",
+                    new_position,
+                    speed
             ).set_trans(Tween.TRANS_LINEAR)
             moving_animation(moving_direction)
             tween.tween_callback(func():
-                moving_direction = Vector2.ZERO
-                state_chart.send_event("stop_move")
+                    moving_direction = Vector2.ZERO
+                    state_chart.send_event("stop_move")
             )
+
 
 func moving_animation(direction: Vector2) -> void:
     var directions_to_sprites: Dictionary = {
@@ -51,21 +70,8 @@ func moving_animation(direction: Vector2) -> void:
     }
 
     var diagonals = [
-        Vector2(1,1), Vector2(-1,1),
-        Vector2(1,-1), Vector2(-1,-1)
+        Vector2(1, 1), Vector2(-1, 1),
+        Vector2(1, -1), Vector2(-1, -1)
     ]
     if diagonals.find(direction) != -1: return
     sprite.play(directions_to_sprites[direction])
-
-func _on_not_moving_state_processing(_delta: float) -> void:
-    if moving_direction.length() > 0:
-        state_chart.send_event("move")
-
-func _on_moving_state_exited() -> void:
-    sprite.play("idle")
-
-func _on_cannot_move_state_processing(_delta: float) -> void:
-    moving_direction = Vector2.ONE
-
-func _on_cannot_move_state_exited() -> void:
-    moving_direction = Vector2.ZERO

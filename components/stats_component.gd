@@ -6,13 +6,13 @@ signal no_health
 signal power_up
 signal power_max
 
-@export var health: = 1.0:
+@export var health := 1.0:
     set(value):
         health = value
         health_changed.emit(value)
         if health == 0: no_health.emit()
 
-@export var capture_power:= 0:
+@export var capture_power := 0:
     set(value):
         capture_power = clampi(value, 0, Constants.POWER_RANKS)
         if capture_power == 0: return
@@ -20,7 +20,7 @@ signal power_max
         if capture_power == Constants.POWER_RANKS: power_max.emit("capture")
         else: power_up.emit("capture")
 
-@export var laser_power:= 0:
+@export var laser_power := 0:
     set(value):
         laser_power = clampi(value, 0, Constants.POWER_RANKS)
         if laser_power == 0: return
@@ -28,14 +28,14 @@ signal power_max
         if laser_power == Constants.POWER_RANKS: power_max.emit("laser")
         else: power_up.emit("laser")
 
-@export var capture_power_shards:= 0:
+@export var capture_power_shards := 0:
     set(value):
         capture_power_shards = clampi(value, 0, Constants.POWER_SHARDS)
         if capture_power_shards == Constants.POWER_SHARDS:
             capture_power += 1
             capture_power_shards = 0
 
-@export var laser_power_shards:= 0:
+@export var laser_power_shards := 0:
     set(value):
         laser_power_shards = clampi(value, 0, Constants.POWER_SHARDS)
         if laser_power_shards == Constants.POWER_SHARDS:

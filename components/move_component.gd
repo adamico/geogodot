@@ -5,5 +5,6 @@ extends Node
 @export var direction: Vector2
 @export var speed: float
 
+
 func _process(delta: float) -> void:
     actor.translate(direction * speed * delta)
