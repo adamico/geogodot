@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=85 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -45,7 +45,6 @@
 [ext_resource type="Texture2D" uid="uid://b2yr1qlap3gve" path="res://assets/sprites/body.png" id="36_ttr27"]
 [ext_resource type="Script" uid="uid://csqkc8o4iruir" path="res://components/power_up_component.gd" id="36_wy7bt"]
 [ext_resource type="Texture2D" uid="uid://btttbpil6e1vi" path="res://assets/sprites/engines.png" id="37_ttr27"]
-[ext_resource type="Script" uid="uid://v6a0i6orj16r" path="res://components/size_up_component.gd" id="41_mmk7k"]
 
 [sub_resource type="Resource" id="Resource_eyb6c"]
 script = ExtResource("16_eyb6c")
@@ -628,6 +627,7 @@ speed = 0.35
 metadata/_custom_type_script = "uid://cxi71uw5oq6an"
 
 [node name="ShootComponent" type="Node2D" parent="." node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
+unique_name_in_owner = true
 script = ExtResource("21_0eo6o")
 actor = NodePath("..")
 state_chart = NodePath("../StateChart")
@@ -638,6 +638,7 @@ stats_component = NodePath("../StatsComponent")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
 [node name="TargetComponent" type="Sprite2D" parent="."]
+z_index = 100
 position = Vector2(32, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("23_0eo6o")
@@ -647,6 +648,7 @@ tween_position_speed = 0.2
 metadata/_custom_type_script = "uid://cvldao1arx3t3"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TargetComponent"]
+unique_name_in_owner = true
 root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_13wue")
@@ -703,6 +705,7 @@ shape = SubResource("CircleShape2D_221hk")
 [node name="StatsComponent" type="Node" parent="."]
 script = ExtResource("23_ghoj8")
 health = 3.0
+size_power = 4
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
 [node name="HealthBar" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("35_mmk7k")]
@@ -731,12 +734,6 @@ script = ExtResource("29_gt4e4")
 stats_component = NodePath("../StatsComponent")
 hurtbox_component = NodePath("../HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
-
-[node name="SizeUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "collector_component")]
-script = ExtResource("41_mmk7k")
-actor = NodePath("..")
-collector_component = NodePath("../CollectorComponent")
-metadata/_custom_type_script = "uid://v6a0i6orj16r"
 
 [node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "collector_component")]
 script = ExtResource("36_wy7bt")

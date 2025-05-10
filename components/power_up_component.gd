@@ -1,6 +1,8 @@
 class_name PowerUpComponent
 extends Node
 
+signal size_up
+
 @export var actor: Node2D
 @export var collector_component: CollectorComponent
 
@@ -28,11 +30,12 @@ func _on_picked_up(pickup: Pickup) -> void:
 
 func _on_stats_component_power_up(label) -> void:
     play_sound_for(label, "up")
+    if label == "size": size_up.emit()
 
 
 func _on_stats_component_power_max(label) -> void:
     play_sound_for(label, "max")
-
+    if label == "size": size_up.emit()
 
 func play_sound_for(label, suffix) -> void:
     var pickup_sounds: Dictionary = {

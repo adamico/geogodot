@@ -3,6 +3,8 @@ extends Node2D
 
 signal dead
 
+const SIZE = preload("res://entities/player/size.tscn")
+
 @export var level: TileMapLayer
 @export var capture_action: GUIDEAction
 @export var move_action: GUIDEAction
@@ -24,6 +26,7 @@ var input_direction: Vector2
 @onready var moving: AtomicState = %Moving
 @onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
 @onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
+@onready var power_up_component: PowerUpComponent = $PowerUpComponent
 
 
 func _ready() -> void:
@@ -41,14 +44,18 @@ func _ready() -> void:
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
 
+    power_up_component.size_up.connect(_on_size_up)
+    for i in range(stats_component.size_power+1):
+        stats_component.size_power = i
+
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
     grid_move_component.move(input_direction)
 
     var target_direction = target_action.value_axis_2d
-    if not target_direction: return
-    target_component.direction = target_direction
+    if target_direction: target_component.direction = target_direction
+
 
 
 func _on_started_moving() -> void:
@@ -58,6 +65,20 @@ func _on_started_moving() -> void:
 func _on_stopped_moving() -> void:
     moving_sound.stop()
     stop_moving_sound.play()
+
+
+func _on_size_up() -> void:
+    var size_scene = SIZE.instantiate()
+    var starting_positions: Array[Vector2] = [
+        Vector2.ZERO,
+        Vector2.RIGHT,
+        Vector2.LEFT,
+        Vector2.UP,
+        Vector2.DOWN
+    ]
+    var size_power = stats_component.size_power
+    size_scene.position = starting_positions[size_power] * Constants.TILE_SIZE
+    add_child(size_scene)
 
 
 func _on_capture_component_successful_capture(cell) -> void:
