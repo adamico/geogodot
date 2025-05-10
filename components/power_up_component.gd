@@ -1,11 +1,14 @@
 class_name PowerUpComponent
 extends Node
 
+signal size_up
+
 @export var actor: Node2D
 @export var collector_component: CollectorComponent
 
 @onready var laser: AudioStreamPlayer = $"../Sounds/Laser"
 @onready var capture: AudioStreamPlayer = $"../Sounds/Capture"
+@onready var size: AudioStreamPlayer = $"../Sounds/Size"
 @onready var stats_component: StatsComponent = $"../StatsComponent"
 @onready var up_sound: AudioStreamPlayer = $"../Sounds/Up"
 @onready var max_sound: AudioStreamPlayer = $"../Sounds/Max"
@@ -27,22 +30,25 @@ func _on_picked_up(pickup: Pickup) -> void:
 
 func _on_stats_component_power_up(label) -> void:
     play_sound_for(label, "up")
+    if label == "size": size_up.emit()
 
 
 func _on_stats_component_power_max(label) -> void:
     play_sound_for(label, "max")
-
+    if label == "size": size_up.emit()
 
 func play_sound_for(label, suffix) -> void:
     var pickup_sounds: Dictionary = {
         "laser": laser,
-        "capture": capture
+        "capture": capture,
+        "size": size
     }
 
-    pickup_sounds[label].play()
+    var sound = pickup_sounds[label]
+    sound.play()
     create_tween().tween_callback(func() -> void:
-            if suffix == "up": up_sound.play() else: max_sound.play()
-    ).set_delay(laser.stream.get_length() - 1.3)
+        if suffix == "up": up_sound.play() else: max_sound.play()
+    ).set_delay(sound.stream.get_length() * 0.32)
 
 
 func power_maxed(label) -> bool:

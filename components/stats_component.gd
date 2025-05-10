@@ -28,6 +28,21 @@ signal power_max
         if laser_power == Constants.POWER_RANKS: power_max.emit("laser")
         else: power_up.emit("laser")
 
+@export var size_power := 0:
+    set(value):
+        size_power = clampi(value, 0, Constants.POWER_RANKS)
+        if size_power == 0: return
+        if size_power > Constants.POWER_RANKS: return
+        if size_power == Constants.POWER_RANKS: power_max.emit("size")
+        else: power_up.emit("size")
+
+@export var size_power_shards := 0:
+    set(value):
+        size_power_shards = clampi(value, 0, Constants.POWER_SHARDS)
+        if size_power_shards == Constants.POWER_SHARDS:
+            size_power += 1
+            size_power_shards = 0
+
 @export var capture_power_shards := 0:
     set(value):
         capture_power_shards = clampi(value, 0, Constants.POWER_SHARDS)

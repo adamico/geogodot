@@ -3,6 +3,8 @@ extends Node2D
 
 signal dead
 
+const SIZE = preload("res://entities/player/size.tscn")
+
 @export var level: TileMapLayer
 @export var capture_action: GUIDEAction
 @export var move_action: GUIDEAction
@@ -10,20 +12,21 @@ signal dead
 @export var target_action: GUIDEAction
 @export var number: int
 
-var captured_cells: PackedVector2Array
+var captured_cells: Array[Vector2i]
 var input_direction: Vector2
 
 @onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = $CaptureComponent
 @onready var grid_move_component: GridMoveComponent = $GridMoveComponent
 @onready var shoot_component: ShootComponent = $ShootComponent
-@onready var stats_component: StatsComponent = $StatsComponent
+@onready var stats_component: StatsComponent = %StatsComponent
 @onready var target_component: TargetComponent = $TargetComponent
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
 @onready var death_component: DeathComponent = $DeathComponent
 @onready var moving: AtomicState = %Moving
 @onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
 @onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
+@onready var power_up_component: PowerUpComponent = $PowerUpComponent
 
 
 func _ready() -> void:
@@ -41,14 +44,23 @@ func _ready() -> void:
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
 
+    power_up_component.size_up.connect(_on_size_up)
+    for power: String in ["size", "capture", "laser"]:
+        _setup_initial_power_stats(power)
+
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
     grid_move_component.move(input_direction)
 
     var target_direction = target_action.value_axis_2d
-    if not target_direction: return
-    target_component.direction = target_direction
+    if target_direction: target_component.direction = target_direction
+
+
+func _setup_initial_power_stats(power: String) -> void:
+    var power_value: int = stats_component.get(power + "_power")
+    for i: int in range(power_value + 1):
+        stats_component.call("@" + power + "_power_setter", i)
 
 
 func _on_started_moving() -> void:
@@ -60,10 +72,28 @@ func _on_stopped_moving() -> void:
     stop_moving_sound.play()
 
 
-func _on_capture_component_successful_capture(cell) -> void:
-    set_captured(cell)
-    finished_capturing_sound.play()
+func _on_size_up() -> void:
+    var size_scene = SIZE.instantiate()
+    var starting_positions: Array[Vector2] = [
+        Vector2.ZERO,
+        Vector2.RIGHT,
+        Vector2.LEFT,
+        Vector2.UP,
+        Vector2.DOWN
+    ]
+    var size_power = stats_component.size_power
+    size_scene.position = starting_positions[size_power] * Constants.TILE_SIZE
+    add_child(size_scene)
 
+
+func _on_capture_component_successful_capture(cells) -> void:
+    finished_capturing_sound.play()
+    for cell in cells:
+        _set_captured(cell)
+        _reveal_pickup_at(cell)
+
+
+func _reveal_pickup_at(cell) -> void:
     var found_pickup: Pickup = pickup_at(cell)
     if not found_pickup: return
 
@@ -71,7 +101,6 @@ func _on_capture_component_successful_capture(cell) -> void:
     tween.tween_callback(func() -> void:
             found_pickup.reveal.emit()
     ).set_delay(finished_capturing_sound.stream.get_length())
-
 
 func pickup_at(cell) -> Node:
     var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
@@ -83,6 +112,6 @@ func pickup_at(cell) -> Node:
     return found_pickup
 
 
-func set_captured(cell) -> void:
+func _set_captured(cell) -> void:
     level.set_cell(cell, 0, Vector2i(number + 1, 0))
     captured_cells.append(cell)

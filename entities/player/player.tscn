@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=85 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="21_221hk"]
 [ext_resource type="AudioStream" uid="uid://54en283p3oav" path="res://assets/sounds/f_up.ogg" id="21_pacje"]
 [ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="22_8q4fm"]
+[ext_resource type="AudioStream" uid="uid://dmlmgtwn68mgj" path="res://assets/sounds/f_size.ogg" id="22_g3pa7"]
 [ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="22_ghoj8"]
 [ext_resource type="AudioStream" uid="uid://c3308a737v5y6" path="res://assets/sounds/f_max.ogg" id="22_pacje"]
 [ext_resource type="Texture2D" uid="uid://dc3mbyqfrlvho" path="res://assets/sprites/crosshair008.png" id="23_0eo6o"]
@@ -590,6 +591,9 @@ stream = ExtResource("21_pacje")
 [node name="Max" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("22_pacje")
 
+[node name="Size" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("22_g3pa7")
+
 [node name="CaptureComponent" type="Node" parent="." node_paths=PackedStringArray("capture_progress_bar", "state_chart", "actor", "capturing_sound", "finished_capturing_sound", "target_component")]
 script = ExtResource("19_np63p")
 capture_progress_bar = NodePath("../CaptureProgressBar")
@@ -623,6 +627,7 @@ speed = 0.35
 metadata/_custom_type_script = "uid://cxi71uw5oq6an"
 
 [node name="ShootComponent" type="Node2D" parent="." node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
+unique_name_in_owner = true
 script = ExtResource("21_0eo6o")
 actor = NodePath("..")
 state_chart = NodePath("../StateChart")
@@ -633,6 +638,7 @@ stats_component = NodePath("../StatsComponent")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
 [node name="TargetComponent" type="Sprite2D" parent="."]
+z_index = 100
 position = Vector2(32, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("23_0eo6o")
@@ -642,6 +648,7 @@ tween_position_speed = 0.2
 metadata/_custom_type_script = "uid://cvldao1arx3t3"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TargetComponent"]
+unique_name_in_owner = true
 root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_13wue")
@@ -696,6 +703,7 @@ metadata/_custom_type_script = "uid://bdy33sbgoncok"
 shape = SubResource("CircleShape2D_221hk")
 
 [node name="StatsComponent" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("23_ghoj8")
 health = 3.0
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
