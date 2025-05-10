@@ -703,9 +703,9 @@ metadata/_custom_type_script = "uid://bdy33sbgoncok"
 shape = SubResource("CircleShape2D_221hk")
 
 [node name="StatsComponent" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("23_ghoj8")
 health = 3.0
-size_power = 4
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
 [node name="HealthBar" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("35_mmk7k")]
