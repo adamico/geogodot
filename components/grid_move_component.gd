@@ -62,14 +62,14 @@ func move(direction: Vector2) -> void:
                     new_position,
                     speed
             ).set_trans(Tween.TRANS_LINEAR)
-            moving_animation(moving_direction)
+            _play_moving_animation(moving_direction)
             tween.tween_callback(func():
                     moving_direction = Vector2.ZERO
                     state_chart.send_event("stop_move")
             )
 
 
-func moving_animation(direction: Vector2) -> void:
+func _play_moving_animation(direction: Vector2) -> void:
     var directions_to_sprites: Dictionary = {
         Vector2.LEFT: "move_left",
         Vector2.RIGHT: "move_right",

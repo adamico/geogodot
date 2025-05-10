@@ -9,26 +9,26 @@ signal reveal
 
 var map_position: Vector2i
 
-@onready var label: Label = $Label
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var label: Label = %Label
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
 func _ready() -> void:
     label.text = label_char
     map_position = level.local_to_map(global_position)
-    hide_and_disable()
+    _hide_and_disable()
     reveal.connect(_on_reveal)
 
 
 func _on_reveal() -> void:
-    show_and_enable()
+    _show_and_enable()
 
 
-func hide_and_disable() -> void:
+func _hide_and_disable() -> void:
     hide()
     set_process_mode(PROCESS_MODE_DISABLED)
 
 
-func show_and_enable() -> void:
+func _show_and_enable() -> void:
     show()
     set_process_mode(PROCESS_MODE_INHERIT)

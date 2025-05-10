@@ -23,6 +23,7 @@ unique_name_in_owner = true
 position = Vector2(-64, -64)
 
 [node name="StateChart" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("3_4wbs5")
 metadata/_custom_type_script = "uid://bmucxhobuv3i"
 

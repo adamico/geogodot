@@ -8,6 +8,7 @@ signal stop_capture
 const CROSSHAIR_146 = preload("res://assets/sprites/crosshair146.png")
 const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
 
+
 @export var capture_progress_bar: ProgressBar
 @export var state_chart: StateChart
 @export var actor: Node2D
@@ -23,7 +24,7 @@ var map_cells_to_capture: Array[Vector2i]
 
 
 func _ready() -> void:
-    reset_progress_bar()
+    _reset_progress_bar()
 
 
 func _on_capturing_state_processing(delta: float) -> void:
@@ -49,7 +50,7 @@ func _on_capturing_state_exited() -> void:
     target_animation_player.stop()
     target_component.texture = CROSSHAIR_008
     capturing_sound.stop()
-    reset_progress_bar()
+    _reset_progress_bar()
     state_chart.send_event("allow_move")
 
 
@@ -57,12 +58,12 @@ func _on_successful_capture_state_entered() -> void:
     successful_capture.emit(map_cells_to_capture)
 
 
-func reset_progress_bar() -> void:
+func _reset_progress_bar() -> void:
     capture_progress_bar.value = 0
     capture_progress_bar.hide()
 
 
-func try_capture() -> void:
+func on_try_capture() -> void:
     if target_component.direction == Vector2.ZERO: return
     _calculate_cells_to_capture()
     if map_cells_to_capture.is_empty(): return
@@ -84,5 +85,6 @@ func _calculate_cells_to_capture() -> void:
         func(cell): return not already_captured_cells.has(cell)
     )
 
-func stop_capturing() -> void:
+
+func on_stop_capturing() -> void:
     state_chart.send_event("stop_capture")

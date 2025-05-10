@@ -6,7 +6,7 @@ extends Marker2D
 
 var spawned: Array
 
-@onready var state_chart: StateChart = $StateChart
+@onready var state_chart: StateChart = %StateChart
 @onready var enabled: AtomicState = %Enabled
 @onready var disabled: AtomicState = %Disabled
 @onready var cool_down: AtomicState = %CoolDown
@@ -15,6 +15,7 @@ var spawned: Array
 func _ready() -> void:
     level = get_parent()
     cool_down.state_entered.connect(_on_cool_down_state_entered)
+
 
 func _process(_delta: float) -> void:
     if spawned.size() >= max_spawned:
@@ -26,7 +27,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_cool_down_state_entered() -> void:
-    spawn()
+    _spawn()
 
 
 func _on_enemy_died(enemy: Node) -> void:
@@ -34,7 +35,7 @@ func _on_enemy_died(enemy: Node) -> void:
     spawned.erase(enemy_id)
 
 
-func spawn() -> void:
+func _spawn() -> void:
     var enemy: Node2D = enemy_scene.instantiate()
     var spawn_location = %SpawnLocation
     spawn_location.progress_ratio = randf()

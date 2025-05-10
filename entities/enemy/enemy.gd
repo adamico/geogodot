@@ -10,12 +10,12 @@ signal dead
 
 var player: Player
 
-@onready var stats_component: StatsComponent = $StatsComponent
-@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
-@onready var hitbox_component: HitboxComponent = $HitboxComponent
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var flash_component: FlashComponent = $FlashComponent
-@onready var shake_component: ShakeComponent = $ShakeComponent
+@onready var stats_component: StatsComponent = %StatsComponent
+@onready var hurtbox_component: HurtboxComponent = %HurtboxComponent
+@onready var hitbox_component: HitboxComponent = %HitboxComponent
+@onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var flash_component: FlashComponent = %FlashComponent
+@onready var shake_component: ShakeComponent = %ShakeComponent
 @onready var moving: AtomicState = %Moving
 
 

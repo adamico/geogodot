@@ -20,7 +20,7 @@ var player: Player
 
 func _ready() -> void:
     actor = get_parent()
-    setup_astar_grid.call_deferred()
+    _setup_astar_grid.call_deferred()
     player = get_tree().get_first_node_in_group("players")
 
     calm.state_processing.connect(_on_calm_state_processing)
@@ -33,18 +33,18 @@ func _on_calm_state_processing(_delta: float) -> void:
     var from = level.local_to_map(actor.global_position)
     var random_position = Vector2i(randi_range(1, 3), randi_range(1, 3))
     var to = level.local_to_map(home_position) + random_position
-    calculate_path(from, to)
+    _calculate_path(from, to)
 
 
 func _on_alerted_state_processing(_delta: float) -> void:
-    calculate_path(
+    _calculate_path(
             level.local_to_map(actor.global_position),
             level.local_to_map(player.global_position),
     )
 
 
 func _on_angry_state_processing(_delta: float) -> void:
-    calculate_path(
+    _calculate_path(
             level.local_to_map(actor.global_position),
             level.local_to_map(player.global_position),
     )
@@ -57,14 +57,14 @@ func _on_not_moving_state_processing(_delta: float) -> void:
         state_chart.send_event("move")
 
 
-func setup_astar_grid() -> void:
+func _setup_astar_grid() -> void:
     astar_grid.region = level.get_used_rect()
     astar_grid.cell_size = Vector2(Constants.TILE_SIZE, Constants.TILE_SIZE)
     astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
     astar_grid.update()
 
 
-func calculate_path(from, to) -> Array[Vector2i]:
+func _calculate_path(from, to) -> Array[Vector2i]:
     var enemies = get_tree().get_nodes_in_group("enemies")
     var occupied_positions = []
 

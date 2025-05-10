@@ -530,6 +530,7 @@ script = ExtResource("8_ur7pv")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
 [node name="ToCanShoot" type="Node" parent="StateChart/ParallelState/Shoot/Cooldown"]
+unique_name_in_owner = true
 script = ExtResource("9_ur7pv")
 to = NodePath("../../CanShoot")
 delay_in_seconds = "1.0"
@@ -580,21 +581,27 @@ stream = ExtResource("18_geky7")
 volume_db = -4.0
 
 [node name="Laser" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("19_r633c")
 
 [node name="Capture" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("21_2h0qb")
 
 [node name="Up" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("21_pacje")
 
 [node name="Max" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("22_pacje")
 
 [node name="Size" type="AudioStreamPlayer" parent="Sounds"]
+unique_name_in_owner = true
 stream = ExtResource("22_g3pa7")
 
 [node name="CaptureComponent" type="Node" parent="." node_paths=PackedStringArray("capture_progress_bar", "state_chart", "actor", "capturing_sound", "finished_capturing_sound", "target_component")]
+unique_name_in_owner = true
 script = ExtResource("19_np63p")
 capture_progress_bar = NodePath("../CaptureProgressBar")
 state_chart = NodePath("../StateChart")
@@ -619,6 +626,7 @@ show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="GridMoveComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "sprite", "state_chart")]
+unique_name_in_owner = true
 script = ExtResource("20_2soq1")
 actor = NodePath("..")
 sprite = NodePath("../EnginesAnimatedSprite")
@@ -638,6 +646,7 @@ stats_component = NodePath("../StatsComponent")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
 [node name="TargetComponent" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 z_index = 100
 position = Vector2(32, 0)
 scale = Vector2(0.5, 0.5)
@@ -712,6 +721,7 @@ metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 stats_component = NodePath("../StatsComponent")
 
 [node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]
+unique_name_in_owner = true
 script = ExtResource("24_wuv6x")
 actor = NodePath("..")
 stats_component = NodePath("../StatsComponent")
@@ -736,6 +746,7 @@ hurtbox_component = NodePath("../HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
 
 [node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "collector_component")]
+unique_name_in_owner = true
 script = ExtResource("36_wy7bt")
 actor = NodePath("..")
 collector_component = NodePath("../CollectorComponent")
@@ -769,5 +780,3 @@ frame_progress = 0.552949
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Shoot/Cooldown" to="ShootComponent" method="_on_cooldown_state_entered"]
-[connection signal="successful_capture" from="CaptureComponent" to="." method="_on_capture_component_successful_capture"]
-[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
