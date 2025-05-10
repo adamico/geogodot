@@ -16,17 +16,16 @@ var captured_cells: Array[Vector2i]
 var input_direction: Vector2
 
 @onready var state_chart: StateChart = $StateChart
-@onready var capture_component: CaptureComponent = $CaptureComponent
-@onready var grid_move_component: GridMoveComponent = $GridMoveComponent
-@onready var shoot_component: ShootComponent = $ShootComponent
+@onready var capture_component: CaptureComponent = %CaptureComponent
+@onready var grid_move_component: GridMoveComponent = %GridMoveComponent
+@onready var shoot_component: ShootComponent = %ShootComponent
 @onready var stats_component: StatsComponent = %StatsComponent
-@onready var target_component: TargetComponent = $TargetComponent
+@onready var target_component: TargetComponent = %TargetComponent
+@onready var death_component: DeathComponent = %DeathComponent
+@onready var power_up_component: PowerUpComponent = %PowerUpComponent
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
-@onready var death_component: DeathComponent = $DeathComponent
-@onready var moving: AtomicState = %Moving
 @onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
 @onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
-@onready var power_up_component: PowerUpComponent = $PowerUpComponent
 
 
 func _ready() -> void:
@@ -38,8 +37,9 @@ func _ready() -> void:
     move_action.triggered.connect(_on_started_moving)
 
     capture_component.level = level
-    capture_action.triggered.connect(capture_component.try_capture)
-    capture_action.completed.connect(capture_component.stop_capturing)
+    capture_component.successful_capture.connect(_on_capture_component_successful_capture)
+    capture_action.triggered.connect(capture_component.on_try_capture)
+    capture_action.completed.connect(capture_component.on_stop_capturing)
 
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
@@ -94,7 +94,7 @@ func _on_capture_component_successful_capture(cells) -> void:
 
 
 func _reveal_pickup_at(cell) -> void:
-    var found_pickup: Pickup = pickup_at(cell)
+    var found_pickup: Pickup = _pickup_at(cell)
     if not found_pickup: return
 
     var tween = create_tween()
@@ -102,7 +102,7 @@ func _reveal_pickup_at(cell) -> void:
             found_pickup.reveal.emit()
     ).set_delay(finished_capturing_sound.stream.get_length())
 
-func pickup_at(cell) -> Node:
+func _pickup_at(cell) -> Node:
     var pickups: Array[Node] = get_tree().get_nodes_in_group("pickups")
     var found_pickup: Node
 

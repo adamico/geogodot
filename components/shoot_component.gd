@@ -12,7 +12,7 @@ const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
 @export var stats_component: StatsComponent
 
 @onready var target_animation_player: AnimationPlayer = %AnimationPlayer
-@onready var to_can_shoot: Transition = $"../StateChart/ParallelState/Shoot/Cooldown/ToCanShoot"
+@onready var to_can_shoot: Transition = %ToCanShoot
 
 
 func _on_cooldown_state_entered() -> void:
@@ -20,7 +20,7 @@ func _on_cooldown_state_entered() -> void:
     to_can_shoot.delay_seconds = shoot_cooldown
     target_animation_player.play("shoot_target_flash_red_once")
     shoot_sound.play()
-    shoot()
+    _shoot()
 
 
 func fire_laser() -> void:
@@ -32,7 +32,7 @@ func stop_firing() -> void:
     target_component.texture = CROSSHAIR_008
 
 
-func shoot() -> void:
+func _shoot() -> void:
     assert(laser_scene is PackedScene,
             "Error: the scene export was never set on this spawner component")
     _spawn_laser(global_position + target_component.direction)
