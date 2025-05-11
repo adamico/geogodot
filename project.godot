@@ -39,7 +39,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/nklbdev.importality/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [global_group]
 
