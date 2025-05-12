@@ -85,4 +85,5 @@ func _calculate_cells_to_capture() -> void:
 
 
 func on_stop_capturing() -> void:
+    map_cells_to_capture.clear()
     state_chart.send_event("stop_capture")
