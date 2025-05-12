@@ -11,13 +11,14 @@ const SIZE = preload("res://entities/player/size.tscn")
 @export var shoot_action: GUIDEAction
 @export var target_action: GUIDEAction
 @export var number: int
+@export var relative_to_player: RelativeToPlayerModifier
 
 var captured_cells: Array[Vector2i]
 var input_direction: Vector2
 
 @onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = %CaptureComponent
-@onready var grid_move_component: GridMoveComponent = %GridMoveComponent
+@onready var move_component: MoveComponent = %MoveComponent
 @onready var shoot_component: ShootComponent = %ShootComponent
 @onready var stats_component: StatsComponent = %StatsComponent
 @onready var target_component: TargetComponent = %TargetComponent
@@ -26,6 +27,8 @@ var input_direction: Vector2
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
 @onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
 @onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
+@onready var cannot_move: AtomicState = %CannotMove
+@onready var not_moving: AtomicState = %NotMoving
 
 
 func _ready() -> void:
@@ -35,7 +38,9 @@ func _ready() -> void:
 
     move_action.completed.connect(_on_stopped_moving)
     move_action.triggered.connect(_on_started_moving)
-
+    cannot_move.state_entered.connect(_on_cannot_move_state_entered)
+    cannot_move.state_processing.connect(_on_cannot_move_state_processing)
+    
     capture_component.level = level
     capture_component.successful_capture.connect(_on_capture_component_successful_capture)
     capture_action.triggered.connect(capture_component.on_try_capture)
@@ -45,16 +50,17 @@ func _ready() -> void:
     shoot_action.completed.connect(shoot_component.stop_firing)
 
     power_up_component.size_up.connect(_on_size_up)
-    for power: String in ["size", "capture", "laser"]:
-        _setup_initial_power_stats(power)
+    for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
 
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
-    grid_move_component.move(input_direction)
+    move_component.direction = input_direction
 
+    relative_to_player.player_coordinates = global_position
     var target_direction = target_action.value_axis_2d
-    if target_direction: target_component.direction = target_direction
+    if target_direction:
+        target_component.direction = target_direction
 
 
 func _setup_initial_power_stats(power: String) -> void:
@@ -65,6 +71,14 @@ func _setup_initial_power_stats(power: String) -> void:
 
 func _on_started_moving() -> void:
     if not moving_sound.playing: moving_sound.play()
+
+
+func _on_cannot_move_state_entered() -> void:
+    moving_sound.stop()
+    stop_moving_sound.play()
+
+func _on_cannot_move_state_processing(_delta: float) -> void:
+    move_component.direction = Vector2.ZERO
 
 
 func _on_stopped_moving() -> void:

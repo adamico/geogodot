@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://dcrp1dtqem57s"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
-[ext_resource type="Resource" uid="uid://ci6ojv8olouho" path="res://components/guide/contexts/game/game.tres" id="2_grrlh"]
+[ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bxyya8t6j4v7v" path="res://entities/spawner/spawner.tscn" id="4_4c57u"]
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://levels/level1.tscn" id="5_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://7l7trm1gr6xv" path="res://entities/enemy/hunter_enemy.tscn" id="6_4c57u"]
@@ -13,7 +13,7 @@
 
 [node name="Game" type="Node"]
 script = ExtResource("1_67ri8")
-mapping_context = ExtResource("2_grrlh")
+mapping_context = ExtResource("2_4c57u")
 
 [node name="World" type="Node2D" parent="."]
 
@@ -52,10 +52,13 @@ scale = Vector2(0.5, 0.5)
 transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
 
 [node name="StateChartDebugger" parent="DebugLayer" instance=ExtResource("7_5vw27")]
-visible = false
 z_index = 40
 offset_left = 960.0
 offset_right = 640.0
 offset_bottom = 56.0
+initial_node_to_watch = NodePath("../../World/Level/Player")
 
 [node name="GuideDebugger" parent="DebugLayer" instance=ExtResource("8_kek77")]
+offset_left = 560.0
+offset_right = 384.0
+offset_bottom = 104.0

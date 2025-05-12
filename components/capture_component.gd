@@ -17,7 +17,7 @@ const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
 @export var target_component: TargetComponent
 
 var level: TileMapLayer
-var map_cells_to_capture: Array[Vector2i]
+@export var map_cells_to_capture: Array[Vector2i]
 
 @onready var target_animation_player: AnimationPlayer = %AnimationPlayer
 @onready var stats_component: StatsComponent = %StatsComponent
@@ -43,6 +43,7 @@ func _on_capturing_state_entered() -> void:
     capturing_sound.play()
     capture.emit()
     state_chart.send_event("prevent_move")
+    state_chart.send_event("prevent_target_move")
 
 
 func _on_capturing_state_exited() -> void:
@@ -52,6 +53,7 @@ func _on_capturing_state_exited() -> void:
     capturing_sound.stop()
     _reset_progress_bar()
     state_chart.send_event("allow_move")
+    state_chart.send_event("allow_target_move")
 
 
 func _on_successful_capture_state_entered() -> void:
@@ -71,11 +73,7 @@ func on_try_capture() -> void:
 
 
 func _calculate_cells_to_capture() -> void:
-    var actor_current_map_cell = level.local_to_map(actor.global_position)
-    var map_cell_to_capture = actor_current_map_cell + Vector2i(
-            int(target_component.direction.x),
-            int(target_component.direction.y)
-    )
+    var map_cell_to_capture = level.local_to_map(target_component.global_position)
 
     var already_captured_cells: Array[Vector2i] = actor.captured_cells
     map_cells_to_capture.append(map_cell_to_capture)

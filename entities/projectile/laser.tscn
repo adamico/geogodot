@@ -93,7 +93,7 @@ unique_name_in_owner = true
 script = ExtResource("3_s0ev4")
 actor = NodePath("..")
 direction = Vector2(1, 0)
-speed = 200.0
+speed = 200
 metadata/_custom_type_script = "uid://ddqb83lllpvik"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
