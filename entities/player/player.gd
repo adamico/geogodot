@@ -11,13 +11,15 @@ const SIZE = preload("res://entities/player/size.tscn")
 @export var shoot_action: GUIDEAction
 @export var target_action: GUIDEAction
 @export var number: int
+@export var relative_to_player: RelativeToPlayerModifier
 
 var captured_cells: Array[Vector2i]
 var input_direction: Vector2
 
+@onready var engines_animated_sprite: AnimatedSprite2D = %EnginesAnimatedSprite
 @onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = %CaptureComponent
-@onready var grid_move_component: GridMoveComponent = %GridMoveComponent
+@onready var free_move_component: FreeMoveComponent = %FreeMoveComponent
 @onready var shoot_component: ShootComponent = %ShootComponent
 @onready var stats_component: StatsComponent = %StatsComponent
 @onready var target_component: TargetComponent = %TargetComponent
@@ -45,16 +47,32 @@ func _ready() -> void:
     shoot_action.completed.connect(shoot_component.stop_firing)
 
     power_up_component.size_up.connect(_on_size_up)
-    for power: String in ["size", "capture", "laser"]:
-        _setup_initial_power_stats(power)
+    for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
 
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
-    grid_move_component.move(input_direction)
+    free_move_component.direction = input_direction
+    _play_moving_animation(input_direction)
 
+    relative_to_player.player_coordinates = global_position
     var target_direction = target_action.value_axis_2d
     if target_direction: target_component.direction = target_direction
+
+
+func _play_moving_animation(direction: Vector2) -> void:
+    var directions_to_sprites: Dictionary = {
+        Vector2.LEFT: "move_left",
+        Vector2.RIGHT: "move_right",
+        Vector2.UP: "move_up",
+        Vector2.DOWN: "move_down",
+        Vector2.ZERO: "idle",
+        Vector2(1, 1): "move_down_right",
+        Vector2(-1, 1): "move_down_left",
+        Vector2(1, -1): "move_up_right",
+        Vector2(-1, -1): "move_up_left"
+    }
+    engines_animated_sprite.play(directions_to_sprites[direction.round()])
 
 
 func _setup_initial_power_stats(power: String) -> void:

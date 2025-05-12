@@ -3,8 +3,7 @@ extends Node
 
 @export var actor: Node2D
 @export var direction: Vector2
-@export var speed: float
-
+@export var speed:= 70
 
 func _physics_process(delta: float) -> void:
     actor.translate(direction * speed * delta)

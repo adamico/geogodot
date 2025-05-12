@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RelativeToPlayerModifier" load_steps=2 format=3 uid="uid://dcb76koaxrao0"]
+
+[ext_resource type="Script" uid="uid://bdvprscryujq1" path="res://relative_to_player_modifier.gd" id="1_yfup8"]
+
+[resource]
+script = ExtResource("1_yfup8")
+metadata/_custom_type_script = "uid://bdvprscryujq1"

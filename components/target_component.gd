@@ -1,18 +1,23 @@
 class_name TargetComponent
 extends Sprite2D
 
-@export var tween_position_speed: float
+var old_direction: Vector2
 
 @onready var direction: Vector2
+@onready var cannot_move_target: AtomicState = %CannotMoveTarget
+@onready var can_move_target: AtomicState = %CanMoveTarget
 
 
 func _ready() -> void:
     direction = Vector2.RIGHT
+    cannot_move_target.state_processing.connect(_on_cannot_move_target)
+    can_move_target.state_processing.connect(_on_can_move_target)
 
 
-func _physics_process(_delta: float) -> void:
-    create_tween().tween_property(
-        self, "position",
-        direction * Constants.TILE_SIZE,
-        tween_position_speed
-    )
+func _on_can_move_target(_delta: float) -> void:
+    position = direction * Constants.TILE_SIZE
+    old_direction = direction
+
+
+func _on_cannot_move_target(_delta: float) -> void:
+    direction = old_direction
