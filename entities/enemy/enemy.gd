@@ -9,6 +9,7 @@ signal dead
 @export var grid_move_component: GridMoveComponent
 
 var player: Player
+var home_position: Vector2
 
 @onready var stats_component: StatsComponent = %StatsComponent
 @onready var hurtbox_component: HurtboxComponent = %HurtboxComponent
@@ -41,7 +42,6 @@ func _setup_base_ai_component() -> void:
     if not base_ai_component: return
     base_ai_component.level = level
     base_ai_component.player = player
-    base_ai_component.home_position = global_position
 
 
 func _on_player_capturing() -> void:

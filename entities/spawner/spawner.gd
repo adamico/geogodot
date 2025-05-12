@@ -43,6 +43,6 @@ func _spawn() -> void:
     enemy.dead.connect(_on_enemy_died.bind(enemy))
     enemy.level = level
     get_parent().add_child(enemy)
-    enemy.position = spawn_position + global_position
-
+    enemy.position = global_position + spawn_position
+    enemy.home_position = enemy.global_position
     spawned.append(enemy.get_instance_id())

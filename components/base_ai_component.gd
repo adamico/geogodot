@@ -5,7 +5,6 @@ extends Node2D
 
 var actor: Node2D
 var astar_grid = AStarGrid2D.new()
-var home_position: Vector2
 var level: TileMapLayer
 var path: Array[Vector2i]
 var player: Player
@@ -32,7 +31,7 @@ func _ready() -> void:
 func _on_calm_state_processing(_delta: float) -> void:
     var from = level.local_to_map(actor.global_position)
     var random_position = Vector2i(randi_range(1, 3), randi_range(1, 3))
-    var to = level.local_to_map(home_position) + random_position
+    var to = level.local_to_map(actor.home_position) + random_position
     _calculate_path(from, to)
 
 
