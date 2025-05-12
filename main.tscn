@@ -47,7 +47,6 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 [node name="HUD" parent="." instance=ExtResource("7_kek77")]
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
-visible = false
 scale = Vector2(0.5, 0.5)
 transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
 
@@ -59,6 +58,7 @@ offset_bottom = 56.0
 initial_node_to_watch = NodePath("../../World/Level/Player")
 
 [node name="GuideDebugger" parent="DebugLayer" instance=ExtResource("8_kek77")]
+visible = false
 offset_left = 560.0
 offset_right = 384.0
 offset_bottom = 104.0

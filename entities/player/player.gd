@@ -16,9 +16,10 @@ const SIZE = preload("res://entities/player/size.tscn")
 var captured_cells: Array[Vector2i]
 var input_direction: Vector2
 
+@onready var engines_animated_sprite: AnimatedSprite2D = %EnginesAnimatedSprite
 @onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = %CaptureComponent
-@onready var move_component: MoveComponent = %MoveComponent
+@onready var free_move_component: FreeMoveComponent = %FreeMoveComponent
 @onready var shoot_component: ShootComponent = %ShootComponent
 @onready var stats_component: StatsComponent = %StatsComponent
 @onready var target_component: TargetComponent = %TargetComponent
@@ -27,8 +28,6 @@ var input_direction: Vector2
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
 @onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
 @onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
-@onready var cannot_move: AtomicState = %CannotMove
-@onready var not_moving: AtomicState = %NotMoving
 
 
 func _ready() -> void:
@@ -38,9 +37,7 @@ func _ready() -> void:
 
     move_action.completed.connect(_on_stopped_moving)
     move_action.triggered.connect(_on_started_moving)
-    cannot_move.state_entered.connect(_on_cannot_move_state_entered)
-    cannot_move.state_processing.connect(_on_cannot_move_state_processing)
-    
+
     capture_component.level = level
     capture_component.successful_capture.connect(_on_capture_component_successful_capture)
     capture_action.triggered.connect(capture_component.on_try_capture)
@@ -55,12 +52,27 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
-    move_component.direction = input_direction
+    free_move_component.direction = input_direction
+    _play_moving_animation(input_direction)
 
     relative_to_player.player_coordinates = global_position
     var target_direction = target_action.value_axis_2d
-    if target_direction:
-        target_component.direction = target_direction
+    if target_direction: target_component.direction = target_direction
+
+
+func _play_moving_animation(direction: Vector2) -> void:
+    var directions_to_sprites: Dictionary = {
+        Vector2.LEFT: "move_left",
+        Vector2.RIGHT: "move_right",
+        Vector2.UP: "move_up",
+        Vector2.DOWN: "move_down",
+        Vector2.ZERO: "idle",
+        Vector2(1, 1): "move_down_right",
+        Vector2(-1, 1): "move_down_left",
+        Vector2(1, -1): "move_up_right",
+        Vector2(-1, -1): "move_up_left"
+    }
+    engines_animated_sprite.play(directions_to_sprites[direction.round()])
 
 
 func _setup_initial_power_stats(power: String) -> void:
@@ -71,14 +83,6 @@ func _setup_initial_power_stats(power: String) -> void:
 
 func _on_started_moving() -> void:
     if not moving_sound.playing: moving_sound.play()
-
-
-func _on_cannot_move_state_entered() -> void:
-    moving_sound.stop()
-    stop_moving_sound.play()
-
-func _on_cannot_move_state_processing(_delta: float) -> void:
-    move_component.direction = Vector2.ZERO
 
 
 func _on_stopped_moving() -> void:
