@@ -1,8 +1,7 @@
 class_name ShootComponent
 extends Node2D
 
-const CROSSHAIR_102 = preload("res://assets/sprites/crosshair102.png")
-const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
+const GUN = preload("res://assets/sprites/gun.png")
 
 @export var actor: Node2D
 @export var state_chart: StateChart
@@ -24,18 +23,17 @@ func _on_cooldown_state_entered() -> void:
 
 
 func fire_laser() -> void:
-    target_component.texture = CROSSHAIR_102
     state_chart.send_event("shoot")
 
 
 func stop_firing() -> void:
-    target_component.texture = CROSSHAIR_008
+    target_component.texture = GUN
 
 
 func _shoot() -> void:
     assert(laser_scene is PackedScene,
             "Error: the scene export was never set on this spawner component")
-    _spawn_laser(global_position + target_component.direction)
+    _spawn_laser(target_component.global_position)
     var size_components = get_tree().get_nodes_in_group("size")
     for size_component in size_components:
         _spawn_laser(size_component.global_position)
@@ -43,7 +41,7 @@ func _shoot() -> void:
 
 func _spawn_laser(spawn_position) -> void:
     var laser: Node2D = laser_scene.instantiate()
-    laser.global_position = spawn_position
+    laser.position = spawn_position
     laser.direction = target_component.direction
     laser.rotate(target_component.direction.angle())
     actor.add_sibling(laser)

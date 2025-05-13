@@ -29,9 +29,9 @@
 [ext_resource type="AudioStream" uid="uid://dmlmgtwn68mgj" path="res://assets/sounds/f_size.ogg" id="22_g3pa7"]
 [ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="22_ghoj8"]
 [ext_resource type="AudioStream" uid="uid://c3308a737v5y6" path="res://assets/sounds/f_max.ogg" id="22_pacje"]
-[ext_resource type="Texture2D" uid="uid://dc3mbyqfrlvho" path="res://assets/sprites/crosshair008.png" id="23_0eo6o"]
 [ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/stats_component.gd" id="23_ghoj8"]
 [ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="24_wuv6x"]
+[ext_resource type="Texture2D" uid="uid://wkbi3ujndd0h" path="res://assets/sprites/gun.png" id="25_2h0qb"]
 [ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="25_qpopc"]
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="26_wq0jh"]
 [ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="27_wq0jh"]
@@ -49,6 +49,11 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3pa7"]
 bg_color = Color(0.113725, 0.168627, 0.32549, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
+radius = 16.0
 
 [sub_resource type="Animation" id="Animation_ttr27"]
 length = 0.001
@@ -106,11 +111,6 @@ _data = {
 &"capture_target_modulate_pulse": SubResource("Animation_0eo6o"),
 &"shoot_target_flash_red_once": SubResource("Animation_13wue")
 }
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
-radius = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_13wue"]
 atlas = ExtResource("37_ttr27")
@@ -832,23 +832,6 @@ shoot_sound = NodePath("../Sounds/ShootSound")
 stats_component = NodePath("../StatsComponent")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
-[node name="TargetComponent" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-z_index = 100
-position = Vector2(32, 0)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("23_0eo6o")
-region_rect = Rect2(85, 430, 32, 32)
-script = ExtResource("22_8q4fm")
-metadata/_custom_type_script = "uid://cvldao1arx3t3"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TargetComponent"]
-unique_name_in_owner = true
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_13wue")
-}
-
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
 top_level = true
@@ -948,6 +931,22 @@ metadata/_custom_type_script = "uid://dh4dy7qlv108s"
 collision_mask = 9
 collide_with_areas = true
 collide_with_bodies = false
+
+[node name="TargetComponent" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = 100
+position = Vector2(24, 0)
+texture = ExtResource("25_2h0qb")
+region_rect = Rect2(85, 430, 32, 32)
+script = ExtResource("22_8q4fm")
+metadata/_custom_type_script = "uid://cvldao1arx3t3"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TargetComponent"]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_13wue")
+}
 
 [node name="BodySprite" type="Sprite2D" parent="."]
 texture = ExtResource("36_ttr27")

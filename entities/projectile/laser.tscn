@@ -5,15 +5,15 @@
 [ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="4_sbnw8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xqbwo"]
-radius = 4.0
-height = 56.0
+radius = 2.0
+height = 36.0
 
 [node name="Laser" type="Node2D"]
-rotation = 1.5708
-scale = Vector2(0.5, 0.5)
 script = ExtResource("1_5v6mp")
 
 [node name="Lines" type="Node2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
 
 [node name="GlowTop" type="Line2D" parent="Lines"]
 points = PackedVector2Array(7.96398e-05, 22, -2.00009, -24)
@@ -98,17 +98,20 @@ metadata/_custom_type_script = "uid://ddqb83lllpvik"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0.5, -9.53674e-07)
-scale = Vector2(0.45, 2.7)
+position = Vector2(-3, 2.38419e-07)
+rotation = 1.5708
+scale = Vector2(0.202647, 1.76227)
 
 [node name="HitboxComponent" type="Area2D" parent="."]
 unique_name_in_owner = true
+rotation = 1.5708
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("4_sbnw8")
 metadata/_custom_type_script = "uid://csga2ypo703ny"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(1.31134e-07, 3)
 shape = SubResource("CapsuleShape2D_xqbwo")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

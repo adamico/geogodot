@@ -6,8 +6,7 @@ signal capture
 signal stop_capture
 
 const CROSSHAIR_146 = preload("res://assets/sprites/crosshair146.png")
-const CROSSHAIR_008 = preload("res://assets/sprites/crosshair008.png")
-
+const GUN = preload("res://assets/sprites/gun.png")
 
 @export var capture_progress_bar: ProgressBar
 @export var state_chart: StateChart
@@ -29,6 +28,7 @@ func _ready() -> void:
 
 func _on_capturing_state_processing(delta: float) -> void:
     target_component.texture = CROSSHAIR_146
+    target_component.rotation = 0
     target_animation_player.play("capture_target_modulate_pulse")
 
     capture_progress_bar.show()
@@ -49,7 +49,7 @@ func _on_capturing_state_entered() -> void:
 func _on_capturing_state_exited() -> void:
     stop_capture.emit()
     target_animation_player.stop()
-    target_component.texture = CROSSHAIR_008
+    target_component.texture = GUN
     capturing_sound.stop()
     _reset_progress_bar()
     state_chart.send_event("allow_move")

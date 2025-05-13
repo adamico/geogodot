@@ -15,7 +15,8 @@ func _ready() -> void:
 
 
 func _on_can_move_target(_delta: float) -> void:
-    position = direction * Constants.TILE_SIZE
+    position = direction * (Constants.TILE_SIZE - 8)
+    rotation = direction.angle()
     old_direction = direction
 
 
