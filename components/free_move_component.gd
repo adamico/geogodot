@@ -1,7 +1,7 @@
 class_name FreeMoveComponent
 extends Node
 
-@export var actor: Node2D
+@export var actor: CharacterBody2D
 @export var direction: Vector2
 @export var speed:= 70
 
@@ -12,17 +12,19 @@ extends Node
 @onready var engines_animated_sprite: AnimatedSprite2D = %EnginesAnimatedSprite
 @onready var moving_sound: AudioStreamPlayer = %MovingSound
 @onready var stop_moving_sound: AudioStreamPlayer = %StopMovingSound
+@onready var hitbox_component: HitboxComponent = %HitboxComponent
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
     if direction == Vector2.ZERO:
         state_chart.send_event("stop_move")
     else:
-        actor.translate(direction * speed * delta)
+        actor.velocity = direction * speed
+        actor.move_and_slide()
         state_chart.send_event("move")
 
 
-func _play_moving_animation(direction: Vector2) -> void:
+func _play_moving_animation() -> void:
     var directions_to_sprites: Dictionary = {
         Vector2.LEFT: "move_left",
         Vector2.RIGHT: "move_right",
@@ -42,8 +44,8 @@ func _on_cannot_move_state_processing(_delta: float) -> void:
     engines_animated_sprite.play("idle")
 
 
-func _on_moving_state_processing(delta: float) -> void:
-    _play_moving_animation(direction)
+func _on_moving_state_processing(_delta: float) -> void:
+    _play_moving_animation()
     if not moving_sound.playing: moving_sound.play()
 
 

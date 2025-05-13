@@ -279,7 +279,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAI
 tile_set = SubResource("TileSet_0wfyh")
 script = ExtResource("2_b3oru")
 
-[node name="BoundLeft" type="Area2D" parent="."]
+[node name="BoundLeft" type="StaticBody2D" parent="."]
 collision_layer = 8
 collision_mask = 0
 
@@ -287,7 +287,7 @@ collision_mask = 0
 position = Vector2(-16, 528)
 shape = SubResource("RectangleShape2D_pdtm5")
 
-[node name="BoundRight" type="Area2D" parent="."]
+[node name="BoundRight" type="StaticBody2D" parent="."]
 position = Vector2(1056, -32)
 collision_layer = 8
 collision_mask = 0
@@ -296,7 +296,7 @@ collision_mask = 0
 position = Vector2(-16, 528)
 shape = SubResource("RectangleShape2D_pdtm5")
 
-[node name="BoundTop" type="Area2D" parent="."]
+[node name="BoundTop" type="StaticBody2D" parent="."]
 position = Vector2(-32, -32)
 rotation = -1.57079
 collision_layer = 8
@@ -306,7 +306,7 @@ collision_mask = 0
 position = Vector2(-16, 528)
 shape = SubResource("RectangleShape2D_pdtm5")
 
-[node name="BoundBottom" type="Area2D" parent="."]
+[node name="BoundBottom" type="StaticBody2D" parent="."]
 position = Vector2(0, 1024)
 rotation = -1.57079
 collision_layer = 8

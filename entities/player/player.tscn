@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=96 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -45,12 +45,16 @@
 [ext_resource type="Texture2D" uid="uid://btttbpil6e1vi" path="res://assets/sprites/engines.png" id="37_ttr27"]
 [ext_resource type="Script" uid="uid://dh4dy7qlv108s" path="res://components/free_move_component.gd" id="46_g3pa7"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
+size = Vector2(16, 16)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mmk7k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3pa7"]
 bg_color = Color(0.113725, 0.168627, 0.32549, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
+radius = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
 radius = 16.0
@@ -558,8 +562,10 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="CharacterBody2D"]
 z_index = 5
+collision_layer = 0
+collision_mask = 8
 script = ExtResource("1_b2kln")
 capture_action = ExtResource("3_fulsm")
 move_action = ExtResource("2_we0b7")
@@ -567,6 +573,9 @@ shoot_action = ExtResource("4_bwdx1")
 target_action = ExtResource("5_g3pa7")
 relative_to_player = ExtResource("6_g3pa7")
 metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2h0qb")
 
 [node name="StateChart" type="Node" parent="."]
 unique_name_in_owner = true
@@ -862,6 +871,7 @@ metadata/_custom_type_script = "uid://dp65ygycaj2yt"
 shape = SubResource("CircleShape2D_t1t22")
 
 [node name="HitboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("21_221hk")
@@ -871,6 +881,8 @@ metadata/_custom_type_script = "uid://csga2ypo703ny"
 shape = SubResource("CircleShape2D_t1t22")
 
 [node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("flash_component")]
+rotation = -3.14159
+scale = Vector2(0.43297, 0.43297)
 collision_mask = 0
 script = ExtResource("22_ghoj8")
 flash_component = NodePath("../FlashComponent")
@@ -926,11 +938,6 @@ script = ExtResource("46_g3pa7")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://dh4dy7qlv108s"
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 9
-collide_with_areas = true
-collide_with_bodies = false
-
 [node name="TargetComponent" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(24, 0)
@@ -967,11 +974,8 @@ frame_progress = 0.552949
 [connection signal="state_processing" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_processing"]
 [connection signal="state_processing" from="StateChart/ParallelState/Move/CannotMove" to="FreeMoveComponent" method="_on_cannot_move_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/CanCapture" to="CaptureComponent" method="_on_can_capture_state_entered"]
-[connection signal="state_entered" from="StateChart/ParallelState/Capture/Capturing" to="." method="_on_capturing_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="." method="_on_capturing_state_exited"]
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_exited"]
-[connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="." method="_on_capturing_state_processing"]
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Shoot/Cooldown" to="ShootComponent" method="_on_cooldown_state_entered"]

@@ -49,7 +49,6 @@ position = Vector2(48, 48)
 level = NodePath("..")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(192, 52)
 limit_left = -128
 limit_top = -128
 limit_right = 1152
