@@ -9,13 +9,11 @@ extends Node2D
 func _ready() -> void:
     move_component.direction = direction
 
-    visible_on_screen_notifier_2d.screen_exited.connect(_on_screen_exited)
-    hitbox_component.hit_hurtbox.connect(_on_hit)
 
-
-func _on_hit(hurtbox) -> void:
+func _on_hitbox_component_hit_hurtbox(hurtbox: Variant) -> void:
+    if hurtbox is not HurtboxComponent: return
     queue_free()
 
 
-func _on_screen_exited() -> void:
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
     queue_free()

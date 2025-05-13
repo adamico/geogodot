@@ -68,3 +68,5 @@ to = NodePath("../../Enabled")
 event = &"enable"
 delay_in_seconds = "1.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[connection signal="state_entered" from="StateChart/Root/CoolDown" to="." method="_on_cool_down_state_entered"]

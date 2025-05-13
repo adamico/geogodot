@@ -978,3 +978,5 @@ frame_progress = 0.552949
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Shoot/Cooldown" to="ShootComponent" method="_on_cooldown_state_entered"]
+[connection signal="successful_capture" from="CaptureComponent" to="." method="_on_capture_component_successful_capture"]
+[connection signal="size_up" from="PowerUpComponent" to="." method="_on_power_up_component_size_up"]

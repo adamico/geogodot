@@ -14,7 +14,6 @@ var spawned: Array
 
 func _ready() -> void:
     level = get_parent()
-    cool_down.state_entered.connect(_on_cool_down_state_entered)
 
 
 func _process(_delta: float) -> void:
@@ -24,15 +23,6 @@ func _process(_delta: float) -> void:
     else:
         state_chart.send_event("enable")
         state_chart.send_event("spawn")
-
-
-func _on_cool_down_state_entered() -> void:
-    _spawn()
-
-
-func _on_enemy_died(enemy: Node) -> void:
-    var enemy_id = enemy.get_instance_id()
-    spawned.erase(enemy_id)
 
 
 func _spawn() -> void:
@@ -46,3 +36,12 @@ func _spawn() -> void:
     enemy.position = global_position + spawn_position
     enemy.home_position = enemy.global_position
     spawned.append(enemy.get_instance_id())
+
+
+func _on_cool_down_state_entered() -> void:
+    _spawn()
+
+
+func _on_enemy_died(enemy: Node) -> void:
+    var enemy_id = enemy.get_instance_id()
+    spawned.erase(enemy_id)

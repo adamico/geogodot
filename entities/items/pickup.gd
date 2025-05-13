@@ -17,11 +17,6 @@ func _ready() -> void:
     label.text = label_char
     map_position = level.local_to_map(global_position)
     _hide_and_disable()
-    reveal.connect(_on_reveal)
-
-
-func _on_reveal() -> void:
-    _show_and_enable()
 
 
 func _hide_and_disable() -> void:
@@ -32,3 +27,7 @@ func _hide_and_disable() -> void:
 func _show_and_enable() -> void:
     show()
     set_process_mode(PROCESS_MODE_INHERIT)
+
+
+func _on_reveal() -> void:
+    _show_and_enable()

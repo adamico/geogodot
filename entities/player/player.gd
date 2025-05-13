@@ -39,14 +39,12 @@ func _ready() -> void:
     move_action.triggered.connect(_on_started_moving)
 
     capture_component.level = level
-    capture_component.successful_capture.connect(_on_capture_component_successful_capture)
     capture_action.triggered.connect(capture_component.on_try_capture)
     capture_action.completed.connect(capture_component.on_stop_capturing)
 
     shoot_action.triggered.connect(shoot_component.fire_laser)
     shoot_action.completed.connect(shoot_component.stop_firing)
 
-    power_up_component.size_up.connect(_on_size_up)
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
 
 
@@ -81,36 +79,6 @@ func _setup_initial_power_stats(power: String) -> void:
         stats_component.call("@" + power + "_power_setter", i)
 
 
-func _on_started_moving() -> void:
-    if not moving_sound.playing: moving_sound.play()
-
-
-func _on_stopped_moving() -> void:
-    moving_sound.stop()
-    stop_moving_sound.play()
-
-
-func _on_size_up() -> void:
-    var size_scene = SIZE.instantiate()
-    var starting_positions: Array[Vector2] = [
-        Vector2.ZERO,
-        Vector2.RIGHT,
-        Vector2.LEFT,
-        Vector2.UP,
-        Vector2.DOWN
-    ]
-    var size_power = stats_component.size_power
-    size_scene.position = starting_positions[size_power] * Constants.TILE_SIZE
-    add_child(size_scene)
-
-
-func _on_capture_component_successful_capture(cells) -> void:
-    finished_capturing_sound.play()
-    for cell in cells:
-        _set_captured(cell)
-        _reveal_pickup_at(cell)
-
-
 func _reveal_pickup_at(cell) -> void:
     var found_pickup: Pickup = _pickup_at(cell)
     if not found_pickup: return
@@ -133,3 +101,33 @@ func _pickup_at(cell) -> Node:
 func _set_captured(cell) -> void:
     level.set_cell(cell, 0, Vector2i(number + 1, 0))
     captured_cells.append(cell)
+
+
+func _on_started_moving() -> void:
+    if not moving_sound.playing: moving_sound.play()
+
+
+func _on_stopped_moving() -> void:
+    moving_sound.stop()
+    stop_moving_sound.play()
+
+
+func _on_capture_component_successful_capture(cells) -> void:
+    finished_capturing_sound.play()
+    for cell in cells:
+        _set_captured(cell)
+        _reveal_pickup_at(cell)
+
+
+func _on_power_up_component_size_up() -> void:
+    var size_scene = SIZE.instantiate()
+    var starting_positions: Array[Vector2] = [
+        Vector2.ZERO,
+        Vector2.RIGHT,
+        Vector2.LEFT,
+        Vector2.UP,
+        Vector2.DOWN
+    ]
+    var size_power = stats_component.size_power
+    size_scene.position = starting_positions[size_power] * Constants.TILE_SIZE
+    add_child(size_scene)

@@ -23,10 +23,7 @@ var home_position: Vector2
 func _ready() -> void:
     add_to_group("enemies")
     _react_to_player()
-    hurtbox_component.hurt.connect(_on_hurt_by_player)
     hurtbox_component.level = level
-    stats_component.no_health.connect(_on_no_health)
-    moving.state_processing.connect(_on_moving_state_processing)
     _setup_base_ai_component()
 
 
@@ -56,13 +53,13 @@ func _on_player_dead() -> void:
     state_chart.send_event("player_dead")
 
 
-func _on_hurt_by_player(_hitbox_component: HitboxComponent) -> void:
+func _on_hurtbox_component_hurt(_hitbox_component: HitboxComponent) -> void:
     flash_component.flash()
     shake_component.tween_shake()
     state_chart.send_event("hurt_by_player")
 
 
-func _on_no_health() -> void:
+func _on_stats_component_no_health() -> void:
     queue_free()
 
 
