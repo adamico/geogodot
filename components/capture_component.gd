@@ -5,8 +5,7 @@ signal successful_capture
 signal capture
 signal stop_capture
 
-const CROSSHAIR_146 = preload("res://assets/sprites/crosshair146.png")
-const GUN = preload("res://assets/sprites/gun.png")
+const CAPTURE = preload("res://assets/sprites/capture.png")
 
 @export var capture_progress_bar: ProgressBar
 @export var state_chart: StateChart
@@ -27,8 +26,6 @@ func _ready() -> void:
 
 
 func _on_capturing_state_processing(delta: float) -> void:
-    target_component.texture = CROSSHAIR_146
-    target_component.rotation = 0
     target_animation_player.play("capture_target_modulate_pulse")
 
     capture_progress_bar.show()
@@ -42,6 +39,8 @@ func _on_capturing_state_processing(delta: float) -> void:
 func _on_capturing_state_entered() -> void:
     capturing_sound.play()
     capture.emit()
+    target_component.texture = CAPTURE
+    create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,1), 0.2)
     state_chart.send_event("prevent_move")
     state_chart.send_event("prevent_target_move")
 
@@ -49,7 +48,6 @@ func _on_capturing_state_entered() -> void:
 func _on_capturing_state_exited() -> void:
     stop_capture.emit()
     target_animation_player.stop()
-    target_component.texture = GUN
     capturing_sound.stop()
     _reset_progress_bar()
     state_chart.send_event("allow_move")
@@ -86,3 +84,7 @@ func _calculate_cells_to_capture() -> void:
 func on_stop_capturing() -> void:
     map_cells_to_capture.clear()
     state_chart.send_event("stop_capture")
+
+
+func _on_can_capture_state_entered() -> void:
+    create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,0), 0.2)

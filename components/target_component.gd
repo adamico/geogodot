@@ -12,6 +12,7 @@ func _ready() -> void:
     direction = Vector2.RIGHT
     cannot_move_target.state_processing.connect(_on_cannot_move_target)
     can_move_target.state_processing.connect(_on_can_move_target)
+    self_modulate = Color(1,1,1,0)
 
 
 func _on_can_move_target(_delta: float) -> void:

@@ -14,21 +14,8 @@ const GUN = preload("res://assets/sprites/gun.png")
 @onready var to_can_shoot: Transition = %ToCanShoot
 
 
-func _on_cooldown_state_entered() -> void:
-    var shoot_cooldown = 1.0 / (stats_component.laser_power + 1)
-    to_can_shoot.delay_seconds = shoot_cooldown
-    target_animation_player.play("shoot_target_flash_red_once")
-    shoot_sound.play()
-    _shoot()
-
-
 func fire_laser() -> void:
     state_chart.send_event("shoot")
-
-
-func stop_firing() -> void:
-    target_component.texture = GUN
-
 
 func _shoot() -> void:
     assert(laser_scene is PackedScene,
@@ -45,3 +32,18 @@ func _spawn_laser(spawn_position) -> void:
     laser.direction = target_component.direction
     laser.rotate(target_component.direction.angle())
     actor.add_sibling(laser)
+
+
+func _on_cooldown_state_exited() -> void:
+    var tween = create_tween()
+    tween.tween_property(target_component, "self_modulate", Color(1,1,1,0), 0.2)
+
+
+func _on_cooldown_state_entered() -> void:
+    var shoot_cooldown = 1.0 / (stats_component.laser_power + 1)
+    to_can_shoot.delay_seconds = shoot_cooldown
+    target_component.texture = GUN
+    create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,1), 0.2)
+
+    shoot_sound.play()
+    _shoot()
