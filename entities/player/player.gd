@@ -4,6 +4,7 @@ extends Node2D
 signal dead
 
 const SIZE = preload("res://entities/player/size.tscn")
+const CURSOR = preload("res://assets/sprites/tile_0055.png")
 
 @export var level: TileMapLayer
 @export var capture_action: GUIDEAction
@@ -40,6 +41,8 @@ func _ready() -> void:
     shoot_action.triggered.connect(shoot_component.fire_laser)
 
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
+
+    Input.set_custom_mouse_cursor(CURSOR)
 
 
 func _process(_delta: float) -> void:
