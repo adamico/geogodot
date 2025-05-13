@@ -66,7 +66,6 @@ func _reset_progress_bar() -> void:
 
 
 func on_try_capture() -> void:
-    if target_component.direction == Vector2.ZERO: return
     _calculate_cells_to_capture()
     if map_cells_to_capture.is_empty(): return
     state_chart.send_event("capture")

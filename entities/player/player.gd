@@ -26,17 +26,12 @@ var input_direction: Vector2
 @onready var death_component: DeathComponent = %DeathComponent
 @onready var power_up_component: PowerUpComponent = %PowerUpComponent
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
-@onready var moving_sound: AudioStreamPlayer = $Sounds/Moving
-@onready var stop_moving_sound: AudioStreamPlayer = $Sounds/StopMoving
 
 
 func _ready() -> void:
     add_to_group("players")
     position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
-
-    move_action.completed.connect(_on_stopped_moving)
-    move_action.triggered.connect(_on_started_moving)
 
     capture_component.level = level
     capture_action.triggered.connect(capture_component.on_try_capture)
@@ -51,26 +46,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
     free_move_component.direction = input_direction
-    _play_moving_animation(input_direction)
 
     relative_to_player.player_coordinates = global_position
     var target_direction = target_action.value_axis_2d
     if target_direction: target_component.direction = target_direction
-
-
-func _play_moving_animation(direction: Vector2) -> void:
-    var directions_to_sprites: Dictionary = {
-        Vector2.LEFT: "move_left",
-        Vector2.RIGHT: "move_right",
-        Vector2.UP: "move_up",
-        Vector2.DOWN: "move_down",
-        Vector2.ZERO: "idle",
-        Vector2(1, 1): "move_down_right",
-        Vector2(-1, 1): "move_down_left",
-        Vector2(1, -1): "move_up_right",
-        Vector2(-1, -1): "move_up_left"
-    }
-    engines_animated_sprite.play(directions_to_sprites[direction.round()])
 
 
 func _setup_initial_power_stats(power: String) -> void:
@@ -101,15 +80,6 @@ func _pickup_at(cell) -> Node:
 func _set_captured(cell) -> void:
     level.set_cell(cell, 0, Vector2i(number + 1, 0))
     captured_cells.append(cell)
-
-
-func _on_started_moving() -> void:
-    if not moving_sound.playing: moving_sound.play()
-
-
-func _on_stopped_moving() -> void:
-    moving_sound.stop()
-    stop_moving_sound.play()
 
 
 func _on_capture_component_successful_capture(cells) -> void:

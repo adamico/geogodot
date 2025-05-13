@@ -9,10 +9,9 @@ extends Node
 @onready var moving: AtomicState = %Moving
 @onready var cannot_move: AtomicState = %CannotMove
 @onready var state_chart: StateChart = %StateChart
-
-
-func _ready() -> void:
-    cannot_move.state_processing.connect(_on_cannot_move_state_processing)
+@onready var engines_animated_sprite: AnimatedSprite2D = %EnginesAnimatedSprite
+@onready var moving_sound: AudioStreamPlayer = %MovingSound
+@onready var stop_moving_sound: AudioStreamPlayer = %StopMovingSound
 
 
 func _process(delta: float) -> void:
@@ -23,5 +22,31 @@ func _process(delta: float) -> void:
         state_chart.send_event("move")
 
 
+func _play_moving_animation(direction: Vector2) -> void:
+    var directions_to_sprites: Dictionary = {
+        Vector2.LEFT: "move_left",
+        Vector2.RIGHT: "move_right",
+        Vector2.UP: "move_up",
+        Vector2.DOWN: "move_down",
+        Vector2.ZERO: "idle",
+        Vector2(1, 1): "move_down_right",
+        Vector2(-1, 1): "move_down_left",
+        Vector2(1, -1): "move_up_right",
+        Vector2(-1, -1): "move_up_left"
+    }
+    engines_animated_sprite.play(directions_to_sprites[direction.round()])
+
+
 func _on_cannot_move_state_processing(_delta: float) -> void:
     direction = Vector2.ZERO
+    engines_animated_sprite.play("idle")
+
+
+func _on_moving_state_processing(delta: float) -> void:
+    _play_moving_animation(direction)
+    if not moving_sound.playing: moving_sound.play()
+
+
+func _on_moving_state_exited() -> void:
+    moving_sound.stop()
+    stop_moving_sound.play()
