@@ -3,7 +3,10 @@ extends Node
 
 @export var actor: CharacterBody2D
 @export var direction: Vector2
-@export var speed:= 70
+@export var speed:= 10
+@export var max_speed:= 100
+@export var acceleration:= 4
+@export var friction:= 8
 
 @onready var not_moving: AtomicState = %NotMoving
 @onready var moving: AtomicState = %Moving
@@ -18,10 +21,20 @@ extends Node
 func _physics_process(delta: float) -> void:
     if direction == Vector2.ZERO:
         state_chart.send_event("stop_move")
+        _decelerate()
     else:
-        actor.velocity = direction * speed
-        actor.move_and_slide()
+        _accelerate()
         state_chart.send_event("move")
+
+    actor.move_and_slide()
+
+
+func _accelerate() -> void:
+    actor.velocity = actor.velocity.move_toward(direction * max_speed, acceleration)
+
+
+func _decelerate() -> void:
+    actor.velocity = actor.velocity.move_toward(Vector2.ZERO, friction)
 
 
 func _play_moving_animation() -> void:
