@@ -18,7 +18,7 @@ extends Node
 @onready var hitbox_component: HitboxComponent = %HitboxComponent
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
     if direction == Vector2.ZERO:
         state_chart.send_event("stop_move")
         _decelerate()
