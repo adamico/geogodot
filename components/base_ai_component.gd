@@ -29,24 +29,27 @@ func _ready() -> void:
 
 
 func _on_calm_state_processing(_delta: float) -> void:
+    _random_path()
+
+func _random_path() -> void:
     var from = level.local_to_map(actor.global_position)
     var random_position = Vector2i(randi_range(1, 3), randi_range(1, 3))
     var to = level.local_to_map(actor.home_position) + random_position
     _calculate_path(from, to)
 
-
-func _on_alerted_state_processing(_delta: float) -> void:
+func _path_to_player() -> void:
+    if not player: return
     _calculate_path(
             level.local_to_map(actor.global_position),
             level.local_to_map(player.global_position),
     )
+
+func _on_alerted_state_processing(_delta: float) -> void:
+    _path_to_player()
 
 
 func _on_angry_state_processing(_delta: float) -> void:
-    _calculate_path(
-            level.local_to_map(actor.global_position),
-            level.local_to_map(player.global_position),
-    )
+    _path_to_player()
 
 
 func _on_not_moving_state_processing(_delta: float) -> void:
