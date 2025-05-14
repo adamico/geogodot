@@ -39,6 +39,7 @@ func _ready() -> void:
     capture_action.completed.connect(capture_component.on_stop_capturing)
 
     shoot_action.triggered.connect(shoot_component.fire_laser)
+    shoot_action.completed.connect(shoot_component.stop_firing)
 
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
 
