@@ -75,7 +75,7 @@ func _pickup_at(cell) -> Node:
     var found_pickup: Node
 
     for a_pickup: Pickup in pickups:
-        if a_pickup.map_position == cell: found_pickup = a_pickup
+        if level.local_to_map(a_pickup.global_position) == cell: found_pickup = a_pickup
 
     return found_pickup
 

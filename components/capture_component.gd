@@ -13,9 +13,9 @@ const CAPTURE = preload("res://assets/sprites/capture.png")
 @export var capturing_sound: AudioStreamPlayer
 @export var finished_capturing_sound: AudioStreamPlayer
 @export var target_component: TargetComponent
+@export var map_cells_to_capture: Array[Vector2i]
 
 var level: TileMapLayer
-@export var map_cells_to_capture: Array[Vector2i]
 
 @onready var target_animation_player: AnimationPlayer = %AnimationPlayer
 @onready var stats_component: StatsComponent = %StatsComponent
@@ -27,7 +27,6 @@ func _ready() -> void:
 
 func _on_capturing_state_processing(delta: float) -> void:
     target_animation_player.play("capture_target_modulate_pulse")
-
     capture_progress_bar.show()
     var capture_delta = (50 + stats_component.capture_power * 20) * delta
     if capture_progress_bar.value < 100:
@@ -71,14 +70,20 @@ func on_try_capture() -> void:
 
 func _calculate_cells_to_capture() -> void:
     var map_cell_to_capture = level.local_to_map(target_component.global_position)
-
-    var already_captured_cells: Array[Vector2i] = actor.captured_cells
     map_cells_to_capture.append(map_cell_to_capture)
     for size in get_tree().get_nodes_in_group("size"):
         map_cells_to_capture.append(level.local_to_map(size.global_position))
-    map_cells_to_capture = map_cells_to_capture.filter(
-        func(cell): return not already_captured_cells.has(cell)
-    )
+    map_cells_to_capture = map_cells_to_capture.filter(_not_captured_yet)
+    map_cells_to_capture = map_cells_to_capture.filter(_is_capturable_type)
+
+
+func _not_captured_yet(cell: Vector2i) -> bool:
+    return not actor.captured_cells.has(cell)
+
+
+func _is_capturable_type(cell: Vector2i) -> bool:
+    var cell_data:= level.get_cell_tile_data(cell)
+    return cell_data.get_custom_data("uncaptured")
 
 
 func on_stop_capturing() -> void:
