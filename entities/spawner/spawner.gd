@@ -32,10 +32,11 @@ func _spawn() -> void:
     var spawn_position = spawn_location.position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     enemy.dead.connect(_on_enemy_died.bind(enemy))
     enemy.level = level
-    get_parent().add_child(enemy)
+
     enemy.position = global_position + spawn_position
     enemy.home_position = enemy.global_position
     spawned.append(enemy.get_instance_id())
+    get_parent().add_child(enemy)
 
 
 func _on_cool_down_state_entered() -> void:
