@@ -6,7 +6,7 @@ signal dead
 @export var level: TileMapLayer
 @export var state_chart: StateChart
 @export var base_ai_component: BaseAIComponent
-@export var grid_move_component: GridMoveComponent
+@export var move_component: Node
 
 var player: Player
 var home_position: Vector2
@@ -17,7 +17,6 @@ var home_position: Vector2
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 @onready var flash_component: FlashComponent = %FlashComponent
 @onready var shake_component: ShakeComponent = %ShakeComponent
-@onready var moving: AtomicState = %Moving
 
 
 func _ready() -> void:
@@ -70,4 +69,4 @@ func _on_moving_state_processing(_delta: float) -> void:
     var target_position = base_ai_component.path[0]
     var from = level.local_to_map(global_position)
     var direction: Vector2 = target_position - from
-    grid_move_component.move(direction)
+    move_component.move(direction)

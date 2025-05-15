@@ -59,10 +59,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="HunterEnemy" node_paths=PackedStringArray("state_chart", "base_ai_component", "grid_move_component") instance=ExtResource("1_alvfc")]
+[node name="HunterEnemy" node_paths=PackedStringArray("state_chart", "base_ai_component", "move_component") instance=ExtResource("1_alvfc")]
 state_chart = NodePath("StateChart")
 base_ai_component = NodePath("BaseAIComponent")
-grid_move_component = NodePath("GridMoveComponent")
+move_component = NodePath("GridMoveComponent")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 self_modulate = Color(1, 0, 0, 1)

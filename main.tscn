@@ -1,12 +1,11 @@
-[gd_scene load_steps=11 format=4 uid="uid://dcrp1dtqem57s"]
+[gd_scene load_steps=10 format=4 uid="uid://dcrp1dtqem57s"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bxyya8t6j4v7v" path="res://entities/spawner/spawner.tscn" id="4_4c57u"]
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://levels/level1.tscn" id="5_fwcvl"]
-[ext_resource type="PackedScene" uid="uid://7l7trm1gr6xv" path="res://entities/enemy/hunter_enemy.tscn" id="6_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dfreooqgj08wq" path="res://phantom_camera.tscn" id="6_kek77"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_5vw27"]
-[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_73k8k"]
 [ext_resource type="PackedScene" uid="uid://6awtsapo231u" path="res://ui/hud.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://32gl4r1eefhu" path="res://entities/player/player.tscn" id="8_5xyti"]
 [ext_resource type="PackedScene" uid="uid://dkr80d2pi0d41" path="res://addons/guide/debugger/guide_debugger.tscn" id="8_kek77"]
@@ -22,25 +21,21 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAI
 
 [node name="Spawner" parent="World/Level" node_paths=PackedStringArray("level") instance=ExtResource("4_4c57u")]
 position = Vector2(400, 400)
-enemy_scene = ExtResource("6_4c57u")
 max_spawned = 3
 level = NodePath("..")
 
 [node name="Spawner2" parent="World/Level" node_paths=PackedStringArray("level") instance=ExtResource("4_4c57u")]
 position = Vector2(624, 400)
-enemy_scene = ExtResource("6_4c57u")
 max_spawned = 3
 level = NodePath("..")
 
 [node name="Spawner3" parent="World/Level" node_paths=PackedStringArray("level") instance=ExtResource("4_4c57u")]
 position = Vector2(400, 624)
-enemy_scene = ExtResource("6_4c57u")
 max_spawned = 3
 level = NodePath("..")
 
 [node name="Spawner4" parent="World/Level" node_paths=PackedStringArray("level") instance=ExtResource("4_4c57u")]
 position = Vector2(624, 624)
-enemy_scene = ExtResource("6_4c57u")
 max_spawned = 3
 level = NodePath("..")
 
@@ -48,21 +43,8 @@ level = NodePath("..")
 position = Vector2(48, 48)
 level = NodePath("..")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-physics_interpolation_mode = 1
+[node name="Camera2D" parent="." instance=ExtResource("6_kek77")]
 position = Vector2(192, 52)
-process_callback = 0
-limit_left = -128
-limit_top = -128
-limit_right = 1152
-limit_bottom = 1152
-editor_draw_limits = true
-
-[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
-process_priority = 300
-process_physics_priority = 300
-script = ExtResource("7_73k8k")
-metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="HUD" parent="." instance=ExtResource("7_kek77")]
 
