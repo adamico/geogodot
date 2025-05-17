@@ -5,9 +5,9 @@ extends Node
 
 var spawned_enemies: int = 0
 var max_enemies:= 10
-var game_start_time: int = 0
-var current_time: int = 0
-var elapsed_time: int = 0
+var game_start_time:= 0.0
+var current_time:= 0.0
+var elapsed_time:= 0.0
 
 @onready var start_timer: Timer = $StartTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -22,7 +22,7 @@ func _ready() -> void:
     _new_game()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     current_time = Time.get_unix_time_from_system()
     elapsed_time = current_time - game_start_time
 

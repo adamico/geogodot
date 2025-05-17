@@ -27,7 +27,6 @@ func _process(_delta: float) -> void:
     percentage_value.text = "%.0f%%" % Score.current_capture_percentage
     score_value.text = "%06d" % Score.score_values[1]
     ["capture_power", "laser_power"].map(_process_labels_for)
-    var time_dict = Time.get_time_dict_from_unix_time(root_node.elapsed_time)
     var time_string = Time.get_time_string_from_unix_time(root_node.elapsed_time)
     game_timer_value.text = time_string.substr(3)#"{minute}:{second}".format(time_dict)
 
