@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://32gl4r1eefhu" path="res://entities/player/player.tscn" id="2_1lwx6"]
 [ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_dsnr4"]
 [ext_resource type="PackedScene" uid="uid://dfreooqgj08wq" path="res://phantom_camera.tscn" id="3_lf0gk"]
+[ext_resource type="PackedScene" uid="uid://6awtsapo231u" path="res://ui/hud.tscn" id="4_uu1iw"]
 [ext_resource type="PackedScene" uid="uid://7l7trm1gr6xv" path="res://entities/enemy/hunter_enemy.tscn" id="5_cnaw2"]
 [ext_resource type="PackedScene" uid="uid://f6nb2q02gicb" path="res://star_field.tscn" id="7_kt6p6"]
-[ext_resource type="PackedScene" uid="uid://brbm4lk01v6ko" path="res://debug_layer.tscn" id="9_4tg7h"]
 
 [sub_resource type="Curve2D" id="Curve2D_kt6p6"]
 _data = {
@@ -20,21 +20,18 @@ script = ExtResource("1_1lwx6")
 enemy_scene = ExtResource("5_cnaw2")
 mapping_context = ExtResource("2_dsnr4")
 
+[node name="HUD" parent="." instance=ExtResource("4_uu1iw")]
+unique_name_in_owner = true
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
 
 [node name="StarField" parent="CanvasLayer" instance=ExtResource("7_kt6p6")]
 position = Vector2(640, 184)
 
-[node name="DebugLayer" parent="." instance=ExtResource("9_4tg7h")]
-
-[node name="StateChartDebugger" parent="DebugLayer" index="0"]
-initial_node_to_watch = NodePath("")
-
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-autostart = true
 
 [node name="EnemyTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -67,5 +64,4 @@ position = Vector2(192, 52)
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
 [connection signal="dead" from="Player" to="." method="_on_player_dead"]
 
-[editable path="DebugLayer"]
 [editable path="Player"]
