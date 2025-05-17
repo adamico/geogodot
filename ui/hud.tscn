@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://6awtsapo231u"]
+[gd_scene load_steps=16 format=3 uid="uid://6awtsapo231u"]
 
 [ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://ui/hud.gd" id="1_ahhtf"]
 [ext_resource type="FontFile" uid="uid://bemr8f53d5p6y" path="res://assets/fonts/Kenney Space.ttf" id="2_7ihmi"]
@@ -28,6 +28,19 @@ border_width_bottom = 1
 border_color = Color(1, 0.960784, 0.839216, 1)
 anti_aliasing = false
 
+[sub_resource type="LabelSettings" id="LabelSettings_spcu4"]
+font = ExtResource("9_spcu4")
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m0eg6"]
+font = ExtResource("9_spcu4")
+font_size = 8
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
+
 [sub_resource type="LabelSettings" id="LabelSettings_ff8ar"]
 font = ExtResource("9_spcu4")
 font_color = Color(1, 0.960784, 0.839216, 1)
@@ -37,8 +50,8 @@ shadow_color = Color(0, 0, 0, 0.34902)
 [node name="HUD" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 52.0
+offset_bottom = 24.0
 script = ExtResource("1_ahhtf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -229,19 +242,59 @@ layout_mode = 2
 text = "C"
 label_settings = ExtResource("4_7ihmi")
 
-[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0)
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -26.0
-offset_top = 12.0
-offset_right = 26.0
-offset_bottom = 36.0
+offset_left = -32.0
+offset_top = 3.0
+offset_right = 32.0
+offset_bottom = 55.0
 grow_horizontal = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/CenterContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="WaveNumberLabel" type="Label" parent="CanvasLayer/VBoxContainer/CenterContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Wave:"
+label_settings = SubResource("LabelSettings_spcu4")
+
+[node name="WaveNumberValue" type="Label" parent="CanvasLayer/VBoxContainer/CenterContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+label_settings = SubResource("LabelSettings_spcu4")
+
+[node name="EnemiesLeftContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="EnemiesLeftLabel" type="Label" parent="CanvasLayer/VBoxContainer/EnemiesLeftContainer"]
+layout_mode = 2
+text = "Enemies left:"
+label_settings = SubResource("LabelSettings_m0eg6")
+
+[node name="EnemiesLeftValue" type="Label" parent="CanvasLayer/VBoxContainer/EnemiesLeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_m0eg6")
+
+[node name="PanelContainer2" type="CenterContainer" parent="CanvasLayer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
 theme = ExtResource("8_srpbi")
 
-[node name="GameTimerValue" type="Label" parent="CanvasLayer/PanelContainer2"]
+[node name="GameTimerValue" type="Label" parent="CanvasLayer/VBoxContainer/PanelContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0

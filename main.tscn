@@ -1,13 +1,64 @@
-[gd_scene load_steps=10 format=4 uid="uid://cth6qd027e6wg"]
+[gd_scene load_steps=24 format=4 uid="uid://cth6qd027e6wg"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_4c57u"]
 [ext_resource type="PackedScene" uid="uid://7l7trm1gr6xv" path="res://entities/enemy/hunter_enemy.tscn" id="2_5vw27"]
+[ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://ui/hud.gd" id="4_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://levels/level1.tscn" id="5_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://f6nb2q02gicb" path="res://star_field.tscn" id="5_kek77"]
+[ext_resource type="FontFile" uid="uid://bemr8f53d5p6y" path="res://assets/fonts/Kenney Space.ttf" id="5_yaehf"]
+[ext_resource type="LabelSettings" uid="uid://c0ap0tl6vobp3" path="res://ui/hud_label.tres" id="6_074og"]
 [ext_resource type="PackedScene" uid="uid://dfreooqgj08wq" path="res://phantom_camera.tscn" id="6_kek77"]
-[ext_resource type="PackedScene" uid="uid://6awtsapo231u" path="res://ui/hud.tscn" id="7_kek77"]
+[ext_resource type="StyleBox" uid="uid://cg8cbu0vp8dvm" path="res://ui/power_bar_fill_style_max.tres" id="7_cegan"]
 [ext_resource type="PackedScene" uid="uid://32gl4r1eefhu" path="res://entities/player/player.tscn" id="8_5xyti"]
+[ext_resource type="Texture2D" uid="uid://dwa1ltd72v5un" path="res://assets/sprites/rank041.png" id="8_82xsv"]
+[ext_resource type="StyleBox" uid="uid://by2kftqgpoyel" path="res://ui/power_bar_fill_style.tres" id="9_getpj"]
+[ext_resource type="FontFile" uid="uid://b45r3savhj645" path="res://assets/fonts/Kenney Pixel Square.ttf" id="11_d13ii"]
+[ext_resource type="Theme" uid="uid://f0ji6y1emjg3" path="res://menus/title_theme.tres" id="12_1u8w0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ff8ar"]
+font = ExtResource("11_d13ii")
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1v5rv"]
+font = ExtResource("5_yaehf")
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
+
+[sub_resource type="SystemFont" id="SystemFont_ahhtf"]
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1v5rv"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.960784, 0.839216, 1)
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_spcu4"]
+font = ExtResource("11_d13ii")
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m0eg6"]
+font = ExtResource("11_d13ii")
+font_size = 8
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2cqfq"]
+font = ExtResource("11_d13ii")
+font_size = 32
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
 
 [sub_resource type="Curve2D" id="Curve2D_kt6p6"]
 _data = {
@@ -20,8 +71,240 @@ script = ExtResource("1_67ri8")
 enemy_scene = ExtResource("2_5vw27")
 mapping_context = ExtResource("2_4c57u")
 
-[node name="HUD" parent="." instance=ExtResource("7_kek77")]
+[node name="HUD" type="Control" parent="."]
 unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 52.0
+offset_bottom = 24.0
+script = ExtResource("4_2cqfq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="HUD"]
+
+[node name="GameTimerContainer" type="MarginContainer" parent="HUD/CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -78.0
+offset_top = -34.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("12_1u8w0")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GameTimerValue" type="Label" parent="HUD/CanvasLayer/GameTimerContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "00:00"
+label_settings = SubResource("LabelSettings_ff8ar")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/CanvasLayer"]
+offset_right = 190.0
+offset_bottom = 45.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HUD/CanvasLayer/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="Player1" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "P1"
+label_settings = SubResource("LabelSettings_1v5rv")
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="GridContainer" type="GridContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+columns = 6
+
+[node name="ScoreLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "SCORE:"
+label_settings = ExtResource("6_074og")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ScoreValue" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "     0"
+label_settings = ExtResource("6_074og")
+horizontal_alignment = 1
+
+[node name="Spacer8" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+label_settings = ExtResource("6_074og")
+horizontal_alignment = 1
+
+[node name="CaptureLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "capture:"
+label_settings = ExtResource("6_074og")
+
+[node name="CapturePowerBarP1" type="ProgressBar" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_1v5rv")
+theme_override_styles/fill = ExtResource("7_cegan")
+max_value = 3.0
+step = 1.0
+show_percentage = false
+
+[node name="RankCapturePowerP1" type="TextureRect" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("8_82xsv")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="PercentageLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "CAPTURED:"
+label_settings = ExtResource("6_074og")
+vertical_alignment = 1
+
+[node name="PercentageValue" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "0%"
+label_settings = ExtResource("6_074og")
+horizontal_alignment = 2
+
+[node name="Spacer7" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ahhtf")
+theme_override_font_sizes/font_size = 32
+text = "    "
+label_settings = ExtResource("6_074og")
+horizontal_alignment = 1
+
+[node name="LaserLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "laser:"
+label_settings = ExtResource("6_074og")
+horizontal_alignment = 2
+
+[node name="LaserPowerBarP1" type="ProgressBar" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_1v5rv")
+theme_override_styles/fill = ExtResource("9_getpj")
+max_value = 3.0
+step = 1.0
+show_percentage = false
+
+[node name="RankLaserPowerP1" type="TextureRect" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("8_82xsv")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -39.0
+offset_right = 39.0
+offset_bottom = 52.0
+grow_horizontal = 2
+
+[node name="WaveNumberContainer" type="CenterContainer" parent="HUD/CanvasLayer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelContainer" type="HBoxContainer" parent="HUD/CanvasLayer/VBoxContainer/WaveNumberContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="WaveNumberLabel" type="Label" parent="HUD/CanvasLayer/VBoxContainer/WaveNumberContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Wave:"
+label_settings = SubResource("LabelSettings_spcu4")
+
+[node name="WaveNumberValue" type="Label" parent="HUD/CanvasLayer/VBoxContainer/WaveNumberContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+label_settings = SubResource("LabelSettings_spcu4")
+
+[node name="EnemiesLeftContainer" type="HBoxContainer" parent="HUD/CanvasLayer/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="EnemiesLeftLabel" type="Label" parent="HUD/CanvasLayer/VBoxContainer/EnemiesLeftContainer"]
+layout_mode = 2
+text = "Enemies left:"
+label_settings = SubResource("LabelSettings_m0eg6")
+
+[node name="EnemiesLeftValue" type="Label" parent="HUD/CanvasLayer/VBoxContainer/EnemiesLeftContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_m0eg6")
+
+[node name="NextWaveContainer" type="CenterContainer" parent="HUD/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/CanvasLayer/NextWaveContainer"]
+layout_mode = 2
+
+[node name="NextWaveLabel" type="Label" parent="HUD/CanvasLayer/NextWaveContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Next wave in: "
+label_settings = SubResource("LabelSettings_2cqfq")
+
+[node name="NextWaveValue" type="Label" parent="HUD/CanvasLayer/NextWaveContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_2cqfq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -29,12 +312,11 @@ layer = -1
 [node name="StarField" parent="CanvasLayer" instance=ExtResource("5_kek77")]
 position = Vector2(640, 184)
 
-[node name="StartTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
 [node name="EnemyTimer" type="Timer" parent="."]
-wait_time = 2.0
+
+[node name="WaveTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
 
 [node name="P1StartPosition" type="Marker2D" parent="."]
 position = Vector2(48, 48)
@@ -60,8 +342,11 @@ level = NodePath("../Level")
 [node name="PhantomCamera2D" parent="Player" index="6"]
 position = Vector2(192, 52)
 
-[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="last_enemy_in_wave_dead" from="." to="." method="_on_last_enemy_in_wave_dead"]
+[connection signal="last_enemy_in_wave_dead" from="." to="HUD" method="_on_main_last_enemy_in_wave_dead"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="WaveTimer" to="HUD" method="_on_wave_timer_timeout"]
 [connection signal="dead" from="Player" to="." method="_on_player_dead"]
 
 [editable path="Player"]
