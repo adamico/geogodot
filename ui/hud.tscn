@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://6awtsapo231u"]
+[gd_scene load_steps=14 format=3 uid="uid://6awtsapo231u"]
 
 [ext_resource type="Script" uid="uid://ca5k1dui1xqg1" path="res://ui/hud.gd" id="1_ahhtf"]
 [ext_resource type="FontFile" uid="uid://bemr8f53d5p6y" path="res://assets/fonts/Kenney Space.ttf" id="2_7ihmi"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dwa1ltd72v5un" path="res://assets/sprites/rank041.png" id="4_en2x2"]
 [ext_resource type="StyleBox" uid="uid://cg8cbu0vp8dvm" path="res://ui/power_bar_fill_style_max.tres" id="4_q43x7"]
 [ext_resource type="StyleBox" uid="uid://by2kftqgpoyel" path="res://ui/power_bar_fill_style.tres" id="6_srpbi"]
+[ext_resource type="Theme" uid="uid://f0ji6y1emjg3" path="res://menus/title_theme.tres" id="8_srpbi"]
+[ext_resource type="FontFile" uid="uid://b45r3savhj645" path="res://assets/fonts/Kenney Pixel Square.ttf" id="9_spcu4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1v5rv"]
 font = ExtResource("2_7ihmi")
@@ -25,6 +27,12 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 0.960784, 0.839216, 1)
 anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_ff8ar"]
+font = ExtResource("9_spcu4")
+font_color = Color(1, 0.960784, 0.839216, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.34902)
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -220,3 +228,23 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "C"
 label_settings = ExtResource("4_7ihmi")
+
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.0
+offset_top = 12.0
+offset_right = 26.0
+offset_bottom = 36.0
+grow_horizontal = 2
+theme = ExtResource("8_srpbi")
+
+[node name="GameTimerValue" type="Label" parent="CanvasLayer/PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "00:00"
+label_settings = SubResource("LabelSettings_ff8ar")
+horizontal_alignment = 1

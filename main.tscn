@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://dcrp1dtqem57s"]
+[gd_scene load_steps=8 format=4 uid="uid://dcrp1dtqem57s"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_4c57u"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://x87k2ovrp8vn" path="res://levels/level1.tscn" id="5_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://dfreooqgj08wq" path="res://phantom_camera.tscn" id="6_kek77"]
 [ext_resource type="PackedScene" uid="uid://6awtsapo231u" path="res://ui/hud.tscn" id="7_kek77"]
-[ext_resource type="PackedScene" uid="uid://brbm4lk01v6ko" path="res://debug_layer.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://32gl4r1eefhu" path="res://entities/player/player.tscn" id="8_5xyti"]
 
 [node name="Game" type="Node"]
@@ -46,5 +45,3 @@ level = NodePath("..")
 position = Vector2(192, 52)
 
 [node name="HUD" parent="." instance=ExtResource("7_kek77")]
-
-[node name="DebugLayer" parent="." instance=ExtResource("8_5vw27")]

@@ -1,11 +1,13 @@
 extends Node
 
-
 @export var enemy_scene: PackedScene
 @export var mapping_context: GUIDEMappingContext
 
 var spawned_enemies: int = 0
 var max_enemies:= 10
+var game_start_time: int = 0
+var current_time: int = 0
+var elapsed_time: int = 0
 
 @onready var start_timer: Timer = $StartTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -20,8 +22,14 @@ func _ready() -> void:
     _new_game()
 
 
+func _process(delta: float) -> void:
+    current_time = Time.get_unix_time_from_system()
+    elapsed_time = current_time - game_start_time
+
 func _new_game() -> void:
     player.position = p_1_start_position.position
+    start_timer.start()
+    game_start_time = Time.get_unix_time_from_system()
 
 
 func _on_player_dead() -> void:
