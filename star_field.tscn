@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://f6nb2q02gicb"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5teed"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 180, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+hue_variation_min = -0.06
+hue_variation_max = 0.05
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gfj2v"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 180, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.8
+scale_max = 1.2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_waf02"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 180, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5
+
+[node name="StarField" type="Node2D"]
+
+[node name="Far" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.243137)
+amount = 1000
+lifetime = 90.0
+preprocess = 90.0
+process_material = SubResource("ParticleProcessMaterial_5teed")
+
+[node name="Middle" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.384314)
+amount = 500
+lifetime = 90.0
+preprocess = 90.0
+speed_scale = 2.0
+process_material = SubResource("ParticleProcessMaterial_gfj2v")
+
+[node name="Near" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.768627)
+self_modulate = Color(1, 1, 1, 0.741176)
+amount = 200
+lifetime = 90.0
+preprocess = 90.0
+speed_scale = 3.0
+process_material = SubResource("ParticleProcessMaterial_waf02")

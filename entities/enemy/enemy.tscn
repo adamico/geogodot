@@ -11,8 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="9_eaj7m"]
 [ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="10_a8fs5"]
 
-[node name="Enemy" type="Node2D" groups=["enemies"]]
+[node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_78jik")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -60,10 +62,9 @@ script = ExtResource("8_721x4")
 scene = ExtResource("9_eaj7m")
 metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
 
-[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]
+[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "death_effect_spawner_component")]
 unique_name_in_owner = true
 script = ExtResource("10_a8fs5")
-actor = NodePath("..")
 stats_component = NodePath("../StatsComponent")
 death_effect_spawner_component = NodePath("../SpawnerComponent")
 metadata/_custom_type_script = "uid://btvdcwmic1jcu"

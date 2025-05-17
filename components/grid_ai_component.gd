@@ -1,4 +1,4 @@
-class_name BaseAIComponent
+class_name GridAIComponent
 extends Node2D
 
 @export var state_chart: StateChart

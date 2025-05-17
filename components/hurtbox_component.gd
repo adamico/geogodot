@@ -5,8 +5,6 @@ signal hurt(hitbox)
 
 @export var flash_component: FlashComponent
 
-var level: TileMapLayer
-
 var is_invincible = false:
     set(value):
         is_invincible = value

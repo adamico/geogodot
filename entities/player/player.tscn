@@ -562,7 +562,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["players"]]
 z_index = 5
 collision_layer = 0
 collision_mask = 8
@@ -736,29 +736,6 @@ to = NodePath("../../CanMoveTarget")
 event = &"allow_target_move"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
-
-[node name="DebugLayer" type="CanvasLayer" parent="."]
-
-[node name="PanelContainer" type="PanelContainer" parent="DebugLayer"]
-visible = false
-offset_left = 832.0
-offset_top = 27.0
-offset_right = 1128.0
-offset_bottom = 175.0
-
-[node name="GridContainer" type="GridContainer" parent="DebugLayer/PanelContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="DirectionLabel" type="Label" parent="DebugLayer/PanelContainer/GridContainer"]
-layout_mode = 2
-text = "Direction:"
-horizontal_alignment = 2
-
-[node name="DirectionValue" type="Label" parent="DebugLayer/PanelContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "0,0"
 
 [node name="Sounds" type="Node" parent="."]
 

@@ -23,7 +23,6 @@ Constants="*res://globals/constants.gd"
 Score="*res://globals/score.gd"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
-LimboConsole="*res://addons/limbo_console/limbo_console.gd"
 
 [display]
 
@@ -42,7 +41,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://addons/guide/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [global_group]
 
@@ -118,4 +117,5 @@ textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/lossless_compression/force_png=true
+environment/defaults/default_clear_color=Color(0.164706, 0.113725, 0.188235, 1)
 2d/snap/snap_2d_vertices_to_pixel=true
