@@ -1,55 +1,83 @@
-[gd_scene load_steps=8 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=11 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
-[ext_resource type="Texture2D" uid="uid://ohx4cuoac64h" path="res://assets/sprites/simpleSpace_tilesheet.png" id="2_48u5j"]
+[ext_resource type="Texture2D" uid="uid://b5ob8a2x7l6ve" path="res://assets/sprites/pyramid_enemy.png" id="2_42etk"]
 [ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_tv0yq"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_42etk"]
-atlas = ExtResource("2_48u5j")
-region = Rect2(0, 192, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_nt1w2"]
+atlas = ExtResource("2_42etk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6g888"]
+atlas = ExtResource("2_42etk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tv0yq"]
+atlas = ExtResource("2_42etk")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uuhhs"]
+atlas = ExtResource("2_42etk")
+region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nt1w2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
+"texture": SubResource("AtlasTexture_nt1w2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6g888")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tv0yq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uuhhs")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 6.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_42etk"]
-radius = 22.0227
+radius = 9.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tv0yq"]
-radius = 9.0
+radius = 7.07107
 
 [node name="HunterEnemy" instance=ExtResource("1_alvfc")]
 
 [node name="Rig" parent="." index="0"]
-position = Vector2(0, -18)
-scale = Vector2(0.8, 0.8)
+position = Vector2(0, -8)
 
 [node name="AnimatedSprite2D" parent="Rig" index="0"]
+position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_nt1w2")
+autoplay = "default"
+frame_progress = 0.428021
+
+[node name="HurtboxComponent" parent="Rig" index="1"]
+position = Vector2(0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
 shape = SubResource("CircleShape2D_42etk")
+
+[node name="HitboxComponent" parent="Rig" index="2"]
+position = Vector2(0, -2)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_42etk")
 
 [node name="HealthBar" parent="Rig" index="4"]
-offset_top = 26.0
-offset_bottom = 30.0
+offset_top = 11.0
+offset_bottom = 15.0
 
 [node name="FlashComponent" parent="." index="3"]
 flash_duration = 0.1
 
 [node name="CollisionShape2D" parent="." index="6"]
-visible = false
-position = Vector2(0, -9)
+position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_tv0yq")
 
 [node name="BasicAIComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
