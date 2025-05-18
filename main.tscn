@@ -336,11 +336,7 @@ level = NodePath("../Level")
 [node name="PhantomCamera2D" parent="World/Player" index="5"]
 position = Vector2(192, 52)
 
-[node name="StatsComponent" parent="World/Player" index="7"]
-laser_power = 4
-size_power = 4
-
-[node name="FreeMoveComponent" parent="World/Player" index="14"]
+[node name="FreeMoveComponent" parent="World/Player" index="11"]
 max_speed = 60
 
 [node name="EnemyPath" type="Path2D" parent="World"]

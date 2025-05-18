@@ -19,63 +19,65 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_78jik")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Rig" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Rig"]
 unique_name_in_owner = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component")]
+unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_dt443")
+flash_component = NodePath("../../FlashComponent")
+metadata/_custom_type_script = "uid://bdy33sbgoncok"
+
+[node name="HitboxComponent" type="Area2D" parent="Rig"]
+unique_name_in_owner = true
+collision_layer = 0
+script = ExtResource("4_4wwj3")
+metadata/_custom_type_script = "uid://csga2ypo703ny"
+
+[node name="SpawnerComponent" type="Node2D" parent="Rig"]
+unique_name_in_owner = true
+script = ExtResource("8_721x4")
+scene = ExtResource("9_eaj7m")
+metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
+
+[node name="HealthBar" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("11_7vrfk")]
+stats_component = NodePath("../../StatsComponent")
 
 [node name="StatsComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_im2q6")
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
-[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("flash_component")]
-unique_name_in_owner = true
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("3_dt443")
-flash_component = NodePath("../FlashComponent")
-metadata/_custom_type_script = "uid://bdy33sbgoncok"
-
-[node name="HitboxComponent" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 0
-script = ExtResource("4_4wwj3")
-metadata/_custom_type_script = "uid://csga2ypo703ny"
-
 [node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
 unique_name_in_owner = true
 script = ExtResource("5_4wwj3")
 stats_component = NodePath("../StatsComponent")
-hurtbox_component = NodePath("../HurtboxComponent")
+hurtbox_component = NodePath("../Rig/HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
 
 [node name="FlashComponent" type="Node" parent="." node_paths=PackedStringArray("sprite")]
 unique_name_in_owner = true
 script = ExtResource("6_d50e0")
 flash_material = ExtResource("7_4ohlc")
-sprite = NodePath("../AnimatedSprite2D")
+sprite = NodePath("../Rig/AnimatedSprite2D")
 metadata/_custom_type_script = "uid://b4i7mx467ysy7"
 
 [node name="ShakeComponent" type="Node" parent="." node_paths=PackedStringArray("node")]
 unique_name_in_owner = true
 script = ExtResource("7_61ikd")
-node = NodePath("../AnimatedSprite2D")
+node = NodePath("../Rig/AnimatedSprite2D")
 metadata/_custom_type_script = "uid://dqwr7ryn4yekc"
-
-[node name="SpawnerComponent" type="Node2D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("8_721x4")
-scene = ExtResource("9_eaj7m")
-metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
 
 [node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]
 unique_name_in_owner = true
 script = ExtResource("10_a8fs5")
 actor = NodePath("..")
 stats_component = NodePath("../StatsComponent")
-death_effect_spawner_component = NodePath("../SpawnerComponent")
+death_effect_spawner_component = NodePath("../Rig/SpawnerComponent")
 metadata/_custom_type_script = "uid://btvdcwmic1jcu"
 
-[node name="HealthBar" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("11_7vrfk")]
-stats_component = NodePath("../StatsComponent")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

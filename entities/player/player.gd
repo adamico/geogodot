@@ -27,6 +27,7 @@ var input_direction: Vector2
 @onready var death_component: DeathComponent = %DeathComponent
 @onready var power_up_component: PowerUpComponent = %PowerUpComponent
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
+@onready var rig: Node2D = $Rig
 
 
 func _ready() -> void:
@@ -103,4 +104,4 @@ func _on_power_up_component_size_up() -> void:
     ]
     var size_power = stats_component.size_power
     size_scene.position = starting_positions[size_power] * Constants.TILE_SIZE
-    add_child(size_scene)
+    rig.add_child(size_scene)

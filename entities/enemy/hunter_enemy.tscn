@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=8 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
 [ext_resource type="Texture2D" uid="uid://ohx4cuoac64h" path="res://assets/sprites/simpleSpace_tilesheet.png" id="2_48u5j"]
@@ -6,7 +6,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_42etk"]
 atlas = ExtResource("2_48u5j")
-region = Rect2(192, 192, 64, 64)
+region = Rect2(0, 192, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nt1w2"]
 animations = [{
@@ -15,71 +15,46 @@ animations = [{
 "texture": SubResource("AtlasTexture_42etk")
 }],
 "loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_left",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_up",
+"name": &"default",
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_42etk"]
+radius = 22.0227
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_tv0yq"]
-radius = 16.0
+radius = 9.0
 
 [node name="HunterEnemy" instance=ExtResource("1_alvfc")]
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-self_modulate = Color(1, 0, 0, 1)
+[node name="Rig" parent="." index="0"]
+position = Vector2(0, -18)
+scale = Vector2(0.8, 0.8)
+
+[node name="AnimatedSprite2D" parent="Rig" index="0"]
 sprite_frames = SubResource("SpriteFrames_nt1w2")
-animation = &"idle"
-autoplay = "idle"
 
-[node name="CollisionShape2D" parent="." index="1"]
-shape = SubResource("CircleShape2D_tv0yq")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_42etk")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
-self_modulate = Color(1, 0.04, 0.04, 1)
-polygon = PackedVector2Array(-15, 1, -15, -1, -1, -15, 1, -15, 15, -1, 15, 1, 1, 15, -1, 15)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_42etk")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent" index="0"]
-self_modulate = Color(0, 0.0666666, 1, 1)
-polygon = PackedVector2Array(-10, 0, 0, -10, 10, 0, 0, 10)
+[node name="HealthBar" parent="Rig" index="4"]
+offset_top = 26.0
+offset_bottom = 30.0
 
-[node name="FlashComponent" parent="." index="6"]
+[node name="FlashComponent" parent="." index="3"]
 flash_duration = 0.1
 
-[node name="BasicAIComponent" type="Node2D" parent="." index="9" node_paths=PackedStringArray("actor")]
+[node name="CollisionShape2D" parent="." index="6"]
+visible = false
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_tv0yq")
+
+[node name="BasicAIComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
 script = ExtResource("6_tv0yq")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
 
 [connection signal="no_health" from="StatsComponent" to="." method="_on_stats_component_no_health"]
-[connection signal="hurt" from="HurtboxComponent" to="." method="_on_hurtbox_component_hurt"]
