@@ -45,18 +45,12 @@
 [ext_resource type="Texture2D" uid="uid://btttbpil6e1vi" path="res://assets/sprites/engines.png" id="37_ttr27"]
 [ext_resource type="Script" uid="uid://dh4dy7qlv108s" path="res://components/free_move_component.gd" id="46_g3pa7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
-size = Vector2(16, 16)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mmk7k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3pa7"]
 bg_color = Color(0.113725, 0.168627, 0.32549, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
-radius = 16.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
 radius = 16.0
 
 [sub_resource type="Animation" id="Animation_ttr27"]
@@ -562,8 +556,15 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
+radius = 16.0
+
 [node name="Player" type="CharacterBody2D" groups=["players"]]
-z_index = 5
+y_sort_enabled = true
+position = Vector2(0, -16)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("1_b2kln")
@@ -573,9 +574,6 @@ shoot_action = ExtResource("4_bwdx1")
 target_action = ExtResource("5_g3pa7")
 relative_to_player = ExtResource("6_g3pa7")
 metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_2h0qb")
 
 [node name="StateChart" type="Node" parent="."]
 unique_name_in_owner = true
@@ -847,27 +845,6 @@ metadata/_custom_type_script = "uid://dp65ygycaj2yt"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectorComponent"]
 shape = SubResource("CircleShape2D_t1t22")
 
-[node name="HitboxComponent" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("21_221hk")
-metadata/_custom_type_script = "uid://csga2ypo703ny"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-shape = SubResource("CircleShape2D_t1t22")
-
-[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("flash_component")]
-rotation = -3.14159
-scale = Vector2(0.43297, 0.43297)
-collision_mask = 0
-script = ExtResource("22_ghoj8")
-flash_component = NodePath("../FlashComponent")
-metadata/_custom_type_script = "uid://bdy33sbgoncok"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-shape = SubResource("CircleShape2D_221hk")
-
 [node name="StatsComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("23_ghoj8")
@@ -946,6 +923,31 @@ animation = &"idle"
 autoplay = "idle"
 frame = 10
 frame_progress = 0.552949
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_2h0qb")
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("21_221hk")
+metadata/_custom_type_script = "uid://csga2ypo703ny"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_t1t22")
+
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("flash_component")]
+rotation = -3.14159
+scale = Vector2(0.43297, 0.43297)
+collision_mask = 0
+script = ExtResource("22_ghoj8")
+flash_component = NodePath("../FlashComponent")
+metadata/_custom_type_script = "uid://bdy33sbgoncok"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_221hk")
 
 [connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_processing"]

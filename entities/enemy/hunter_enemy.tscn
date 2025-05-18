@@ -1,14 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=7 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
 [ext_resource type="Texture2D" uid="uid://ohx4cuoac64h" path="res://assets/sprites/simpleSpace_tilesheet.png" id="2_48u5j"]
-[ext_resource type="Script" uid="uid://ddqb83lllpvik" path="res://components/move_component.gd" id="5_6g888"]
 [ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_tv0yq"]
-[ext_resource type="PackedScene" uid="uid://dgvae28w5k7of" path="res://components/health_bar.tscn" id="8_7euji"]
-[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="8_ac1bw"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_tv0yq"]
-radius = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_42etk"]
 atlas = ExtResource("2_48u5j")
@@ -57,59 +51,35 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_tv0yq"]
+radius = 16.0
+
 [node name="HunterEnemy" instance=ExtResource("1_alvfc")]
-collision_layer = 2
-collision_mask = 2
 
-[node name="CollisionShape2D" parent="." index="0"]
-shape = SubResource("CircleShape2D_tv0yq")
-
-[node name="AnimatedSprite2D" parent="." index="1"]
+[node name="AnimatedSprite2D" parent="." index="0"]
 self_modulate = Color(1, 0, 0, 1)
 sprite_frames = SubResource("SpriteFrames_nt1w2")
-animation = &"move_up"
+animation = &"idle"
 autoplay = "idle"
 
-[node name="HealthBar" parent="." index="2" node_paths=PackedStringArray("stats_component") instance=ExtResource("8_7euji")]
-stats_component = NodePath("../StatsComponent")
-
-[node name="StatsComponent" parent="." index="3"]
-health = 3.0
-
-[node name="HurtboxComponent" parent="." index="4" node_paths=PackedStringArray("flash_component")]
-flash_component = NodePath("../FlashComponent")
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("CircleShape2D_tv0yq")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
 self_modulate = Color(1, 0.04, 0.04, 1)
 polygon = PackedVector2Array(-15, 1, -15, -1, -1, -15, 1, -15, 15, -1, 15, 1, 1, 15, -1, 15)
 
-[node name="HitboxComponent" parent="." index="5"]
-collision_mask = 1
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent" index="0"]
 self_modulate = Color(0, 0.0666666, 1, 1)
 polygon = PackedVector2Array(-10, 0, 0, -10, 10, 0, 0, 10)
 
-[node name="FlashComponent" parent="." index="7"]
-flash_material = ExtResource("8_ac1bw")
+[node name="FlashComponent" parent="." index="6"]
 flash_duration = 0.1
 
-[node name="ShakeComponent" parent="." index="8" node_paths=PackedStringArray("node")]
-node = NodePath("../AnimatedSprite2D")
-
-[node name="MoveComponent" type="Node" parent="." index="10" node_paths=PackedStringArray("actor")]
-script = ExtResource("5_6g888")
-actor = NodePath("..")
-speed = 60
-metadata/_custom_type_script = "uid://ddqb83lllpvik"
-
-[node name="BasicAIComponent" type="Node2D" parent="." index="11" node_paths=PackedStringArray("actor")]
+[node name="BasicAIComponent" type="Node2D" parent="." index="9" node_paths=PackedStringArray("actor")]
 script = ExtResource("6_tv0yq")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
-
-[node name="DeathComponent" parent="." index="12" node_paths=PackedStringArray("actor")]
-actor = NodePath("..")
 
 [connection signal="no_health" from="StatsComponent" to="." method="_on_stats_component_no_health"]
 [connection signal="hurt" from="HurtboxComponent" to="." method="_on_hurtbox_component_hurt"]

@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://cvjsds6y3ovfb"]
+
+[ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_bjsq3"]
+[ext_resource type="Texture2D" uid="uid://cftso25iqui2f" path="res://assets/sprites/circle_enemy.png" id="2_ljv02"]
+[ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="3_qhfwu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhfwu"]
+atlas = ExtResource("2_ljv02")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inari"]
+atlas = ExtResource("2_ljv02")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3cmr"]
+atlas = ExtResource("2_ljv02")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bjsq3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhfwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_inari")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3cmr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ljv02"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhfwu"]
+radius = 32.0
+
+[node name="ExploderEnemy" instance=ExtResource("1_bjsq3")]
+position = Vector2(0, -32)
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_bjsq3")
+autoplay = "default"
+frame_progress = 0.765793
+
+[node name="CollisionShape2D" parent="." index="1"]
+y_sort_enabled = true
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_ljv02")
+
+[node name="StatsComponent" parent="." index="2"]
+health = 3.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_qhfwu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_qhfwu")
+
+[node name="BasicAIComponent" type="Node2D" parent="." index="10" node_paths=PackedStringArray("actor")]
+script = ExtResource("3_qhfwu")
+actor = NodePath("..")
+speed = 30.0
+metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
+
+[node name="HealthBar" parent="." index="11"]
+offset_top = 34.0
+offset_bottom = 38.0
