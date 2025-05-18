@@ -44,14 +44,14 @@ func _ready() -> void:
 
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
 
-    Input.set_custom_mouse_cursor(CURSOR)
+    Input.set_custom_mouse_cursor(CURSOR, 0, Vector2(8,8))
 
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
     free_move_component.direction = input_direction
 
-    relative_to_player.player_coordinates = global_position
+    relative_to_player.player_coordinates = rig.global_position
     var target_direction = target_action.value_axis_2d
     if target_direction: target_component.direction = target_direction
 
