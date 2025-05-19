@@ -1,223 +1,86 @@
-[gd_scene load_steps=14 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=11 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
-[ext_resource type="Texture2D" uid="uid://ohx4cuoac64h" path="res://assets/sprites/simpleSpace_tilesheet.png" id="2_48u5j"]
-[ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="3_uuhhs"]
-[ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="4_ac1bw"]
-[ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="5_3am2s"]
-[ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="6_odcmk"]
-[ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="7_7euji"]
-[ext_resource type="PackedScene" uid="uid://dgvae28w5k7of" path="res://components/health_bar.tscn" id="8_7euji"]
-[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="8_ac1bw"]
-[ext_resource type="Script" uid="uid://c5fv5s7nwj6q6" path="res://components/base_ai_component.gd" id="9_3am2s"]
-[ext_resource type="Script" uid="uid://cxi71uw5oq6an" path="res://components/grid_move_component.gd" id="10_odcmk"]
+[ext_resource type="Texture2D" uid="uid://b5ob8a2x7l6ve" path="res://assets/sprites/pyramid_enemy.png" id="2_42etk"]
+[ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_tv0yq"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_42etk"]
-atlas = ExtResource("2_48u5j")
-region = Rect2(192, 192, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_nt1w2"]
+atlas = ExtResource("2_42etk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6g888"]
+atlas = ExtResource("2_42etk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tv0yq"]
+atlas = ExtResource("2_42etk")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uuhhs"]
+atlas = ExtResource("2_42etk")
+region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nt1w2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
+"texture": SubResource("AtlasTexture_nt1w2")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_down",
-"speed": 5.0
+"texture": SubResource("AtlasTexture_6g888")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_left",
-"speed": 5.0
+"texture": SubResource("AtlasTexture_tv0yq")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
+"texture": SubResource("AtlasTexture_uuhhs")
 }],
 "loop": true,
-"name": &"move_right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42etk")
-}],
-"loop": true,
-"name": &"move_up",
-"speed": 5.0
+"name": &"default",
+"speed": 6.0
 }]
 
-[node name="HunterEnemy" node_paths=PackedStringArray("state_chart", "base_ai_component", "grid_move_component") instance=ExtResource("1_alvfc")]
-state_chart = NodePath("StateChart")
-base_ai_component = NodePath("BaseAIComponent")
-grid_move_component = NodePath("GridMoveComponent")
+[sub_resource type="CircleShape2D" id="CircleShape2D_42etk"]
+radius = 9.0
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-self_modulate = Color(1, 0, 0, 1)
+[sub_resource type="CircleShape2D" id="CircleShape2D_tv0yq"]
+radius = 7.07107
+
+[node name="HunterEnemy" instance=ExtResource("1_alvfc")]
+
+[node name="Rig" parent="." index="0"]
+position = Vector2(0, -8)
+
+[node name="AnimatedSprite2D" parent="Rig" index="0"]
+position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_nt1w2")
-animation = &"move_up"
-autoplay = "idle"
+autoplay = "default"
+frame_progress = 0.428021
 
-[node name="StateChart" type="Node" parent="." index="1"]
-script = ExtResource("3_uuhhs")
-metadata/_custom_type_script = "uid://bmucxhobuv3i"
+[node name="HurtboxComponent" parent="Rig" index="1"]
+position = Vector2(0, -2)
 
-[node name="Root" type="Node" parent="StateChart" index="0"]
-script = ExtResource("4_ac1bw")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_42etk")
 
-[node name="Emotion" type="Node" parent="StateChart/Root" index="0"]
-script = ExtResource("5_3am2s")
-initial_state = NodePath("Calm")
+[node name="HitboxComponent" parent="Rig" index="2"]
+position = Vector2(0, -2)
 
-[node name="Calm" type="Node" parent="StateChart/Root/Emotion" index="0"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_42etk")
 
-[node name="OnPlayerCapturingToAlerted" type="Node" parent="StateChart/Root/Emotion/Calm" index="0"]
-script = ExtResource("7_7euji")
-to = NodePath("../../Alerted")
-event = &"player_is_capturing"
-delay_in_seconds = "0.0"
+[node name="HealthBar" parent="Rig" index="4"]
+offset_top = 11.0
+offset_bottom = 15.0
 
-[node name="OnHurtByPlayer" type="Node" parent="StateChart/Root/Emotion/Calm" index="1"]
-script = ExtResource("7_7euji")
-to = NodePath("../../Angry")
-event = &"hurt_by_player"
-delay_in_seconds = "0.0"
-
-[node name="Alerted" type="Node" parent="StateChart/Root/Emotion" index="1"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
-
-[node name="OnPlayerStopCapturingToCalm" type="Node" parent="StateChart/Root/Emotion/Alerted" index="0"]
-script = ExtResource("7_7euji")
-to = NodePath("../../Calm")
-event = &"player_stops_capturing"
-delay_in_seconds = "0.0"
-
-[node name="OnPlayerDead" type="Node" parent="StateChart/Root/Emotion/Alerted" index="1"]
-script = ExtResource("7_7euji")
-to = NodePath("../../Calm")
-event = &"player_dead"
-delay_in_seconds = "0.0"
-
-[node name="Angry" type="Node" parent="StateChart/Root/Emotion" index="2"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
-metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
-
-[node name="OnPlayerDead" type="Node" parent="StateChart/Root/Emotion/Angry" index="0"]
-script = ExtResource("7_7euji")
-to = NodePath("../../Calm")
-event = &"player_dead"
-delay_in_seconds = "0.0"
-
-[node name="Task" type="Node" parent="StateChart/Root" index="1"]
-script = ExtResource("5_3am2s")
-initial_state = NodePath("NotMoving")
-
-[node name="NotMoving" type="Node" parent="StateChart/Root/Task" index="0"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
-
-[node name="OnTryMove" type="Node" parent="StateChart/Root/Task/NotMoving" index="0"]
-script = ExtResource("7_7euji")
-to = NodePath("../../Moving")
-event = &"move"
-delay_in_seconds = "0.0"
-
-[node name="OnNoPath" type="Node" parent="StateChart/Root/Task/NotMoving" index="1"]
-script = ExtResource("7_7euji")
-to = NodePath("../../StopMoving")
-event = &"no_path"
-delay_in_seconds = "0.0"
-
-[node name="Moving" type="Node" parent="StateChart/Root/Task" index="1"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
-
-[node name="OnStopMoving" type="Node" parent="StateChart/Root/Task/Moving" index="0"]
-script = ExtResource("7_7euji")
-to = NodePath("../../NotMoving")
-event = &"stop_move"
-delay_in_seconds = "0.0
-"
-
-[node name="OnNoPath" type="Node" parent="StateChart/Root/Task/Moving" index="1"]
-script = ExtResource("7_7euji")
-to = NodePath("../../StopMoving")
-event = &"no_path"
-delay_in_seconds = "0.0"
-
-[node name="StopMoving" type="Node" parent="StateChart/Root/Task" index="2"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
-
-[node name="ToCanMove" type="Node" parent="StateChart/Root/Task/StopMoving" index="0"]
-script = ExtResource("7_7euji")
-to = NodePath("../../NotMoving")
-delay_in_seconds = "1.0"
-
-[node name="CannotMove" type="Node" parent="StateChart/Root/Task" index="3"]
-unique_name_in_owner = true
-script = ExtResource("6_odcmk")
-metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
-
-[node name="StatsComponent" parent="." index="2"]
-health = 3.0
-
-[node name="HealthBar" parent="." index="3" node_paths=PackedStringArray("stats_component") instance=ExtResource("8_7euji")]
-stats_component = NodePath("../StatsComponent")
-
-[node name="HurtboxComponent" parent="." index="4" node_paths=PackedStringArray("flash_component")]
-flash_component = NodePath("../FlashComponent")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent" index="0"]
-self_modulate = Color(1, 0.04, 0.04, 1)
-polygon = PackedVector2Array(-15, 1, -15, -1, -1, -15, 1, -15, 15, -1, 15, 1, 1, 15, -1, 15)
-
-[node name="HitboxComponent" parent="." index="5"]
-collision_mask = 1
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent" index="0"]
-self_modulate = Color(0, 0.0666666, 1, 1)
-polygon = PackedVector2Array(-10, 0, 0, -10, 10, 0, 0, 10)
-
-[node name="FlashComponent" parent="." index="7"]
-flash_material = ExtResource("8_ac1bw")
+[node name="FlashComponent" parent="." index="3"]
 flash_duration = 0.1
 
-[node name="ShakeComponent" parent="." index="8" node_paths=PackedStringArray("node")]
-node = NodePath("../AnimatedSprite2D")
+[node name="CollisionShape2D" parent="." index="6"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_tv0yq")
 
-[node name="GridMoveComponent" type="Node" parent="." index="11" node_paths=PackedStringArray("actor", "sprite", "state_chart")]
-script = ExtResource("10_odcmk")
+[node name="BasicAIComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
+script = ExtResource("6_tv0yq")
 actor = NodePath("..")
-sprite = NodePath("../AnimatedSprite2D")
-state_chart = NodePath("../StateChart")
-speed = 0.5
-metadata/_custom_type_script = "uid://cxi71uw5oq6an"
-
-[node name="RayCast2D" type="RayCast2D" parent="." index="12"]
-collision_mask = 2
-
-[node name="BaseAIComponent" type="Node2D" parent="." index="13" node_paths=PackedStringArray("state_chart")]
-script = ExtResource("9_3am2s")
-state_chart = NodePath("../StateChart")
-metadata/_custom_type_script = "uid://c5fv5s7nwj6q6"
-
-[connection signal="state_processing" from="StateChart/Root/Task/Moving" to="." method="_on_moving_state_processing"]
-[connection signal="no_health" from="StatsComponent" to="." method="_on_stats_component_no_health"]
-[connection signal="hurt" from="HurtboxComponent" to="." method="_on_hurtbox_component_hurt"]
+metadata/_custom_type_script = "uid://db5e3mgvgwdi7"

@@ -1,0 +1,143 @@
+[gd_scene load_steps=17 format=3 uid="uid://cvjsds6y3ovfb"]
+
+[ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_bjsq3"]
+[ext_resource type="Texture2D" uid="uid://cftso25iqui2f" path="res://assets/sprites/circle_enemy.png" id="2_ljv02"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="4_inari"]
+[ext_resource type="Script" uid="uid://bibpfmfl85jcc" path="res://components/explosion_component.gd" id="5_0bkvy"]
+[ext_resource type="Script" uid="uid://cipfwj0i7qeec" path="res://entities/enemy/explosion_warning.gd" id="6_0bkvy"]
+[ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_gqr0p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhfwu"]
+atlas = ExtResource("2_ljv02")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inari"]
+atlas = ExtResource("2_ljv02")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3cmr"]
+atlas = ExtResource("2_ljv02")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0bkvy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhfwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_inari")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3cmr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gqr0p"]
+radius = 32.0
+
+[sub_resource type="Animation" id="Animation_q3cmr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="Animation" id="Animation_qhfwu"]
+resource_name = "detonate"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_inari"), null, ExtResource("4_inari"), null, ExtResource("4_inari")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_inari"]
+_data = {
+&"RESET": SubResource("Animation_q3cmr"),
+&"detonate": SubResource("Animation_qhfwu")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhfwu"]
+radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ljv02"]
+radius = 16.0
+
+[node name="ExploderEnemy" instance=ExtResource("1_bjsq3")]
+
+[node name="Rig" parent="." index="0"]
+position = Vector2(0, -32)
+
+[node name="Explosion Warning" type="Node2D" parent="Rig" index="0"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, 32)
+script = ExtResource("6_0bkvy")
+
+[node name="AnimatedSprite2D" parent="Rig" index="1"]
+sprite_frames = SubResource("SpriteFrames_0bkvy")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_gqr0p")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_gqr0p")
+
+[node name="HealthBar" parent="Rig" index="5"]
+offset_top = 34.0
+offset_bottom = 38.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rig" index="6"]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_inari")
+}
+
+[node name="ExplosionComponent" type="Area2D" parent="Rig" index="7" node_paths=PackedStringArray("actor")]
+unique_name_in_owner = true
+position = Vector2(0, 32)
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("5_0bkvy")
+actor = NodePath("../..")
+metadata/_custom_type_script = "uid://bibpfmfl85jcc"
+
+[node name="ExplosionShape" type="CollisionShape2D" parent="Rig/ExplosionComponent" index="0"]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+shape = SubResource("CircleShape2D_qhfwu")
+debug_color = Color(0.7, 0, 0, 0.592157)
+
+[node name="StatsComponent" parent="." index="1"]
+health = 3.0
+
+[node name="CollisionShape2D" parent="." index="6"]
+y_sort_enabled = true
+position = Vector2(0, -16)
+shape = SubResource("CircleShape2D_ljv02")
+
+[node name="BasicAIComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
+script = ExtResource("6_gqr0p")
+actor = NodePath("..")
+speed = 30.0
+metadata/_custom_type_script = "uid://db5e3mgvgwdi7"

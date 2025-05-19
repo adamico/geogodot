@@ -1,10 +1,9 @@
 extends TileMapLayer
 
-const SPAWNER = preload("res://entities/spawner/spawner.tscn")
-const SPAWNER_ATLAS_COORDS = Vector2i(10, 6)
 const LOOT = [null, null, null, null, null, null, "laser", "capture"]
 const PICKUP:= preload("res://entities/items/Pickup.tscn")
 const CAPTURABLE_ATLAS_COORDS = Vector2i(0, 0)
+const HUNTER_ENEMY = preload("res://entities/enemy/hunter_enemy.tscn")
 
 var max_loot: int
 var loot_count:= {
@@ -13,18 +12,9 @@ var loot_count:= {
 }
 
 func _ready() -> void:
-    var spawner_positions = get_used_cells_by_id(-1, SPAWNER_ATLAS_COORDS)
-    spawner_positions.map(_add_spawner)
-
     var capturable_positions = get_used_cells_by_id(-1, CAPTURABLE_ATLAS_COORDS)
     max_loot = capturable_positions.size() / LOOT.size()
     capturable_positions.map(_add_loot)
-
-
-func _add_spawner(spawner_position) -> void:
-    var spawner = SPAWNER.instantiate()
-    add_child(spawner)
-    spawner.global_position = map_to_local(spawner_position)
 
 
 func _add_loot(capturable_position) -> void:

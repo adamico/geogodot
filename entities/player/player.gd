@@ -27,6 +27,8 @@ var input_direction: Vector2
 @onready var death_component: DeathComponent = %DeathComponent
 @onready var power_up_component: PowerUpComponent = %PowerUpComponent
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
+@onready var rig: Node2D = $Rig
+@onready var hurtbox_component: HurtboxComponent = %HurtboxComponent
 
 
 func _ready() -> void:
@@ -35,22 +37,23 @@ func _ready() -> void:
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
 
     capture_component.level = level
+    capture_component.successful_capture.connect(_on_capture_component_successful_capture)
     capture_action.triggered.connect(capture_component.on_try_capture)
     capture_action.completed.connect(capture_component.on_stop_capturing)
 
-    shoot_action.triggered.connect(shoot_component.fire_laser)
+    shoot_action.triggered.connect(shoot_component.fire_projectile)
     shoot_action.completed.connect(shoot_component.stop_firing)
 
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
-
-    Input.set_custom_mouse_cursor(CURSOR)
+    power_up_component.size_up.connect(_on_power_up_component_size_up)
+    Input.set_custom_mouse_cursor(CURSOR, Input.CursorShape.CURSOR_ARROW, Vector2(8,8))
 
 
 func _process(_delta: float) -> void:
     input_direction = move_action.value_axis_2d
     free_move_component.direction = input_direction
 
-    relative_to_player.player_coordinates = global_position
+    relative_to_player.player_coordinates = rig.global_position
     var target_direction = target_action.value_axis_2d
     if target_direction: target_component.direction = target_direction
 
@@ -103,4 +106,4 @@ func _on_power_up_component_size_up() -> void:
     ]
     var size_power = stats_component.size_power
     size_scene.position = starting_positions[size_power] * Constants.TILE_SIZE
-    add_child(size_scene)
+    rig.add_child(size_scene)

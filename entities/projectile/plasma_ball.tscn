@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://dl1juipqejmj7"]
+
+[ext_resource type="PackedScene" uid="uid://nqiq0hvnooux" path="res://entities/projectile/base_projectile.tscn" id="1_25v0v"]
+[ext_resource type="Texture2D" uid="uid://cehfa1s38fb5u" path="res://assets/sprites/plasma_ball.png" id="2_25v0v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kwjn"]
+atlas = ExtResource("2_25v0v")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpxfl"]
+atlas = ExtResource("2_25v0v")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptkdx"]
+atlas = ExtResource("2_25v0v")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5x5a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kwjn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpxfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ptkdx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_12rms"]
+radius = 15.0
+
+[node name="PlasmaBall" instance=ExtResource("1_25v0v")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_k5x5a")
+autoplay = "default"
+frame_progress = 0.743519
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="2"]
+position = Vector2(-0.0405283, 4.29153e-06)
+scale = Vector2(1.63213, 1.578)
+
+[node name="HitboxComponent" parent="." index="3"]
+visible = false
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_12rms")

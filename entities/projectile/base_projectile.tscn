@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://nqiq0hvnooux"]
+
+[ext_resource type="Script" uid="uid://12lyvibbg05n" path="res://entities/projectile/base_projectile.gd" id="1_js3kx"]
+[ext_resource type="Script" uid="uid://ddqb83lllpvik" path="res://components/move_component.gd" id="2_lbwex"]
+[ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="3_ouudg"]
+
+[node name="BaseProjectile" type="Node2D"]
+script = ExtResource("1_js3kx")
+
+[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
+unique_name_in_owner = true
+script = ExtResource("2_lbwex")
+actor = NodePath("..")
+direction = Vector2(1, 0)
+speed = 200
+metadata/_custom_type_script = "uid://ddqb83lllpvik"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-3, 2.38419e-07)
+rotation = 1.5708
+scale = Vector2(0.202647, 1.76227)
+
+[node name="HitboxComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+rotation = 1.5708
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("3_ouudg")
+metadata/_custom_type_script = "uid://csga2ypo703ny"

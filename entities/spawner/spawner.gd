@@ -1,6 +1,7 @@
 extends Marker2D
 
-@export var enemy_scene: PackedScene
+const HUNTER_ENEMY = preload("res://entities/enemy/hunter_enemy.tscn")
+
 @export var max_spawned: int = 2
 @export var level: TileMapLayer
 
@@ -26,7 +27,7 @@ func _process(_delta: float) -> void:
 
 
 func _spawn() -> void:
-    var enemy: Node2D = enemy_scene.instantiate()
+    var enemy: Node2D = HUNTER_ENEMY.instantiate()
     var spawn_location = %SpawnLocation
     spawn_location.progress_ratio = randf()
     var spawn_position = spawn_location.position.snapped(Vector2.ONE * Constants.TILE_SIZE)

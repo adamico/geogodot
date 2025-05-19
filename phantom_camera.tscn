@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfreooqgj08wq"]
+
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="1_3x605"]
+
+[node name="Camera2D" type="Camera2D"]
+physics_interpolation_mode = 1
+process_callback = 0
+limit_left = -128
+limit_top = -128
+limit_right = 1152
+limit_bottom = 1152
+editor_draw_limits = true
+
+[node name="PhantomCameraHost" type="Node" parent="."]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("1_3x605")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"

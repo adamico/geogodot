@@ -1,11 +1,9 @@
 class_name HurtboxComponent
 extends Area2D
 
-signal hurt(hitbox)
+signal hurt(area_2d)
 
 @export var flash_component: FlashComponent
-
-var level: TileMapLayer
 
 var is_invincible = false:
     set(value):
@@ -22,5 +20,5 @@ func _ready() -> void:
     hurt.connect(_on_hurt_by)
 
 
-func _on_hurt_by(_hitbox: HitboxComponent) -> void:
+func _on_hurt_by(_area_2d: Area2D) -> void:
     flash_component.flash()

@@ -6,4 +6,5 @@ extends Node
 @export var speed:= 70
 
 func _physics_process(delta: float) -> void:
+    if not actor: return
     actor.translate(direction * speed * delta)
