@@ -301,10 +301,10 @@ unique_name_in_owner = true
 layout_mode = 2
 label_settings = SubResource("LabelSettings_2cqfq")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="StarField" parent="CanvasLayer" instance=ExtResource("5_kek77")]
+[node name="StarField" parent="BackgroundLayer" instance=ExtResource("5_kek77")]
 position = Vector2(640, 184)
 
 [node name="EnemyTimer" type="Timer" parent="."]
