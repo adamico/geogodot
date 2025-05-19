@@ -7,10 +7,10 @@ extends Node
 
 
 func _ready() -> void:
-    stats_component.no_health.connect(die)
+    stats_component.no_health.connect(_on_no_health)
 
 
-func die() -> void:
+func _on_no_health() -> void:
     death_effect_spawner_component.spawn(actor.global_position)
     if actor.has_signal("dead"): actor.dead.emit()
     actor.call_deferred("queue_free")

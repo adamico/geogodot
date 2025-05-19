@@ -1,8 +1,17 @@
-[gd_scene load_steps=16 format=3 uid="uid://bjntim4rxynbd"]
+[gd_scene load_steps=29 format=3 uid="uid://bjntim4rxynbd"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_tjfkn"]
 [ext_resource type="Texture2D" uid="uid://cpdic76imlh2y" path="res://assets/sprites/cube_enemy.png" id="2_ewg4v"]
-[ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="3_ewg4v"]
+[ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/shoot_component.gd" id="3_0f3sr"]
+[ext_resource type="Script" uid="uid://dvugu0xlvm36u" path="res://components/kiter_ai_component.gd" id="3_ewg4v"]
+[ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="4_ahhv8"]
+[ext_resource type="PackedScene" uid="uid://dl1juipqejmj7" path="res://entities/projectile/plasma_ball.tscn" id="4_xc0jt"]
+[ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="5_3mb6l"]
+[ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="5_bhau1"]
+[ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="6_0f3sr"]
+[ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="7_bhau1"]
+[ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="8_3mb6l"]
+[ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="11_xc0jt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b20sm"]
 atlas = ExtResource("2_ewg4v")
@@ -82,6 +91,62 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Animation" id="Animation_ttr27"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/TargetComponent:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_0eo6o"]
+resource_name = "color_pulse"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/TargetComponent:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.125, 0.0624999, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2h0qb"]
+resource_name = "shoot_target_flash_red"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/TargetComponent:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_13wue"]
+_data = {
+&"RESET": SubResource("Animation_ttr27"),
+&"capture_target_modulate_pulse": SubResource("Animation_0eo6o"),
+&"shoot_target_flash_red": SubResource("Animation_2h0qb")
+}
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjfkn"]
 size = Vector2(12, 11)
 
@@ -93,7 +158,7 @@ position = Vector2(0, -20)
 [node name="AnimatedSprite2D" parent="Rig" index="0"]
 sprite_frames = SubResource("SpriteFrames_hk1r5")
 autoplay = "default"
-frame_progress = 0.577383
+frame_progress = 0.735584
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
 polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1, 20, -14, 8)
@@ -105,11 +170,28 @@ polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1,
 offset_top = 22.0
 offset_bottom = 26.0
 
-[node name="BasicAIComponent" type="Node2D" parent="Rig" index="5" node_paths=PackedStringArray("actor")]
-script = ExtResource("3_ewg4v")
+[node name="ShootComponent" type="Node2D" parent="Rig" index="5" node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
+unique_name_in_owner = true
+script = ExtResource("3_0f3sr")
 actor = NodePath("../..")
-speed = 60.0
-metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
+state_chart = NodePath("../../StateChart")
+projectile_scene = ExtResource("4_xc0jt")
+target_component = NodePath("../TargetComponent")
+shoot_sound = NodePath("../../LaserSound")
+stats_component = NodePath("../../StatsComponent")
+metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
+
+[node name="TargetComponent" type="Sprite2D" parent="Rig" index="6"]
+unique_name_in_owner = true
+script = ExtResource("5_3mb6l")
+metadata/_custom_type_script = "uid://cvldao1arx3t3"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rig/TargetComponent" index="0"]
+unique_name_in_owner = true
+root_node = NodePath("../../..")
+libraries = {
+&"": SubResource("AnimationLibrary_13wue")
+}
 
 [node name="StatsComponent" parent="." index="1"]
 health = 2.0
@@ -117,3 +199,106 @@ health = 2.0
 [node name="CollisionShape2D" parent="." index="6"]
 position = Vector2(0, -5.5)
 shape = SubResource("RectangleShape2D_tjfkn")
+
+[node name="KiterAiComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
+script = ExtResource("3_ewg4v")
+actor = NodePath("..")
+speed = 60.0
+metadata/_custom_type_script = "uid://dvugu0xlvm36u"
+
+[node name="StateChart" type="Node" parent="." index="8"]
+unique_name_in_owner = true
+script = ExtResource("4_ahhv8")
+metadata/_custom_type_script = "uid://bmucxhobuv3i"
+
+[node name="ParallelState" type="Node" parent="StateChart" index="0"]
+script = ExtResource("8_3mb6l")
+metadata/_custom_type_script = "uid://ckolnjvgnona7"
+
+[node name="Task" type="Node" parent="StateChart/ParallelState" index="0"]
+script = ExtResource("5_bhau1")
+initial_state = NodePath("Chase")
+metadata/_custom_type_script = "uid://jdqq8gw24d5i"
+
+[node name="Chase" type="Node" parent="StateChart/ParallelState/Task" index="0"]
+unique_name_in_owner = true
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="shoot" type="Node" parent="StateChart/ParallelState/Task/Chase" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Shoot")
+event = &"shoot"
+delay_in_seconds = "0.0"
+
+[node name="Shoot" type="Node" parent="StateChart/ParallelState/Task" index="1"]
+unique_name_in_owner = true
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="chase" type="Node" parent="StateChart/ParallelState/Task/Shoot" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Chase")
+event = &"chase"
+delay_in_seconds = "1.0"
+
+[node name="Shooting" type="Node" parent="StateChart/ParallelState" index="1"]
+script = ExtResource("5_bhau1")
+initial_state = NodePath("CanShoot")
+metadata/_custom_type_script = "uid://jdqq8gw24d5i"
+
+[node name="CanShoot" type="Node" parent="StateChart/ParallelState/Shooting" index="0"]
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="Transition" type="Node" parent="StateChart/ParallelState/Shooting/CanShoot" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Cooldown")
+event = &"shoot"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="Cooldown" type="Node" parent="StateChart/ParallelState/Shooting" index="1"]
+unique_name_in_owner = true
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToCanShoot" type="Node" parent="StateChart/ParallelState/Shooting/Cooldown" index="0"]
+unique_name_in_owner = true
+script = ExtResource("7_bhau1")
+to = NodePath("../../CanShoot")
+delay_in_seconds = "1.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="Target" type="Node" parent="StateChart/ParallelState" index="2"]
+script = ExtResource("5_bhau1")
+initial_state = NodePath("CanMoveTarget")
+metadata/_custom_type_script = "uid://jdqq8gw24d5i"
+
+[node name="CanMoveTarget" type="Node" parent="StateChart/ParallelState/Target" index="0"]
+unique_name_in_owner = true
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="OnPreventTargetMove" type="Node" parent="StateChart/ParallelState/Target/CanMoveTarget" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../CannotMoveTarget")
+event = &"prevent_target_move"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="CannotMoveTarget" type="Node" parent="StateChart/ParallelState/Target" index="1"]
+unique_name_in_owner = true
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="OnAllowTargetMove" type="Node" parent="StateChart/ParallelState/Target/CannotMoveTarget" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../CanMoveTarget")
+event = &"allow_target_move"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="LaserSound" type="AudioStreamPlayer" parent="." index="9"]
+stream = ExtResource("11_xc0jt")
+pitch_scale = 2.0
