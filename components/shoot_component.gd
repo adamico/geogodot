@@ -12,13 +12,19 @@ const GUN = preload("res://assets/sprites/gun.png")
 
 @onready var target_animation_player: AnimationPlayer = %AnimationPlayer
 @onready var to_can_shoot: Transition = %ToCanShoot
+@onready var cooldown: AtomicState = %Cooldown
 
+
+func _ready() -> void:
+    cooldown.state_entered.connect(_on_cooldown_state_entered)
 
 func fire_laser() -> void:
     state_chart.send_event("shoot")
 
+
 func stop_firing() -> void:
     create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,0), 0.2)
+
 
 func _shoot() -> void:
     target_component.texture = GUN

@@ -36,6 +36,10 @@ var enemy_weights = PackedFloat32Array([2, 0.2])
 
 func _ready() -> void:
     GUIDE.enable_mapping_context(mapping_context)
+    last_enemy_in_wave_dead.connect(_on_last_enemy_in_wave_dead)
+    enemy_timer.timeout.connect(_on_enemy_timer_timeout)
+    wave_timer.timeout.connect(_on_wave_timer_timeout)
+    player.dead.connect(_on_player_dead)
     _new_game()
 
 

@@ -1,8 +1,7 @@
 extends Node2D
 
 @onready var rig: Node2D = %Rig
-@onready var explosion_shape: CollisionShape2D = %CollisionShape2D
-@onready var explosion_area: Area2D = %ExplosionArea
+@onready var explosion_shape: CollisionShape2D = %ExplosionShape
 
 
 func _draw() -> void:

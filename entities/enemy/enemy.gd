@@ -13,6 +13,7 @@ signal dead
 
 func _ready() -> void:
     add_to_group("enemies")
+    stats_component.no_health.connect(_on_stats_component_no_health)
 
 
 func _on_hurtbox_component_hurt(_hitbox_component: HitboxComponent) -> void:

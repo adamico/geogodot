@@ -20,6 +20,7 @@ collision_mask = 2
 script = ExtResource("1_78jik")
 
 [node name="Rig" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Rig"]
 unique_name_in_owner = true

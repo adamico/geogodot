@@ -37,6 +37,7 @@ func _ready() -> void:
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
 
     capture_component.level = level
+    capture_component.successful_capture.connect(_on_capture_component_successful_capture)
     capture_action.triggered.connect(capture_component.on_try_capture)
     capture_action.completed.connect(capture_component.on_stop_capturing)
 
@@ -44,7 +45,7 @@ func _ready() -> void:
     shoot_action.completed.connect(shoot_component.stop_firing)
 
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
-
+    power_up_component.size_up.connect(_on_power_up_component_size_up)
     Input.set_custom_mouse_cursor(CURSOR, Input.CursorShape.CURSOR_ARROW, Vector2(8,8))
 
 

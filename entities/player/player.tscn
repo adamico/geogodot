@@ -700,6 +700,7 @@ event = &"shoot"
 delay_in_seconds = "0.0"
 
 [node name="Cooldown" type="Node" parent="StateChart/ParallelState/Shoot"]
+unique_name_in_owner = true
 script = ExtResource("8_ur7pv")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
@@ -862,6 +863,7 @@ metadata/_custom_type_script = "uid://csqkc8o4iruir"
 unique_name_in_owner = true
 script = ExtResource("46_g3pa7")
 actor = NodePath("..")
+max_speed = 60
 metadata/_custom_type_script = "uid://dh4dy7qlv108s"
 
 [node name="Rig" type="Node2D" parent="."]
@@ -962,6 +964,3 @@ shape = SubResource("CircleShape2D_221hk")
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
-[connection signal="state_entered" from="StateChart/ParallelState/Shoot/Cooldown" to="ShootComponent" method="_on_cooldown_state_entered"]
-[connection signal="successful_capture" from="CaptureComponent" to="." method="_on_capture_component_successful_capture"]
-[connection signal="size_up" from="PowerUpComponent" to="." method="_on_power_up_component_size_up"]

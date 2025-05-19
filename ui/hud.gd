@@ -21,12 +21,15 @@ var players: Array[Node]
 @onready var enemies_left_value: Label = %EnemiesLeftValue
 @onready var enemies_left_container: HBoxContainer = %EnemiesLeftContainer
 @onready var root_node: Node = $".."
+@onready var main: Node = $".."
+@onready var wave_timer: Timer = %WaveTimer
 
 
 func _ready() -> void:
     players = get_tree().get_nodes_in_group("players")
     wave_number_container.modulate = Color(1,1,1,0)
-
+    main.last_enemy_in_wave_dead.connect(_on_main_last_enemy_in_wave_dead)
+    wave_timer.timeout.connect(_on_wave_timer_timeout)
 
 func _process(_delta: float) -> void:
     percentage_value.text = "%.0f%%" % Score.current_capture_percentage

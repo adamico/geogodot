@@ -84,5 +84,3 @@ shape = SubResource("CircleShape2D_tv0yq")
 script = ExtResource("6_tv0yq")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
-
-[connection signal="no_health" from="StatsComponent" to="." method="_on_stats_component_no_health"]
