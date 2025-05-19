@@ -16,8 +16,6 @@ var players: Array[Node]
 @onready var game_timer_value: Label = %GameTimerValue
 @onready var wave_number_container: CenterContainer = %WaveNumberContainer
 @onready var wave_number_value: Label = %WaveNumberValue
-@onready var wave_number_label: Label = %WaveNumberLabel
-@onready var next_wave_label: Label = %NextWaveLabel
 @onready var next_wave_value: Label = %NextWaveValue
 @onready var next_wave_container: CenterContainer = %NextWaveContainer
 @onready var enemies_left_value: Label = %EnemiesLeftValue
@@ -27,14 +25,17 @@ var players: Array[Node]
 
 func _ready() -> void:
     players = get_tree().get_nodes_in_group("players")
+    wave_number_container.modulate = Color(1,1,1,0)
 
 
 func _process(_delta: float) -> void:
     percentage_value.text = "%.0f%%" % Score.current_capture_percentage
     score_value.text = "%06d" % Score.score_values[1]
     ["capture_power", "laser_power"].map(_process_labels_for)
+
     var time_string = Time.get_time_string_from_unix_time(root_node.elapsed_time)
     game_timer_value.text = time_string.substr(3)
+
     wave_number_value.text = str(root_node.current_wave)
     enemies_left_value.text = str(root_node.enemies_left)
 
@@ -64,7 +65,6 @@ func _on_wave_timer_timeout() -> void:
     wave_number_container.modulate = Color.WHITE
     enemies_left_container.modulate = Color.WHITE
     next_wave_container.hide()
-
 
 
 func _on_main_last_enemy_in_wave_dead() -> void:
