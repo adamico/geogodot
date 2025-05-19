@@ -107,33 +107,29 @@ horizontal_alignment = 1
 offset_right = 190.0
 offset_bottom = 45.0
 
-[node name="PanelContainer" type="PanelContainer" parent="HUD/CanvasLayer/HBoxContainer"]
-self_modulate = Color(1, 1, 1, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/CanvasLayer/HBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="MarginContainer2" type="MarginContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 
-[node name="Player1" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer2"]
+[node name="Player1" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "P1"
 label_settings = SubResource("LabelSettings_1v5rv")
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="GridContainer" type="GridContainer" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 columns = 6
 
-[node name="ScoreLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="ScoreLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
 theme_override_font_sizes/font_size = 32
@@ -142,7 +138,7 @@ label_settings = ExtResource("6_074og")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScoreValue" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="ScoreValue" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
@@ -151,7 +147,7 @@ text = "     0"
 label_settings = ExtResource("6_074og")
 horizontal_alignment = 1
 
-[node name="Spacer8" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="Spacer8" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
@@ -159,12 +155,12 @@ theme_override_font_sizes/font_size = 32
 label_settings = ExtResource("6_074og")
 horizontal_alignment = 1
 
-[node name="CaptureLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="CaptureLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "capture:"
 label_settings = ExtResource("6_074og")
 
-[node name="CapturePowerBarP1" type="ProgressBar" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="CapturePowerBarP1" type="ProgressBar" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -175,14 +171,14 @@ max_value = 3.0
 step = 1.0
 show_percentage = false
 
-[node name="RankCapturePowerP1" type="TextureRect" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="RankCapturePowerP1" type="TextureRect" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("8_82xsv")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="PercentageLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="PercentageLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
 theme_override_font_sizes/font_size = 32
@@ -190,7 +186,7 @@ text = "CAPTURED:"
 label_settings = ExtResource("6_074og")
 vertical_alignment = 1
 
-[node name="PercentageValue" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="PercentageValue" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
@@ -199,7 +195,7 @@ text = "0%"
 label_settings = ExtResource("6_074og")
 horizontal_alignment = 2
 
-[node name="Spacer7" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="Spacer7" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_ahhtf")
@@ -208,13 +204,13 @@ text = "    "
 label_settings = ExtResource("6_074og")
 horizontal_alignment = 1
 
-[node name="LaserLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="LaserLabel" type="Label" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "laser:"
 label_settings = ExtResource("6_074og")
 horizontal_alignment = 2
 
-[node name="LaserPowerBarP1" type="ProgressBar" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="LaserPowerBarP1" type="ProgressBar" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -225,7 +221,7 @@ max_value = 3.0
 step = 1.0
 show_percentage = false
 
-[node name="RankLaserPowerP1" type="TextureRect" parent="HUD/CanvasLayer/HBoxContainer/PanelContainer/HBoxContainer/MarginContainer/GridContainer"]
+[node name="RankLaserPowerP1" type="TextureRect" parent="HUD/CanvasLayer/HBoxContainer/HBoxContainer/MarginContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("8_82xsv")
@@ -237,8 +233,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -39.0
+offset_top = 2.0
 offset_right = 39.0
-offset_bottom = 52.0
+offset_bottom = 54.0
 grow_horizontal = 2
 
 [node name="WaveNumberContainer" type="CenterContainer" parent="HUD/CanvasLayer/VBoxContainer"]
