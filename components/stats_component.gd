@@ -10,7 +10,7 @@ signal power_max
     set(value):
         health = value
         health_changed.emit(value)
-        if health == 0: no_health.emit()
+        if health <= 0: no_health.emit()
 
 @export var capture_power := 0:
     set(value):

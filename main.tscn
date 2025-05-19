@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://cth6qd027e6wg"]
+[gd_scene load_steps=25 format=4 uid="uid://cth6qd027e6wg"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_4c57u"]
@@ -14,6 +14,8 @@
 [ext_resource type="StyleBox" uid="uid://by2kftqgpoyel" path="res://ui/power_bar_fill_style.tres" id="9_getpj"]
 [ext_resource type="FontFile" uid="uid://b45r3savhj645" path="res://assets/fonts/Kenney Pixel Square.ttf" id="11_d13ii"]
 [ext_resource type="Theme" uid="uid://f0ji6y1emjg3" path="res://menus/title_theme.tres" id="12_1u8w0"]
+[ext_resource type="PackedScene" uid="uid://cvjsds6y3ovfb" path="res://entities/enemy/exploder_enemy.tscn" id="15_vivmo"]
+[ext_resource type="PackedScene" uid="uid://7l7trm1gr6xv" path="res://entities/enemy/hunter_enemy.tscn" id="16_2cqfq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ff8ar"]
 font = ExtResource("11_d13ii")
@@ -344,6 +346,12 @@ curve = SubResource("Curve2D_kt6p6")
 [node name="PathFollow2D" type="PathFollow2D" parent="World/EnemyPath"]
 unique_name_in_owner = true
 position = Vector2(-298.667, -192)
+
+[node name="ExploderEnemy" parent="World" instance=ExtResource("15_vivmo")]
+position = Vector2(242, 136)
+
+[node name="HunterEnemy" parent="World" instance=ExtResource("16_2cqfq")]
+position = Vector2(184, 136)
 
 [connection signal="last_enemy_in_wave_dead" from="." to="." method="_on_last_enemy_in_wave_dead"]
 [connection signal="last_enemy_in_wave_dead" from="." to="HUD" method="_on_main_last_enemy_in_wave_dead"]

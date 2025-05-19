@@ -54,7 +54,7 @@ size = Vector2(16, 16)
 bg_color = Color(0.113725, 0.168627, 0.32549, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t1t22"]
-radius = 16.0
+radius = 12.0
 
 [sub_resource type="Animation" id="Animation_ttr27"]
 length = 0.001
@@ -560,7 +560,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
-radius = 36.9541
+radius = 27.7155
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 y_sort_enabled = true
@@ -942,6 +942,7 @@ metadata/_custom_type_script = "uid://csga2ypo703ny"
 shape = SubResource("CircleShape2D_t1t22")
 
 [node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component")]
+unique_name_in_owner = true
 position = Vector2(0, 9.53674e-07)
 rotation = -3.14159
 scale = Vector2(0.43297, 0.43297)

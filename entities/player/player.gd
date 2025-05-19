@@ -28,6 +28,7 @@ var input_direction: Vector2
 @onready var power_up_component: PowerUpComponent = %PowerUpComponent
 @onready var finished_capturing_sound: AudioStreamPlayer = $Sounds/FinishedCapturing
 @onready var rig: Node2D = $Rig
+@onready var hurtbox_component: HurtboxComponent = %HurtboxComponent
 
 
 func _ready() -> void:
@@ -44,7 +45,7 @@ func _ready() -> void:
 
     for power: String in ["size", "capture", "laser"]: _setup_initial_power_stats(power)
 
-    Input.set_custom_mouse_cursor(CURSOR, 0, Vector2(8,8))
+    Input.set_custom_mouse_cursor(CURSOR, Input.CursorShape.CURSOR_ARROW, Vector2(8,8))
 
 
 func _process(_delta: float) -> void:

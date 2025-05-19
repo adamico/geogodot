@@ -1,8 +1,50 @@
-[gd_scene load_steps=11 format=3 uid="uid://cvjsds6y3ovfb"]
+[gd_scene load_steps=17 format=3 uid="uid://cvjsds6y3ovfb"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_bjsq3"]
 [ext_resource type="Texture2D" uid="uid://cftso25iqui2f" path="res://assets/sprites/circle_enemy.png" id="2_ljv02"]
 [ext_resource type="Script" uid="uid://qcuhnomqqptg" path="res://components/kamikaze_ai.gd" id="3_qhfwu"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="4_inari"]
+[ext_resource type="Script" uid="uid://bibpfmfl85jcc" path="res://entities/enemy/explosion_area.gd" id="4_q3cmr"]
+[ext_resource type="Script" uid="uid://cipfwj0i7qeec" path="res://entities/enemy/explosion_warning.gd" id="6_0bkvy"]
+
+[sub_resource type="Animation" id="Animation_qhfwu"]
+resource_name = "detonate"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_inari"), null, ExtResource("4_inari"), null, ExtResource("4_inari")]
+}
+
+[sub_resource type="Animation" id="Animation_q3cmr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_inari"]
+_data = {
+&"RESET": SubResource("Animation_q3cmr"),
+&"detonate": SubResource("Animation_qhfwu")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhfwu"]
+radius = 64.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhfwu"]
 atlas = ExtResource("2_ljv02")
@@ -39,15 +81,44 @@ radius = 32.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ljv02"]
 radius = 16.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qhfwu"]
-radius = 64.0
-
 [node name="ExploderEnemy" instance=ExtResource("1_bjsq3")]
 
 [node name="Rig" parent="." index="0"]
+unique_name_in_owner = true
 position = Vector2(0, -32)
 
-[node name="AnimatedSprite2D" parent="Rig" index="0"]
+[node name="KamikazeAIComponent" type="Node2D" parent="Rig" index="0" node_paths=PackedStringArray("actor")]
+position = Vector2(0, 32)
+script = ExtResource("3_qhfwu")
+actor = NodePath("../..")
+speed = 30.0
+metadata/_custom_type_script = "uid://qcuhnomqqptg"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rig/KamikazeAIComponent" index="0"]
+unique_name_in_owner = true
+root_node = NodePath("../../..")
+libraries = {
+&"": SubResource("AnimationLibrary_inari")
+}
+
+[node name="ExplosionArea" type="Area2D" parent="Rig/KamikazeAIComponent" index="1"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("4_q3cmr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/KamikazeAIComponent/ExplosionArea" index="0"]
+unique_name_in_owner = true
+position = Vector2(0, -32)
+shape = SubResource("CircleShape2D_qhfwu")
+debug_color = Color(0.7, 0, 0, 0.592157)
+
+[node name="Explosion Warning" type="Node2D" parent="Rig/KamikazeAIComponent" index="2"]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("6_0bkvy")
+
+[node name="AnimatedSprite2D" parent="Rig" index="1"]
 sprite_frames = SubResource("SpriteFrames_0bkvy")
 autoplay = "default"
 
@@ -57,7 +128,7 @@ shape = SubResource("CircleShape2D_gqr0p")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_gqr0p")
 
-[node name="HealthBar" parent="Rig" index="4"]
+[node name="HealthBar" parent="Rig" index="5"]
 offset_top = 34.0
 offset_bottom = 38.0
 
@@ -68,19 +139,3 @@ health = 3.0
 y_sort_enabled = true
 position = Vector2(0, -16)
 shape = SubResource("CircleShape2D_ljv02")
-
-[node name="KamikazeAIComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
-script = ExtResource("3_qhfwu")
-actor = NodePath("..")
-speed = 30.0
-metadata/_custom_type_script = "uid://qcuhnomqqptg"
-
-[node name="Area2D" type="Area2D" parent="." index="8"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
-position = Vector2(0, -32)
-shape = SubResource("CircleShape2D_qhfwu")
-debug_color = Color(0.7, 0, 0, 0.592157)
-
-[connection signal="area_entered" from="Area2D" to="KamikazeAIComponent" method="_on_area_2d_area_entered"]
