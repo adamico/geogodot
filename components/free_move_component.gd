@@ -58,7 +58,6 @@ func _on_cannot_move_state_processing(_delta: float) -> void:
 
 
 func _on_moving_state_processing(_delta: float) -> void:
-    _play_moving_animation()
     if not moving_sound.playing: moving_sound.play()
 
 

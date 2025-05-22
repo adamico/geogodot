@@ -17,7 +17,6 @@ const CURSOR = preload("res://assets/sprites/tile_0055.png")
 var captured_cells: Array[Vector2i]
 var input_direction: Vector2
 
-@onready var engines_animated_sprite: AnimatedSprite2D = %EnginesAnimatedSprite
 @onready var state_chart: StateChart = $StateChart
 @onready var capture_component: CaptureComponent = %CaptureComponent
 @onready var free_move_component: FreeMoveComponent = %FreeMoveComponent
