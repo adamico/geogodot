@@ -5,6 +5,8 @@ signal hurt(area_2d)
 
 @export var flash_component: FlashComponent
 
+@export var actor: Node2D
+
 var is_invincible = false:
     set(value):
         is_invincible = value

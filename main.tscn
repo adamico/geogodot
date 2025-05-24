@@ -309,10 +309,10 @@ visible = false
 offset_left = 368.0
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
-layer = -1
+layer = -50
 
 [node name="StarField" parent="BackgroundLayer" instance=ExtResource("5_kek77")]
-position = Vector2(640, 184)
+position = Vector2(640, 176)
 
 [node name="EnemyTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -334,10 +334,11 @@ position = Vector2(48, 48)
 
 [node name="Camera2D" parent="World" instance=ExtResource("6_kek77")]
 unique_name_in_owner = true
-position = Vector2(192, 52)
+position = Vector2(192, 64)
 
 [node name="Player" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("8_5xyti")]
 unique_name_in_owner = true
+position = Vector2(48, 64)
 level = NodePath("../Level")
 
 [node name="EnemyPath" type="Path2D" parent="World"]

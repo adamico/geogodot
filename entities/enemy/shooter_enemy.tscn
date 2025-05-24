@@ -160,6 +160,9 @@ sprite_frames = SubResource("SpriteFrames_hk1r5")
 autoplay = "default"
 frame_progress = 0.735584
 
+[node name="HurtboxComponent" parent="Rig" index="1" node_paths=PackedStringArray("actor")]
+actor = NodePath("../..")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
 polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1, 20, -14, 8)
 
@@ -193,7 +196,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_13wue")
 }
 
-[node name="StatsComponent" parent="." index="1"]
+[node name="StatsComponent" parent="." index="1" node_paths=PackedStringArray("actor")]
+actor = NodePath("..")
 health = 2.0
 
 [node name="CollisionShape2D" parent="." index="6"]

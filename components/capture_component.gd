@@ -1,10 +1,6 @@
 class_name CaptureComponent
 extends Node
 
-signal successful_capture
-signal capture
-signal stop_capture
-
 const CAPTURE = preload("res://assets/sprites/capture.png")
 
 @export var capture_progress_bar: ProgressBar
@@ -37,7 +33,6 @@ func _on_capturing_state_processing(delta: float) -> void:
 
 func _on_capturing_state_entered() -> void:
     capturing_sound.play()
-    capture.emit()
     target_component.texture = CAPTURE
     create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,1), 0.2)
     state_chart.send_event("prevent_move")
@@ -45,7 +40,6 @@ func _on_capturing_state_entered() -> void:
 
 
 func _on_capturing_state_exited() -> void:
-    stop_capture.emit()
     target_animation_player.stop()
     capturing_sound.stop()
     _reset_progress_bar()
@@ -54,7 +48,8 @@ func _on_capturing_state_exited() -> void:
 
 
 func _on_successful_capture_state_entered() -> void:
-    successful_capture.emit(map_cells_to_capture)
+    finished_capturing_sound.play()
+    EventBus.captured_tile.emit(map_cells_to_capture, actor.capture_faction)
 
 
 func _reset_progress_bar() -> void:
@@ -78,7 +73,8 @@ func _calculate_cells_to_capture() -> void:
 
 
 func _not_captured_yet(cell: Vector2i) -> bool:
-    return not actor.captured_cells.has(cell)
+    var captured_cells = level.captured_cells[actor.capture_faction]
+    return not captured_cells.has(cell)
 
 
 func _is_capturable_type(cell: Vector2i) -> bool:

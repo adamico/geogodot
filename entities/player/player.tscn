@@ -862,6 +862,7 @@ volume_db = 12.0
 
 [node name="Capturing" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("20_r633c")
+volume_db = -6.0
 parameters/looping = true
 
 [node name="FinishedCapturing" type="AudioStreamPlayer" parent="Sounds"]
@@ -932,17 +933,16 @@ limit_right = 1152
 limit_bottom = 1152
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
-[node name="StatsComponent" type="Node" parent="."]
+[node name="StatsComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
 unique_name_in_owner = true
 script = ExtResource("23_ghoj8")
+actor = NodePath("..")
 health = 9999.0
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
-[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]
+[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("death_effect_spawner_component")]
 unique_name_in_owner = true
 script = ExtResource("24_wuv6x")
-actor = NodePath("..")
-stats_component = NodePath("../StatsComponent")
 death_effect_spawner_component = NodePath("../Rig/ExplosionSpawnerComponent")
 metadata/_custom_type_script = "uid://btvdcwmic1jcu"
 
@@ -958,11 +958,10 @@ stats_component = NodePath("../StatsComponent")
 hurtbox_component = NodePath("../Rig/HurtboxComponent")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
 
-[node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "collector_component")]
+[node name="PowerUpComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
 unique_name_in_owner = true
 script = ExtResource("36_wy7bt")
 actor = NodePath("..")
-collector_component = NodePath("../Rig/CollectorComponent")
 metadata/_custom_type_script = "uid://csqkc8o4iruir"
 
 [node name="FreeMoveComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]

@@ -40,7 +40,7 @@ func _ready() -> void:
     last_enemy_in_wave_dead.connect(_on_last_enemy_in_wave_dead)
     enemy_timer.timeout.connect(_on_enemy_timer_timeout)
     wave_timer.timeout.connect(_on_wave_timer_timeout)
-    player.dead.connect(_on_player_dead)
+    EventBus.actor_died.connect(_on_actor_dead)
     _new_game()
 
 
@@ -78,8 +78,13 @@ func _new_wave() -> void:
     wave_timer.start(base_wave_time)
 
 
-func _on_player_dead() -> void:
-    _game_over()
+func _on_actor_dead(actor: Node2D) -> void:
+    if actor is Player:
+        _game_over()
+    elif actor is Enemy:
+        enemies_left -= 1
+        if enemies_left == 0: last_enemy_in_wave_dead.emit()
+    actor.call_deferred("queue_free")
 
 
 func _on_enemy_timer_timeout() -> void:
@@ -89,16 +94,9 @@ func _on_enemy_timer_timeout() -> void:
     var enemy_scene: PackedScene = enemy_scenes[rng.rand_weighted(enemy_weights)]
     var enemy: Node2D = enemy_scene.instantiate()
     path_follow_2d.progress_ratio = randf()
-
     enemy.position = path_follow_2d.position + camera_2d.get_screen_center_position()
-    enemy.dead.connect(_on_enemy_death)
     add_child(enemy)
     enemies_spawned += 1
-
-
-func _on_enemy_death() -> void:
-    enemies_left -= 1
-    if enemies_left == 0: last_enemy_in_wave_dead.emit()
 
 
 func _on_wave_timer_timeout() -> void:

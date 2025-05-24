@@ -48,9 +48,10 @@ metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
 [node name="HealthBar" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("11_7vrfk")]
 stats_component = NodePath("../../StatsComponent")
 
-[node name="StatsComponent" type="Node" parent="."]
+[node name="StatsComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
 unique_name_in_owner = true
 script = ExtResource("2_im2q6")
+actor = NodePath("..")
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
 [node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
@@ -73,11 +74,9 @@ script = ExtResource("7_61ikd")
 node = NodePath("../Rig/AnimatedSprite2D")
 metadata/_custom_type_script = "uid://dqwr7ryn4yekc"
 
-[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "death_effect_spawner_component")]
+[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("death_effect_spawner_component")]
 unique_name_in_owner = true
 script = ExtResource("10_a8fs5")
-actor = NodePath("..")
-stats_component = NodePath("../StatsComponent")
 death_effect_spawner_component = NodePath("../Rig/SpawnerComponent")
 metadata/_custom_type_script = "uid://btvdcwmic1jcu"
 

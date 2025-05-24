@@ -1,16 +1,17 @@
 class_name StatsComponent
 extends Node
 
-signal health_changed(health_value)
-signal no_health
 signal power_up
 signal power_max
+signal health_changed
+
+@export var actor: Node2D
 
 @export var health := 1.0:
     set(value):
         health = value
         health_changed.emit(value)
-        if health <= 0: no_health.emit()
+        if health <= 0: EventBus.actor_died.emit(actor)
 
 @export var capture_power := 0:
     set(value):

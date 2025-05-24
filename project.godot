@@ -21,6 +21,7 @@ PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_came
 GUIDE="*res://addons/guide/guide.gd"
 Constants="*res://globals/constants.gd"
 Score="*res://globals/score.gd"
+EventBus="*res://globals/event_bus.gd"
 
 [display]
 
