@@ -14,12 +14,14 @@ signal game_restart_requested # Corrected
 # --- PLAYER EVENTS ---
 signal player_resource_changed(resource_name: String, new_value: int)
 
+
 # --- ENEMY EVENTS ---
 signal enemy_spawned(enemy_node: Node)
 
 # --- COMMON EVENTS ---
 signal actor_died(actor: Node2D)
-signal actor_damaged(actor: Node2D, amount: int, current_health: int)
+signal actor_damaged(attacker: Node2D, amount: int, current_health: int)
+signal actor_health_changed(actor: Node2D, current_health: int)
 signal captured_tile(captured_cells: Array[PackedVector2Array], capture_faction: int)
 
 # --- UI EVENTS (if UI components need to signal to other game parts) ---

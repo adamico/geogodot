@@ -1,0 +1,228 @@
+[gd_scene load_steps=11 format=3 uid="uid://bvai45nqhvdy2"]
+
+[ext_resource type="Script" uid="uid://d1ldqd447ndq0" path="res://entities/player/forms/base_form.gd" id="1_6jb68"]
+[ext_resource type="PackedScene" uid="uid://31l3c0ivxiue" path="res://entities/player/forms/triangle.tscn" id="1_ibacv"]
+
+[sub_resource type="Animation" id="Animation_6jb68"]
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriLeftUp:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-4, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriRightUp:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TriUpLeft:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1.732, -4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TriUpRight:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.732, -4)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TriLeftDown:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1.732, 4)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("TriRightDown:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.732, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_kvkwq"]
+resource_name = "three"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriLeftUp:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-4, 1.932)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriRightUp:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, 1.932)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TriUpLeft:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TriUpRight:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -4)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TriLeftDown:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-4, 1.932)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("TriRightDown:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, 1.932)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kvkwq"]
+_data = {
+&"six": SubResource("Animation_6jb68"),
+&"three": SubResource("Animation_kvkwq")
+}
+
+[sub_resource type="Curve" id="Curve_kvkwq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.993902, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0hduo"]
+curve = SubResource("Curve_kvkwq")
+
+[sub_resource type="Curve" id="Curve_6jb68"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.144578, 0.0571673), 0.0, 0.0, 0, 0, Vector2(0.289157, 1), 0.0575401, 0.0575401, 0, 0, Vector2(0.453815, 0.101536), 0.0, 0.0, 0, 0, Vector2(0.546185, 0.889078), 0.0, 0.0, 0, 0, Vector2(0.722892, 0.367747), 0.0, 0.0, 0, 0, Vector2(0.799197, 0.855802), 0.0, 0.0, 0, 0, Vector2(0.911647, 0.412116), 0.0, 0.0, 0, 0, Vector2(1, 0.966723), 0.0, 0.0, 0, 0]
+point_count = 9
+
+[sub_resource type="CurveTexture" id="CurveTexture_kvkwq"]
+curve = SubResource("Curve_6jb68")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0hduo"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 10.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 0.6
+scale_curve = SubResource("CurveTexture_kvkwq")
+alpha_curve = SubResource("CurveTexture_0hduo")
+
+[node name="Form" type="Node2D"]
+script = ExtResource("1_6jb68")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_kvkwq")
+}
+autoplay = "three"
+
+[node name="SphereParticles" type="GPUParticles2D" parent="."]
+amount = 1000
+lifetime = 2.0
+preprocess = 5.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_0hduo")
+
+[node name="TriUpLeft" parent="." instance=ExtResource("1_ibacv")]
+position = Vector2(0, -0.020712)
+vertex2 = Vector2(0, -0.5)
+
+[node name="TriUpRight" parent="." instance=ExtResource("1_ibacv")]
+position = Vector2(0, -0.020712)
+vertex1 = Vector2(0.866, -0.5)
+vertex2 = Vector2(0, -0.5)
+
+[node name="TriLeftUp" parent="." instance=ExtResource("1_ibacv")]
+position = Vector2(-0.020712, 0.0100039)
+
+[node name="TriLeftDown" parent="." instance=ExtResource("1_ibacv")]
+position = Vector2(-0.020712, 0.0100039)
+vertex1 = Vector2(-0.433, 0.25)
+vertex2 = Vector2(0, 1)
+
+[node name="TriRightUp" parent="." instance=ExtResource("1_ibacv")]
+position = Vector2(0.020712, 0.0100039)
+vertex1 = Vector2(0.866, -0.5)
+vertex2 = Vector2(0.433, 0.25)
+
+[node name="TriRightDown" parent="." instance=ExtResource("1_ibacv")]
+position = Vector2(0.020712, 0.0100039)
+vertex1 = Vector2(0.433, 0.25)
+vertex2 = Vector2(0, 1)

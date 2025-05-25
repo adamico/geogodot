@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=113 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://dy6wq8ccd2u03" path="res://assets/sprites/fractal_cube.png" id="40_mmk7k"]
 [ext_resource type="Texture2D" uid="uid://dusbuxytjrkxq" path="res://assets/sprites/eternal_triangle.png" id="41_7otdo"]
 [ext_resource type="Texture2D" uid="uid://co820bbr3ds0y" path="res://assets/sprites/spiral_sphere.png" id="42_c112w"]
+[ext_resource type="PackedScene" uid="uid://bvai45nqhvdy2" path="res://entities/player/forms/form.tscn" id="46_c112w"]
 [ext_resource type="Script" uid="uid://dh4dy7qlv108s" path="res://components/free_move_component.gd" id="46_g3pa7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
@@ -1022,6 +1023,7 @@ libraries = {
 }
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="Rig"]
+visible = false
 sprite_frames = SubResource("SpriteFrames_aerxn")
 animation = &"prism"
 autoplay = "prism"
@@ -1042,6 +1044,12 @@ autoplay = "idle"
 frame = 10
 frame_progress = 0.552949
 
+[node name="Form" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
+stats_component = NodePath("../../StatsComponent")
+
+[node name="AnimationPlayer" parent="Rig/Form" index="0"]
+autoplay = "six"
+
 [node name="HitboxComponent" type="Area2D" parent="Rig"]
 unique_name_in_owner = true
 collision_layer = 0
@@ -1052,7 +1060,7 @@ metadata/_custom_type_script = "uid://csga2ypo703ny"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HitboxComponent"]
 shape = SubResource("CircleShape2D_t1t22")
 
-[node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component")]
+[node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component", "actor")]
 unique_name_in_owner = true
 position = Vector2(0, 9.53674e-07)
 rotation = -3.14159
@@ -1060,6 +1068,7 @@ scale = Vector2(0.43297, 0.43297)
 collision_mask = 0
 script = ExtResource("22_ghoj8")
 flash_component = NodePath("../../FlashComponent")
+actor = NodePath("../..")
 metadata/_custom_type_script = "uid://bdy33sbgoncok"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent"]
@@ -1073,3 +1082,5 @@ shape = SubResource("CircleShape2D_221hk")
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
+
+[editable path="Rig/Form"]

@@ -5,4 +5,4 @@ extends ProgressBar
 
 
 func _ready() -> void:
-    stats_component.health_changed.connect(func(health_value: float): value = health_value)
+    stats_component.health_changed.connect(func(_actor: Node2D, new_value: float): value = new_value)

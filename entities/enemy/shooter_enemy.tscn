@@ -169,9 +169,10 @@ polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1,
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HitboxComponent" index="0"]
 polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1, 20, -14, 8)
 
-[node name="HealthBar" parent="Rig" index="4"]
+[node name="HealthBar" parent="Rig" index="4" node_paths=PackedStringArray("stats_component")]
 offset_top = 22.0
 offset_bottom = 26.0
+stats_component = NodePath("../../StatsComponent")
 
 [node name="ShootComponent" type="Node2D" parent="Rig" index="5" node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
 unique_name_in_owner = true
@@ -196,8 +197,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_13wue")
 }
 
-[node name="StatsComponent" parent="." index="1" node_paths=PackedStringArray("actor")]
-actor = NodePath("..")
+[node name="StatsComponent" parent="." index="1"]
 health = 2.0
 
 [node name="CollisionShape2D" parent="." index="6"]

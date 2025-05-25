@@ -10,7 +10,7 @@ signal health_changed
 @export var health := 1.0:
     set(value):
         health = value
-        health_changed.emit(value)
+        health_changed.emit(actor, value)
         if health <= 0: EventBus.actor_died.emit(actor)
 
 @export var capture_power := 0:
