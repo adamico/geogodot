@@ -5,7 +5,6 @@ extends Node2D
 @export var vertex2:= Vector2(-0.433, 0.25)
 @export var vertex3:= Vector2.ZERO
 
-var _time: float = 0
 var tri: PackedVector2Array
 
 

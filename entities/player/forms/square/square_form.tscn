@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ox7f76kxd3yt"]
+
+[ext_resource type="PackedScene" uid="uid://du40wgf7nh4md" path="res://entities/player/forms/square/square_piece.tscn" id="2_7icqj"]
+[ext_resource type="PackedScene" uid="uid://cispds3s1m8ar" path="res://entities/player/forms/sphere.tscn" id="2_dqsmk"]
+
+[node name="SquareForm" type="Node2D"]
+
+[node name="Sphere" parent="." instance=ExtResource("2_dqsmk")]
+
+[node name="SquarePiece" parent="." instance=ExtResource("2_7icqj")]

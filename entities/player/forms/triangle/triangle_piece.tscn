@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://31l3c0ivxiue"]
+
+[ext_resource type="Script" uid="uid://dxwx4exlsysa1" path="res://entities/player/forms/triangle/triangle_piece.gd" id="1_7sbgx"]
+
+[node name="TrianglePiece" type="Node2D"]
+script = ExtResource("1_7sbgx")

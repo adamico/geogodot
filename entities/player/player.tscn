@@ -46,7 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://dy6wq8ccd2u03" path="res://assets/sprites/fractal_cube.png" id="40_mmk7k"]
 [ext_resource type="Texture2D" uid="uid://dusbuxytjrkxq" path="res://assets/sprites/eternal_triangle.png" id="41_7otdo"]
 [ext_resource type="Texture2D" uid="uid://co820bbr3ds0y" path="res://assets/sprites/spiral_sphere.png" id="42_c112w"]
-[ext_resource type="PackedScene" uid="uid://bvai45nqhvdy2" path="res://entities/player/forms/form.tscn" id="46_c112w"]
+[ext_resource type="PackedScene" uid="uid://bvai45nqhvdy2" path="res://entities/player/forms/triangle/triangle_form.tscn" id="46_c112w"]
 [ext_resource type="Script" uid="uid://dh4dy7qlv108s" path="res://components/free_move_component.gd" id="46_g3pa7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
@@ -1047,7 +1047,7 @@ frame_progress = 0.552949
 [node name="Form" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
 stats_component = NodePath("../../StatsComponent")
 
-[node name="AnimationPlayer" parent="Rig/Form" index="0"]
+[node name="AnimationPlayer" parent="Rig/Form" index="1"]
 autoplay = "six"
 
 [node name="HitboxComponent" type="Area2D" parent="Rig"]

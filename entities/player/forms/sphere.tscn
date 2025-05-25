@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cispds3s1m8ar"]
+
+[ext_resource type="Script" uid="uid://cgcb4t06fql8p" path="res://entities/player/forms/sphere.gd" id="1_7uca3"]
+[ext_resource type="PackedScene" uid="uid://csraj4n5n6ap8" path="res://entities/player/forms/sphere_particles.tscn" id="2_gqvs2"]
+
+[node name="Sphere" type="Node2D"]
+script = ExtResource("1_7uca3")
+
+[node name="SphereParticles" parent="." instance=ExtResource("2_gqvs2")]
