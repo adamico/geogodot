@@ -44,13 +44,13 @@ func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
         form_key = "full"
 
     _change_form(form_key)
-    
+
 
 func _change_form(form_key) -> void:
     var all_triangles: Array[Node] = triangles.get_children()
     all_triangles.map(_change_visibility.bind(false))
     form_stages[form_key].map(_change_visibility.bind(true))
-    
-    
+
+
 func _change_visibility(node: Node2D, visibility: bool) -> void:
     node.visible = visibility

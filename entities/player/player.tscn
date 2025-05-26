@@ -29,9 +29,9 @@
 [ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="22_ghoj8"]
 [ext_resource type="AudioStream" uid="uid://c3308a737v5y6" path="res://assets/sounds/f_max.ogg" id="22_pacje"]
 [ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/stats_component.gd" id="23_ghoj8"]
-[ext_resource type="PackedScene" uid="uid://s3eh1kfvfycd" path="res://entities/projectile/player_laser.tscn" id="24_2h0qb"]
 [ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="24_wuv6x"]
 [ext_resource type="Texture2D" uid="uid://wkbi3ujndd0h" path="res://assets/sprites/gun.png" id="25_2h0qb"]
+[ext_resource type="PackedScene" uid="uid://bidbk0x0dtdko" path="res://entities/projectile/triangle_projectile.tscn" id="25_c112w"]
 [ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="25_qpopc"]
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="26_wq0jh"]
 [ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="27_wq0jh"]
@@ -907,7 +907,7 @@ script = ExtResource("21_0eo6o")
 gun_texture = ExtResource("25_2h0qb")
 actor = NodePath("..")
 state_chart = NodePath("../StateChart")
-projectile_scene = ExtResource("24_2h0qb")
+projectile_scene = ExtResource("25_c112w")
 target_component = NodePath("../Rig/TargetComponent")
 shoot_sound = NodePath("../Sounds/ShootSound")
 stats_component = NodePath("../StatsComponent")
