@@ -1,19 +1,56 @@
 extends Node2D
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @export var stats_component: StatsComponent
+
+var form_stages: Dictionary
+
+@onready var triangles: Node2D = %Triangles
+@onready var triangle_0: Node2D = %Triangle0
+@onready var triangle_1: Node2D = %Triangle1
+@onready var triangle_1_1: Node2D = %"Triangle1-1"
+@onready var triangle_1_2: Node2D = %"Triangle1-2"
+@onready var triangle_1_3: Node2D = %"Triangle1-3"
+@onready var triangle_2: Node2D = %Triangle2
+@onready var triangle_2_1: Node2D = %"Triangle2-1"
+@onready var triangle_2_2: Node2D = %"Triangle2-2"
+@onready var triangle_2_3: Node2D = %"Triangle2-3"
+@onready var triangle_3: Node2D = %Triangle3
+@onready var triangle_3_1: Node2D = %"Triangle3-1"
+@onready var triangle_3_2: Node2D = %"Triangle3-2"
+@onready var triangle_3_3: Node2D = %"Triangle3-3"
 
 
 func _ready() -> void:
     stats_component.health_changed.connect(_on_actor_health_changed)
-
+    form_stages = {
+        "low": [ triangle_0, triangle_1, triangle_2, triangle_3 ],
+        "mid": [ triangle_1, triangle_2, triangle_3 ],
+        "full": [
+            triangle_1_1, triangle_1_2, triangle_1_3,
+            triangle_2_1, triangle_2_2, triangle_2_3,
+            triangle_3_1, triangle_3_2, triangle_3_3,
+        ],
+    }
 
 func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
     if actor is not Player:
         return
+    var form_key: String
     if current_health >= actor.max_health / 3:
-        animation_player.stop()
+        form_key = "low"
     if current_health >= actor.max_health / 3 * 2:
-        animation_player.play("three")
+        form_key = "mid"
     if current_health == actor.max_health:
-        animation_player.play("six")
+        form_key = "full"
+
+    _change_form(form_key)
+    
+
+func _change_form(form_key) -> void:
+    var all_triangles: Array[Node] = triangles.get_children()
+    all_triangles.map(_change_visibility.bind(false))
+    form_stages[form_key].map(_change_visibility.bind(true))
+    
+    
+func _change_visibility(node: Node2D, visibility: bool) -> void:
+    node.visible = visibility

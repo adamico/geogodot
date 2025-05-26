@@ -1047,8 +1047,8 @@ frame_progress = 0.552949
 [node name="Form" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
 stats_component = NodePath("../../StatsComponent")
 
-[node name="AnimationPlayer" parent="Rig/Form" index="1"]
-autoplay = "six"
+[node name="Triangles2" parent="Rig/Form" index="2" node_paths=PackedStringArray("stats_component")]
+stats_component = NodePath("../../../StatsComponent")
 
 [node name="HitboxComponent" type="Area2D" parent="Rig"]
 unique_name_in_owner = true
