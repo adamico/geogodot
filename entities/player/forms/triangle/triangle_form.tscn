@@ -1,16 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://bvai45nqhvdy2"]
+[gd_scene load_steps=9 format=3 uid="uid://bvai45nqhvdy2"]
 
 [ext_resource type="Script" uid="uid://d1ldqd447ndq0" path="res://entities/player/forms/triangle/triangle_form.gd" id="1_6jb68"]
 [ext_resource type="PackedScene" uid="uid://31l3c0ivxiue" path="res://entities/player/forms/triangle/triangle_piece.tscn" id="1_ibacv"]
 [ext_resource type="PackedScene" uid="uid://cispds3s1m8ar" path="res://entities/player/forms/sphere.tscn" id="2_apx8l"]
-[ext_resource type="Script" uid="uid://24t0xd4g5w0m" path="res://entities/player/forms/triangle/triangle1.gd" id="4_2l4c8"]
+[ext_resource type="PackedScene" uid="uid://bq38dcfrauoy0" path="res://entities/player/forms/triangle/triangle_piece2.tscn" id="4_7oj33"]
+
+[sub_resource type="Animation" id="Animation_7oj33"]
+length = 0.667
+loop_mode = 1
 
 [sub_resource type="Animation" id="Animation_6jb68"]
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Triangles/TriLeftUp:position")
+tracks/0/path = NodePath("Triangles2/TriLeftUp:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -22,7 +26,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Triangles/TriRightUp:position")
+tracks/1/path = NodePath("Triangles2/TriRightUp:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -34,7 +38,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Triangles/TriUpLeft:position")
+tracks/2/path = NodePath("Triangles2/TriUpLeft:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -46,7 +50,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Triangles/TriUpRight:position")
+tracks/3/path = NodePath("Triangles2/TriUpRight:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -58,7 +62,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Triangles/TriLeftDown:position")
+tracks/4/path = NodePath("Triangles2/TriLeftDown:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -70,7 +74,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Triangles/TriRightDown:position")
+tracks/5/path = NodePath("Triangles2/TriRightDown:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -86,7 +90,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Triangles/TriLeftUp:position")
+tracks/0/path = NodePath("Triangles2/TriLeftUp:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -98,7 +102,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Triangles/TriRightUp:position")
+tracks/1/path = NodePath("Triangles2/TriRightUp:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -110,7 +114,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Triangles/TriUpLeft:position")
+tracks/2/path = NodePath("Triangles2/TriUpLeft:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -122,7 +126,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Triangles/TriUpRight:position")
+tracks/3/path = NodePath("Triangles2/TriUpRight:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -134,7 +138,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Triangles/TriLeftDown:position")
+tracks/4/path = NodePath("Triangles2/TriLeftDown:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -146,7 +150,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Triangles/TriRightDown:position")
+tracks/5/path = NodePath("Triangles2/TriRightDown:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -158,6 +162,7 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kvkwq"]
 _data = {
+&"RESET": SubResource("Animation_7oj33"),
 &"six": SubResource("Animation_6jb68"),
 &"three": SubResource("Animation_kvkwq")
 }
@@ -167,37 +172,135 @@ script = ExtResource("1_6jb68")
 
 [node name="Sphere" parent="." instance=ExtResource("2_apx8l")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Triangles" type="Node2D" parent="."]
+
+[node name="Triangle0" parent="Triangles" instance=ExtResource("4_7oj33")]
+vertex1 = Vector2(-0.433, -0.25)
+vertex2 = Vector2(0.433, -0.25)
+vertex3 = Vector2(0, 0.5)
+offset = Vector2(0, 0)
+
+[node name="Triangle1" parent="Triangles" instance=ExtResource("4_7oj33")]
+position = Vector2(-8.66, 5)
+
+[node name="Triangle1-1" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(-13, 7.5)
+vertex2 = Vector2(-0.433, 0.5)
+vertex3 = Vector2(-0.65, 0.125)
+offset = Vector2(-0.65, 0.375)
+
+[node name="Triangle1-2" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(-4.32, 7.5)
+vertex1 = Vector2(-0.433, 0.5)
+vertex3 = Vector2(-0.216, 0.125)
+offset = Vector2(-0.216, 0.375)
+
+[node name="Triangle1-3" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(-8.66, 0)
+vertex1 = Vector2(-0.65, 0.125)
+vertex2 = Vector2(-0.216, 0.125)
+offset = Vector2(-0.433, 0)
+
+[node name="Triangle2" parent="Triangles" instance=ExtResource("4_7oj33")]
+position = Vector2(8.66, 5)
+vertex1 = Vector2(0.866, 0.5)
+vertex3 = Vector2(0.433, -0.25)
+offset = Vector2(0.433, 0.25)
+
+[node name="Triangle2-1" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(4.32, 7.5)
+vertex1 = Vector2(0, 0.5)
+vertex2 = Vector2(0.433, 0.5)
+vertex3 = Vector2(0.216, 0.125)
+offset = Vector2(0.216, 0.375)
+
+[node name="Triangle2-2" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(13, 7.5)
+vertex1 = Vector2(0.866, 0.5)
+vertex2 = Vector2(0.433, 0.5)
+vertex3 = Vector2(0.65, 0.125)
+offset = Vector2(0.65, 0.375)
+
+[node name="Triangle2-3" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(8.66, 0)
+vertex1 = Vector2(0.216, 0.125)
+vertex2 = Vector2(0.65, 0.125)
+vertex3 = Vector2(0.433, -0.25)
+offset = Vector2(0.433, 0)
+
+[node name="Triangle3" parent="Triangles" instance=ExtResource("4_7oj33")]
+position = Vector2(0, -10)
+vertex1 = Vector2(-0.433, -0.25)
+vertex2 = Vector2(0.433, -0.25)
+vertex3 = Vector2(0, -1)
+offset = Vector2(0, -0.5)
+
+[node name="Triangle3-1" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(-4.32, -7.5)
+vertex1 = Vector2(-0.433, -0.25)
+vertex2 = Vector2(0, -0.25)
+vertex3 = Vector2(-0.216, -0.625)
+offset = Vector2(-0.216, -0.375)
+
+[node name="Triangle3-2" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(4.32, -7.5)
+vertex1 = Vector2(0, -0.25)
+vertex2 = Vector2(0.433, -0.25)
+vertex3 = Vector2(0.216, -0.625)
+offset = Vector2(0.216, -0.375)
+
+[node name="Triangle3-3" parent="Triangles" instance=ExtResource("4_7oj33")]
+visible = false
+position = Vector2(0, -15)
+vertex1 = Vector2(-0.216, -0.625)
+vertex2 = Vector2(0.216, -0.625)
+vertex3 = Vector2(0, -1)
+offset = Vector2(0, -0.75)
+
+[node name="Triangles2" type="Node2D" parent="."]
+visible = false
+
+[node name="TriUpLeft" parent="Triangles2" instance=ExtResource("1_ibacv")]
+vertex1 = Vector2(-0.866, -0.5)
+vertex2 = Vector2(0, -0.5)
+offset = Vector2(0, 0)
+
+[node name="TriUpRight" parent="Triangles2" instance=ExtResource("1_ibacv")]
+vertex1 = Vector2(0.866, -0.5)
+vertex2 = Vector2(0, -0.5)
+offset = Vector2(0, 0)
+
+[node name="TriLeftUp" parent="Triangles2" instance=ExtResource("1_ibacv")]
+vertex1 = Vector2(-0.866, -0.5)
+vertex2 = Vector2(-0.433, 0.25)
+offset = Vector2(0, 0)
+
+[node name="TriLeftDown" parent="Triangles2" instance=ExtResource("1_ibacv")]
+vertex1 = Vector2(-0.433, 0.25)
+vertex2 = Vector2(0, 1)
+offset = Vector2(0, 0)
+
+[node name="TriRightUp" parent="Triangles2" instance=ExtResource("1_ibacv")]
+vertex1 = Vector2(0.866, -0.5)
+vertex2 = Vector2(0.433, 0.25)
+offset = Vector2(0, 0)
+
+[node name="TriRightDown" parent="Triangles2" instance=ExtResource("1_ibacv")]
+vertex1 = Vector2(0.433, 0.25)
+vertex2 = Vector2(0, 1)
+offset = Vector2(0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Triangles2"]
+root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_kvkwq")
 }
-autoplay = "three"
-
-[node name="Triangles" type="Node2D" parent="."]
-visible = false
-
-[node name="TriUpLeft" parent="Triangles" instance=ExtResource("1_ibacv")]
-vertex2 = Vector2(0, -0.5)
-
-[node name="TriUpRight" parent="Triangles" instance=ExtResource("1_ibacv")]
-vertex1 = Vector2(0.866, -0.5)
-vertex2 = Vector2(0, -0.5)
-
-[node name="TriLeftUp" parent="Triangles" instance=ExtResource("1_ibacv")]
-
-[node name="TriLeftDown" parent="Triangles" instance=ExtResource("1_ibacv")]
-vertex1 = Vector2(-0.433, 0.25)
-vertex2 = Vector2(0, 1)
-
-[node name="TriRightUp" parent="Triangles" instance=ExtResource("1_ibacv")]
-vertex1 = Vector2(0.866, -0.5)
-vertex2 = Vector2(0.433, 0.25)
-
-[node name="TriRightDown" parent="Triangles" instance=ExtResource("1_ibacv")]
-vertex1 = Vector2(0.433, 0.25)
-vertex2 = Vector2(0, 1)
-
-[node name="Triangle" type="Node2D" parent="."]
-script = ExtResource("4_2l4c8")
-vertex1 = Vector2(-0.866, 0.5)
-vertex2 = Vector2(0.866, 0.5)
+autoplay = "RESET"

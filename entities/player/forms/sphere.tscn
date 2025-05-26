@@ -1,9 +1,55 @@
-[gd_scene load_steps=3 format=3 uid="uid://cispds3s1m8ar"]
+[gd_scene load_steps=6 format=3 uid="uid://cispds3s1m8ar"]
 
 [ext_resource type="Script" uid="uid://cgcb4t06fql8p" path="res://entities/player/forms/sphere.gd" id="1_7uca3"]
-[ext_resource type="PackedScene" uid="uid://csraj4n5n6ap8" path="res://entities/player/forms/sphere_particles.tscn" id="2_gqvs2"]
+[ext_resource type="Material" uid="uid://3wiub50ispue" path="res://entities/player/forms/sphere_particles.tres" id="2_gqvs2"]
+
+[sub_resource type="Animation" id="Animation_fv5x1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gqvs2"]
+resource_name = "grow"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 0.8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2f1ec"]
+_data = {
+&"RESET": SubResource("Animation_fv5x1"),
+&"pulse": SubResource("Animation_gqvs2")
+}
 
 [node name="Sphere" type="Node2D"]
 script = ExtResource("1_7uca3")
 
-[node name="SphereParticles" parent="." instance=ExtResource("2_gqvs2")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2f1ec")
+}
+autoplay = "pulse"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 1000
+lifetime = 0.8
+process_material = ExtResource("2_gqvs2")
