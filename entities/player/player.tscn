@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=113 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -29,9 +29,9 @@
 [ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="22_ghoj8"]
 [ext_resource type="AudioStream" uid="uid://c3308a737v5y6" path="res://assets/sounds/f_max.ogg" id="22_pacje"]
 [ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/stats_component.gd" id="23_ghoj8"]
-[ext_resource type="PackedScene" uid="uid://s3eh1kfvfycd" path="res://entities/projectile/player_laser.tscn" id="24_2h0qb"]
 [ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="24_wuv6x"]
 [ext_resource type="Texture2D" uid="uid://wkbi3ujndd0h" path="res://assets/sprites/gun.png" id="25_2h0qb"]
+[ext_resource type="PackedScene" uid="uid://bidbk0x0dtdko" path="res://entities/projectile/triangle_projectile.tscn" id="25_c112w"]
 [ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="25_qpopc"]
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="26_wq0jh"]
 [ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="27_wq0jh"]
@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://dy6wq8ccd2u03" path="res://assets/sprites/fractal_cube.png" id="40_mmk7k"]
 [ext_resource type="Texture2D" uid="uid://dusbuxytjrkxq" path="res://assets/sprites/eternal_triangle.png" id="41_7otdo"]
 [ext_resource type="Texture2D" uid="uid://co820bbr3ds0y" path="res://assets/sprites/spiral_sphere.png" id="42_c112w"]
+[ext_resource type="PackedScene" uid="uid://bvai45nqhvdy2" path="res://entities/player/forms/triangle/triangle_form.tscn" id="46_c112w"]
 [ext_resource type="Script" uid="uid://dh4dy7qlv108s" path="res://components/free_move_component.gd" id="46_g3pa7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
@@ -906,7 +907,7 @@ script = ExtResource("21_0eo6o")
 gun_texture = ExtResource("25_2h0qb")
 actor = NodePath("..")
 state_chart = NodePath("../StateChart")
-projectile_scene = ExtResource("24_2h0qb")
+projectile_scene = ExtResource("25_c112w")
 target_component = NodePath("../Rig/TargetComponent")
 shoot_sound = NodePath("../Sounds/ShootSound")
 stats_component = NodePath("../StatsComponent")
@@ -1022,6 +1023,7 @@ libraries = {
 }
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="Rig"]
+visible = false
 sprite_frames = SubResource("SpriteFrames_aerxn")
 animation = &"prism"
 autoplay = "prism"
@@ -1042,6 +1044,12 @@ autoplay = "idle"
 frame = 10
 frame_progress = 0.552949
 
+[node name="Form" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
+stats_component = NodePath("../../StatsComponent")
+
+[node name="Triangles2" parent="Rig/Form" index="2" node_paths=PackedStringArray("stats_component")]
+stats_component = NodePath("../../../StatsComponent")
+
 [node name="HitboxComponent" type="Area2D" parent="Rig"]
 unique_name_in_owner = true
 collision_layer = 0
@@ -1052,7 +1060,7 @@ metadata/_custom_type_script = "uid://csga2ypo703ny"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HitboxComponent"]
 shape = SubResource("CircleShape2D_t1t22")
 
-[node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component")]
+[node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component", "actor")]
 unique_name_in_owner = true
 position = Vector2(0, 9.53674e-07)
 rotation = -3.14159
@@ -1060,6 +1068,7 @@ scale = Vector2(0.43297, 0.43297)
 collision_mask = 0
 script = ExtResource("22_ghoj8")
 flash_component = NodePath("../../FlashComponent")
+actor = NodePath("../..")
 metadata/_custom_type_script = "uid://bdy33sbgoncok"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent"]
@@ -1073,3 +1082,5 @@ shape = SubResource("CircleShape2D_221hk")
 [connection signal="state_exited" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
+
+[editable path="Rig/Form"]

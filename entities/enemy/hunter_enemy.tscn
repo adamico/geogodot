@@ -69,9 +69,10 @@ position = Vector2(0, -2)
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_42etk")
 
-[node name="HealthBar" parent="Rig" index="4"]
+[node name="HealthBar" parent="Rig" index="4" node_paths=PackedStringArray("stats_component")]
 offset_top = 11.0
 offset_bottom = 15.0
+stats_component = NodePath("../../StatsComponent")
 
 [node name="FlashComponent" parent="." index="3"]
 flash_duration = 0.1

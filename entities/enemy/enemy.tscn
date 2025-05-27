@@ -45,8 +45,7 @@ script = ExtResource("8_721x4")
 scene = ExtResource("9_eaj7m")
 metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
 
-[node name="HealthBar" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("11_7vrfk")]
-stats_component = NodePath("../../StatsComponent")
+[node name="HealthBar" parent="Rig" instance=ExtResource("11_7vrfk")]
 
 [node name="StatsComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
 unique_name_in_owner = true

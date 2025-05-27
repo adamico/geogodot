@@ -12,9 +12,11 @@ const CURSOR = preload("res://assets/sprites/tile_0055.png")
 @export var target_action: GUIDEAction
 
 @export var relative_to_player: RelativeToPlayerModifier
+@export var max_health:= 3
 
 var input_direction: Vector2
 var capture_faction: int
+
 
 @onready var capture_component: CaptureComponent = %CaptureComponent
 @onready var free_move_component: FreeMoveComponent = %FreeMoveComponent
@@ -30,6 +32,8 @@ func _ready() -> void:
     capture_faction = Constants.CaptureFactions.PLAYERS
     position = position.snapped(Vector2.ONE * Constants.TILE_SIZE)
     position -= Vector2.ONE * (Constants.TILE_SIZE / 2.0)
+
+    stats_component.health = max_health
 
     capture_component.level = level
     capture_action.triggered.connect(capture_component.on_try_capture)

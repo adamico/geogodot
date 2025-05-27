@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq38dcfrauoy0"]
+
+[ext_resource type="Script" uid="uid://dxwx4exlsysa1" path="res://entities/player/forms/triangle/triangle_piece.gd" id="1_jmm0o"]
+
+[node name="Triangle1" type="Node2D"]
+script = ExtResource("1_jmm0o")
+vertex1 = Vector2(-0.866, 0.5)
+vertex2 = Vector2(0, 0.5)
+vertex3 = Vector2(-0.433, -0.25)
