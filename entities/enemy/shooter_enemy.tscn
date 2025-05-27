@@ -221,18 +221,24 @@ metadata/_custom_type_script = "uid://ckolnjvgnona7"
 
 [node name="Task" type="Node" parent="StateChart/ParallelState" index="0"]
 script = ExtResource("5_bhau1")
-initial_state = NodePath("Chase")
+initial_state = NodePath("Approach")
 metadata/_custom_type_script = "uid://jdqq8gw24d5i"
 
-[node name="Chase" type="Node" parent="StateChart/ParallelState/Task" index="0"]
+[node name="Approach" type="Node" parent="StateChart/ParallelState/Task" index="0"]
 unique_name_in_owner = true
 script = ExtResource("6_0f3sr")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
-[node name="shoot" type="Node" parent="StateChart/ParallelState/Task/Chase" index="0"]
+[node name="ToShoot" type="Node" parent="StateChart/ParallelState/Task/Approach" index="0"]
 script = ExtResource("7_bhau1")
 to = NodePath("../../Shoot")
 event = &"shoot"
+delay_in_seconds = "0.5"
+
+[node name="ToFlee" type="Node" parent="StateChart/ParallelState/Task/Approach" index="1"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Flee")
+event = &"flee"
 delay_in_seconds = "0.0"
 
 [node name="Shoot" type="Node" parent="StateChart/ParallelState/Task" index="1"]
@@ -240,11 +246,36 @@ unique_name_in_owner = true
 script = ExtResource("6_0f3sr")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
-[node name="chase" type="Node" parent="StateChart/ParallelState/Task/Shoot" index="0"]
+[node name="ToApproach" type="Node" parent="StateChart/ParallelState/Task/Shoot" index="0"]
 script = ExtResource("7_bhau1")
-to = NodePath("../../Chase")
-event = &"chase"
-delay_in_seconds = "1.0"
+to = NodePath("../../Approach")
+event = &"approach"
+delay_in_seconds = "0.0
+"
+
+[node name="ToFlee" type="Node" parent="StateChart/ParallelState/Task/Shoot" index="1"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Flee")
+event = &"flee"
+delay_in_seconds = "0.0
+"
+
+[node name="Flee" type="Node" parent="StateChart/ParallelState/Task" index="2"]
+unique_name_in_owner = true
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToShoot" type="Node" parent="StateChart/ParallelState/Task/Flee" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Shoot")
+event = &"shoot"
+delay_in_seconds = "0.5"
+
+[node name="ToApproach" type="Node" parent="StateChart/ParallelState/Task/Flee" index="1"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../Approach")
+event = &"approach"
+delay_in_seconds = "0.0"
 
 [node name="Shooting" type="Node" parent="StateChart/ParallelState" index="1"]
 script = ExtResource("5_bhau1")
@@ -255,10 +286,17 @@ metadata/_custom_type_script = "uid://jdqq8gw24d5i"
 script = ExtResource("6_0f3sr")
 metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
 
-[node name="Transition" type="Node" parent="StateChart/ParallelState/Shooting/CanShoot" index="0"]
+[node name="ToCoolDown" type="Node" parent="StateChart/ParallelState/Shooting/CanShoot" index="0"]
 script = ExtResource("7_bhau1")
 to = NodePath("../../Cooldown")
 event = &"shoot"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="ToCannotShoot" type="Node" parent="StateChart/ParallelState/Shooting/CanShoot" index="1"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../CannotShoot")
+event = &"prevent_shoot"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
 
@@ -272,6 +310,17 @@ unique_name_in_owner = true
 script = ExtResource("7_bhau1")
 to = NodePath("../../CanShoot")
 delay_in_seconds = "1.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="CannotShoot" type="Node" parent="StateChart/ParallelState/Shooting" index="2"]
+script = ExtResource("6_0f3sr")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToCanShoot" type="Node" parent="StateChart/ParallelState/Shooting/CannotShoot" index="0"]
+script = ExtResource("7_bhau1")
+to = NodePath("../../CanShoot")
+event = &"allow_shoot"
+delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
 
 [node name="Target" type="Node" parent="StateChart/ParallelState" index="2"]

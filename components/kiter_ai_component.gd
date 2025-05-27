@@ -1,13 +1,15 @@
 class_name KiterAiComponent
 extends BasicAIComponent
 
-@export var shooting_reach: float = 150
+@export var shooting_distance: float = 200
+@export var fleeing_distance: float = 150
 
 var base_speed: float
 
 @onready var state_chart: StateChart = %StateChart
-@onready var chase: AtomicState = %Chase
+@onready var approach: AtomicState = %Approach
 @onready var shoot: AtomicState = %Shoot
+@onready var flee: AtomicState = %Flee
 @onready var shoot_component: ShootComponent = %ShootComponent
 @onready var target_component: TargetComponent = %TargetComponent
 @onready var rig: Node2D = %Rig
@@ -15,8 +17,10 @@ var base_speed: float
 
 func _ready() -> void:
     base_speed = speed
-    chase.state_processing.connect(_on_chase_state_processing)
+    approach.state_processing.connect(_on_approach_state_processing)
     shoot.state_processing.connect(_on_shoot_state_processing)
+    flee.state_processing.connect(_on_flee_state_processing)
+
     super()
 
 
@@ -27,12 +31,37 @@ func _physics_process(_delta: float) -> void:
     target_component.direction = target_direction
 
 
-func _on_chase_state_processing(_delta: float) -> void:
+func _try_approach() -> bool:
+    if actor.global_position.distance_to(player.global_position) <= shooting_distance:
+        return false
+    state_chart.send_event("prevent_shoot")
+    state_chart.send_event("approach")
+    return true
+
+
+func _try_shoot() -> bool:
+    if actor.global_position.distance_to(player.global_position) > shooting_distance or\
+            actor.global_position.distance_to(player.global_position) <= fleeing_distance:
+        return false
+    state_chart.send_event("allow_shoot")
+    state_chart.send_event("shoot")
+    return true
+
+
+func _try_flee() -> bool:
+    if actor.global_position.distance_to(player.global_position) > fleeing_distance:
+        return false
+    state_chart.send_event("prevent_shoot")
+    state_chart.send_event("flee")
+    return true
+
+
+func _on_approach_state_processing(_delta: float) -> void:
     if not player: return
-    if actor.global_position.distance_to(player.global_position) <= shooting_reach:
-        state_chart.send_event("shoot")
+    if _try_shoot():
         return
-    shoot_component.stop_firing()
+    if _try_flee():
+        return
     speed = base_speed
     direction = actor.global_position.direction_to(player.global_position)
     actor.velocity = direction * speed
@@ -41,8 +70,22 @@ func _on_chase_state_processing(_delta: float) -> void:
 
 func _on_shoot_state_processing(_delta: float) -> void:
     if not player: return
-    if actor.global_position.distance_to(player.global_position) > shooting_reach:
-        state_chart.send_event("chase")
+    if _try_approach():
+        return
+    if _try_flee():
         return
     speed = 0
     shoot_component.fire_projectile()
+
+
+func _on_flee_state_processing(_delta: float) -> void:
+    if not player: return
+    if _try_approach():
+        return
+    if _try_shoot():
+        return
+    state_chart.send_event("prevent_shoot")
+    speed = base_speed
+    direction = -actor.global_position.direction_to(player.global_position)
+    actor.velocity = direction * speed
+    actor.move_and_slide()
