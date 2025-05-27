@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://nqiq0hvnooux" path="res://entities/projectile/base_projectile.tscn" id="1_25v0v"]
 [ext_resource type="Texture2D" uid="uid://cehfa1s38fb5u" path="res://assets/sprites/plasma_ball.png" id="2_25v0v"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_12rms"]
+radius = 15.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_5kwjn"]
 atlas = ExtResource("2_25v0v")
 region = Rect2(0, 0, 32, 32)
@@ -32,23 +35,16 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_12rms"]
-radius = 15.0
-
 [node name="PlasmaBall" instance=ExtResource("1_25v0v")]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+[node name="HitboxComponent#CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_12rms")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_k5x5a")
 autoplay = "default"
 frame_progress = 0.743519
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="2"]
+[node name="VisibleOnScreenNotifier2D" parent="." index="3"]
 position = Vector2(-0.0405283, 4.29153e-06)
 scale = Vector2(1.63213, 1.578)
-
-[node name="HitboxComponent" parent="." index="3"]
-visible = false
-collision_mask = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
-shape = SubResource("CircleShape2D_12rms")

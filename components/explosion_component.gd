@@ -30,3 +30,4 @@ func _on_explosion_area_entered(area: Area2D) -> void:
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
     overlapping_areas.map(func(overlapping_area): overlapping_area.hurt.emit(self))
     spawner_component.spawn()
+    EventBus.actor_died.emit(actor)
