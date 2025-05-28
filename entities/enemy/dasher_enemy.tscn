@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhdnfo4tmxsnv"]
+
+[ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_cwap1"]
+[ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="2_gvxuh"]
+[ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="3_a1844"]
+[ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="4_s2gqb"]
+[ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="5_1qq4g"]
+
+[node name="DasherEnemy" instance=ExtResource("1_cwap1")]
+
+[node name="StateChart" type="Node" parent="." index="0"]
+unique_name_in_owner = true
+script = ExtResource("2_gvxuh")
+metadata/_custom_type_script = "uid://bmucxhobuv3i"
+
+[node name="Task" type="Node" parent="StateChart" index="0"]
+script = ExtResource("3_a1844")
+initial_state = NodePath("Walk")
+metadata/_custom_type_script = "uid://jdqq8gw24d5i"
+
+[node name="Walk" type="Node" parent="StateChart/Task" index="0"]
+unique_name_in_owner = true
+script = ExtResource("4_s2gqb")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToDash" type="Node" parent="StateChart/Task/Walk" index="0"]
+script = ExtResource("5_1qq4g")
+to = NodePath("../../Dash")
+event = &"dash"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="Dash" type="Node" parent="StateChart/Task" index="1"]
+unique_name_in_owner = true
+script = ExtResource("4_s2gqb")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToWalk" type="Node" parent="StateChart/Task/Dash" index="0"]
+script = ExtResource("5_1qq4g")
+to = NodePath("../../Walk")
+delay_in_seconds = "1.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
