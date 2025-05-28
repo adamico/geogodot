@@ -4,10 +4,9 @@ extends Node2D
 @export var vertex1: Vector2
 @export var vertex2: Vector2
 @export var vertex3: Vector2
-@export var offset:= Vector2(-0.433, 0.25)
-@export var scale_vector:= Vector2(20.0, 20.0)
-@export var fill_color:= Color.MEDIUM_BLUE
-@export var edge_color:= Color.ANTIQUE_WHITE
+@export var fill_color: Color
+@export var edge_color: Color
+@export var scale_vector: Vector2
 
 var tri: PackedVector2Array
 
@@ -15,7 +14,6 @@ var tri: PackedVector2Array
 func _ready() -> void:
     var tri_points: Array = [ vertex1, vertex2, vertex3, vertex1 ]
     tri = scale_points(tri_points)
-    position = offset * scale_vector
 
 
 func _process(delta: float) -> void:
@@ -23,7 +21,6 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    draw_set_transform(-offset * scale_vector)
     draw_polygon(tri, [fill_color])
     draw_polyline(tri, edge_color)
 

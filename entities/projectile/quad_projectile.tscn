@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn7pabr4kfevh"]
+
+[ext_resource type="PackedScene" uid="uid://nqiq0hvnooux" path="res://entities/projectile/base_projectile.tscn" id="1_nko4u"]
+[ext_resource type="Script" uid="uid://cyaumoi25qsy7" path="res://entities/enemy/quad_sprite.gd" id="2_37fqc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nko4u"]
+size = Vector2(10, 10)
+
+[node name="BaseProjectile" instance=ExtResource("1_nko4u")]
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="1"]
+position = Vector2(0, 1.19209e-07)
+scale = Vector2(0.6, 0.6)
+
+[node name="Sprite" type="Node2D" parent="Rig" index="0"]
+script = ExtResource("2_37fqc")
+vertex1 = Vector2(-0.25, -0.25)
+vertex2 = Vector2(0.25, -0.25)
+vertex3 = Vector2(0.25, 0.25)
+vertex4 = Vector2(-0.25, 0.25)
+scale_vector = Vector2(20, 20)
+fill_color = Color(0.863, 0.078, 0.235, 0.508)
+edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+
+[node name="HitboxComponent" parent="Rig" index="1"]
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
+shape = SubResource("RectangleShape2D_nko4u")

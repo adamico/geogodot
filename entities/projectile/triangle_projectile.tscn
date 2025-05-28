@@ -1,54 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://bidbk0x0dtdko"]
+[gd_scene load_steps=3 format=3 uid="uid://bidbk0x0dtdko"]
 
 [ext_resource type="PackedScene" uid="uid://nqiq0hvnooux" path="res://entities/projectile/base_projectile.tscn" id="1_ufn5g"]
-[ext_resource type="Texture2D" uid="uid://cyoh0bxjyqc1v" path="res://assets/sprites/path1.png" id="2_ufn5g"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ufn5g"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_ufn5g")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="Curve" id="Curve_kvkwq"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.993902, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_0hduo"]
-curve = SubResource("Curve_kvkwq")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a0o5o"]
-particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
-scale_min = 0.02
-scale_max = 0.02
-alpha_curve = SubResource("CurveTexture_0hduo")
+[ext_resource type="Script" uid="uid://c10plrd8ujdws" path="res://entities/enemy/triangle_sprite.gd" id="2_a0o5o"]
 
 [node name="TriangleProjectile" instance=ExtResource("1_ufn5g")]
 
 [node name="VisibleOnScreenNotifier2D" parent="." index="1"]
-position = Vector2(0, 4.76837e-07)
-scale = Vector2(0.6, 0.7)
+position = Vector2(7.5, -4.76837e-07)
+scale = Vector2(1.05, 1.1)
 
-[node name="HitboxComponent" parent="Rig" index="0"]
+[node name="Sprite" type="Node2D" parent="Rig" index="0"]
+script = ExtResource("2_a0o5o")
+vertex1 = Vector2(-0.433, -0.5)
+vertex2 = Vector2(-0.433, 0.5)
+vertex3 = Vector2(0.5, 0)
+fill_color = Color(0, 0, 0.804, 0.487)
+edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+scale_vector = Vector2(20, 20)
+
+[node name="HitboxComponent" parent="Rig" index="1"]
 collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HitboxComponent" index="0"]
-polygon = PackedVector2Array(-4.99998, 5.00002, -1.448e-05, -4, 5.00002, 4.99998)
-
-[node name="AnimatedSprite2D" parent="Rig" index="1"]
-position = Vector2(-2, 0)
-scale = Vector2(0.05, 0.05)
-sprite_frames = SubResource("SpriteFrames_ufn5g")
-offset = Vector2(40, 0)
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Rig" index="2"]
-position = Vector2(-3, 0)
-amount = 16
-texture = ExtResource("2_ufn5g")
-preprocess = 4.0
-process_material = SubResource("ParticleProcessMaterial_a0o5o")
+polygon = PackedVector2Array(-9.99997, 9.00004, -3.61999e-05, -10, 10, 8.99996)

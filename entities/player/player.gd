@@ -16,6 +16,7 @@ const CURSOR = preload("res://assets/sprites/tile_0055.png")
 
 var input_direction: Vector2
 var capture_faction: int
+var rig_global_position: Vector2
 
 
 @onready var capture_component: CaptureComponent = %CaptureComponent
@@ -49,6 +50,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+    rig_global_position = rig.global_position
     input_direction = move_action.value_axis_2d
     free_move_component.direction = input_direction
 

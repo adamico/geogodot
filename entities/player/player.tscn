@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=112 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -34,10 +34,10 @@
 [ext_resource type="PackedScene" uid="uid://bidbk0x0dtdko" path="res://entities/projectile/triangle_projectile.tscn" id="25_c112w"]
 [ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="25_qpopc"]
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="26_wq0jh"]
-[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="27_wq0jh"]
 [ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="28_gt4e4"]
 [ext_resource type="Script" uid="uid://k2h0r714n0mp" path="res://components/hurt_component.gd" id="29_gt4e4"]
 [ext_resource type="Script" uid="uid://dp65ygycaj2yt" path="res://components/collector_component.gd" id="31_2h0qb"]
+[ext_resource type="Script" uid="uid://b7j10vaug8pfh" path="res://components/multi_flash_component.gd" id="33_c112w"]
 [ext_resource type="PackedScene" uid="uid://dgvae28w5k7of" path="res://components/health_bar.tscn" id="35_mmk7k"]
 [ext_resource type="Texture2D" uid="uid://b6gvj6tesjwca" path="res://assets/sprites/scanning.png" id="36_0eo6o"]
 [ext_resource type="Texture2D" uid="uid://b2yr1qlap3gve" path="res://assets/sprites/body.png" id="36_ttr27"]
@@ -665,9 +665,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_221hk"]
-radius = 27.7155
-
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 y_sort_enabled = true
 collision_layer = 0
@@ -678,6 +675,7 @@ move_action = ExtResource("2_we0b7")
 shoot_action = ExtResource("4_bwdx1")
 target_action = ExtResource("5_g3pa7")
 relative_to_player = ExtResource("6_g3pa7")
+max_health = 9999
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -947,12 +945,6 @@ script = ExtResource("24_wuv6x")
 death_effect_spawner_component = NodePath("../Rig/ExplosionSpawnerComponent")
 metadata/_custom_type_script = "uid://btvdcwmic1jcu"
 
-[node name="FlashComponent" type="Node" parent="." node_paths=PackedStringArray("sprite")]
-script = ExtResource("27_wq0jh")
-flash_material = ExtResource("28_gt4e4")
-sprite = NodePath("../Rig/EnginesAnimatedSprite")
-metadata/_custom_type_script = "uid://b4i7mx467ysy7"
-
 [node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
 script = ExtResource("29_gt4e4")
 stats_component = NodePath("../StatsComponent")
@@ -972,8 +964,15 @@ actor = NodePath("..")
 max_speed = 60
 metadata/_custom_type_script = "uid://dh4dy7qlv108s"
 
+[node name="MultiFlashComponent" type="Node" parent="." node_paths=PackedStringArray("sprite_parent")]
+unique_name_in_owner = true
+script = ExtResource("33_c112w")
+sprite_parent = NodePath("../Rig/Form/Triangles")
+flash_material = ExtResource("28_gt4e4")
+metadata/_custom_type_script = "uid://b7j10vaug8pfh"
+
 [node name="Rig" type="Node2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -10)
 
 [node name="CaptureProgressBar" type="ProgressBar" parent="Rig"]
 anchors_preset = 4
@@ -1047,8 +1046,17 @@ frame_progress = 0.552949
 [node name="Form" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
 stats_component = NodePath("../../StatsComponent")
 
-[node name="Triangles2" parent="Rig/Form" index="2" node_paths=PackedStringArray("stats_component")]
-stats_component = NodePath("../../../StatsComponent")
+[node name="Triangle0" parent="Rig/Form/Triangles" index="0"]
+visible = false
+
+[node name="Triangle1" parent="Rig/Form/Triangles" index="1"]
+visible = false
+
+[node name="Triangle2" parent="Rig/Form/Triangles" index="5"]
+visible = false
+
+[node name="Triangle3" parent="Rig/Form/Triangles" index="9"]
+visible = false
 
 [node name="HitboxComponent" type="Area2D" parent="Rig"]
 unique_name_in_owner = true
@@ -1057,22 +1065,20 @@ collision_mask = 2
 script = ExtResource("21_221hk")
 metadata/_custom_type_script = "uid://csga2ypo703ny"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HitboxComponent"]
-shape = SubResource("CircleShape2D_t1t22")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HitboxComponent"]
+polygon = PackedVector2Array(-17.2856, 9.76573, -0.0850105, -19.9368, 17.0317, 9.93354)
 
 [node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component", "actor")]
 unique_name_in_owner = true
 position = Vector2(0, 9.53674e-07)
-rotation = -3.14159
-scale = Vector2(0.43297, 0.43297)
 collision_mask = 0
 script = ExtResource("22_ghoj8")
-flash_component = NodePath("../../FlashComponent")
+flash_component = NodePath("../../MultiFlashComponent")
 actor = NodePath("../..")
 metadata/_custom_type_script = "uid://bdy33sbgoncok"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent"]
-shape = SubResource("CircleShape2D_221hk")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent"]
+polygon = PackedVector2Array(-17.2856, 9.76573, -0.0850105, -19.9368, 17.0317, 9.93354)
 
 [connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_processing"]

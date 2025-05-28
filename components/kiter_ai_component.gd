@@ -31,7 +31,7 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
     if not player: return
     if not actor: return
-    var target_direction: Vector2 = rig.global_position.direction_to(player.global_position)
+    var target_direction: Vector2 = rig.global_position.direction_to(player.rig_global_position)
     target_component.direction = target_direction
 
 

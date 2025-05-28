@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://cth6qd027e6wg"]
+[gd_scene load_steps=24 format=4 uid="uid://cth6qd027e6wg"]
 
 [ext_resource type="Script" uid="uid://ckp88mafefmy0" path="res://main.gd" id="1_67ri8"]
 [ext_resource type="Resource" uid="uid://bgtfgorhoik6r" path="res://components/guide/contexts/keyboard_and_mouse/keyboard_and_mouse.tres" id="2_4c57u"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="11_2cqfq"]
 [ext_resource type="FontFile" uid="uid://b45r3savhj645" path="res://assets/fonts/Kenney Pixel Square.ttf" id="11_d13ii"]
 [ext_resource type="Theme" uid="uid://f0ji6y1emjg3" path="res://menus/title_theme.tres" id="12_1u8w0"]
-[ext_resource type="PackedScene" uid="uid://bjntim4rxynbd" path="res://entities/enemy/shooter_enemy.tscn" id="16_2cqfq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ff8ar"]
 font = ExtResource("11_d13ii")
@@ -310,7 +309,6 @@ visible = false
 offset_left = 368.0
 offset_bottom = -98.0
 scale = Vector2(0.8, 0.8)
-initial_node_to_watch = NodePath("../../World/ShooterEnemy")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -50
@@ -342,11 +340,10 @@ position = Vector2(192, 64)
 
 [node name="Player" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("8_5xyti")]
 unique_name_in_owner = true
+y_sort_enabled = false
 position = Vector2(48, 64)
+motion_mode = 1
 level = NodePath("../Level")
-
-[node name="ShooterEnemy" parent="World" instance=ExtResource("16_2cqfq")]
-position = Vector2(351, 176)
 
 [node name="EnemyPath" type="Path2D" parent="World"]
 position = Vector2(106.667, 0)

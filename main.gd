@@ -5,6 +5,7 @@ signal last_enemy_in_wave_dead
 const EXPLODER_ENEMY = preload("res://entities/enemy/exploder_enemy.tscn")
 const HUNTER_ENEMY = preload("res://entities/enemy/hunter_enemy.tscn")
 const SHOOTER_ENEMY = preload("res://entities/enemy/shooter_enemy.tscn")
+const DASHER_ENEMY = preload("res://entities/enemy/dasher_enemy.tscn")
 
 @export var mapping_context: GUIDEMappingContext
 @export var base_wave_time:= 60.0
@@ -21,8 +22,8 @@ var number_of_waves:= 5
 var time_to_next_wave:= 0.0
 var rng = RandomNumberGenerator.new()
 
-var enemy_scenes:= [HUNTER_ENEMY, EXPLODER_ENEMY, SHOOTER_ENEMY]
-var enemy_weights = PackedFloat32Array([2, 0.2, 0.5])
+var enemy_scenes:= [HUNTER_ENEMY, EXPLODER_ENEMY, SHOOTER_ENEMY, DASHER_ENEMY]
+var enemy_weights = PackedFloat32Array([2, 0.2, 0.5, 1])
 
 @onready var wave_timer: Timer = $WaveTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -54,7 +55,7 @@ func _new_game() -> void:
     _generate_waves()
     player.position = p_1_start_position.position
     game_start_time = Time.get_unix_time_from_system()
-    #wave_timer.start(10)
+    wave_timer.start(10)
 
 
 func _generate_waves() -> void:
