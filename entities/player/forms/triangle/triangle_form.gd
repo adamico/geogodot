@@ -3,6 +3,7 @@ extends Node2D
 @export var stats_component: StatsComponent
 
 var form_stages: Dictionary
+var all_triangles: Array[Node]
 
 @onready var triangles: Node2D = %Triangles
 @onready var triangle_0: Node2D = %Triangle0
@@ -18,6 +19,7 @@ var form_stages: Dictionary
 @onready var triangle_3_1: Node2D = %"Triangle3-1"
 @onready var triangle_3_2: Node2D = %"Triangle3-2"
 @onready var triangle_3_3: Node2D = %"Triangle3-3"
+@onready var multi_flash_component: MultiFlashComponent = %MultiFlashComponent
 
 
 func _ready() -> void:
@@ -31,6 +33,8 @@ func _ready() -> void:
             triangle_3_1, triangle_3_2, triangle_3_3,
         ],
     }
+    triangles.get_children()
+
 
 func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
     if actor is not Player:
@@ -47,7 +51,6 @@ func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
 
 
 func _change_form(form_key) -> void:
-    var all_triangles: Array[Node] = triangles.get_children()
     all_triangles.map(_change_visibility.bind(false))
     form_stages[form_key].map(_change_visibility.bind(true))
 

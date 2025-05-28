@@ -1,95 +1,21 @@
-[gd_scene load_steps=29 format=3 uid="uid://bjntim4rxynbd"]
+[gd_scene load_steps=21 format=3 uid="uid://bjntim4rxynbd"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_tjfkn"]
-[ext_resource type="Texture2D" uid="uid://cpdic76imlh2y" path="res://assets/sprites/cube_enemy.png" id="2_ewg4v"]
+[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="2_hk1r5"]
 [ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/shoot_component.gd" id="3_0f3sr"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="3_b6nkk"]
 [ext_resource type="Script" uid="uid://dvugu0xlvm36u" path="res://components/kiter_ai_component.gd" id="3_ewg4v"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="4_ahhv8"]
-[ext_resource type="PackedScene" uid="uid://dl1juipqejmj7" path="res://entities/projectile/plasma_ball.tscn" id="4_xc0jt"]
 [ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="5_3mb6l"]
 [ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="5_bhau1"]
 [ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="6_0f3sr"]
 [ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="7_bhau1"]
 [ext_resource type="Script" uid="uid://ckolnjvgnona7" path="res://addons/godot_state_charts/parallel_state.gd" id="8_3mb6l"]
+[ext_resource type="Script" uid="uid://cyaumoi25qsy7" path="res://entities/enemy/quad_sprite.gd" id="11_hgfsm"]
 [ext_resource type="AudioStream" uid="uid://bfdnyqiookejj" path="res://assets/sounds/laser3.ogg" id="11_xc0jt"]
+[ext_resource type="PackedScene" uid="uid://bn7pabr4kfevh" path="res://entities/projectile/quad_projectile.tscn" id="13_hk1r5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b20sm"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(0, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kwycf"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(48, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ahhv8"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(96, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bhau1"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(144, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0f3sr"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(192, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rlwal"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(240, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7y2jd"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(288, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qboqm"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(336, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3mb6l"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(384, 0, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xc0jt"]
-atlas = ExtResource("2_ewg4v")
-region = Rect2(432, 0, 48, 48)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_hk1r5"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b20sm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kwycf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ahhv8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bhau1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0f3sr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rlwal")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7y2jd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qboqm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3mb6l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xc0jt")
-}],
-"loop": true,
-"name": &"default",
-"speed": 12.0
-}]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hk1r5"]
 
 [sub_resource type="Animation" id="Animation_ttr27"]
 length = 0.001
@@ -147,70 +73,28 @@ _data = {
 &"shoot_target_flash_red": SubResource("Animation_2h0qb")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tjfkn"]
-size = Vector2(12, 11)
+[sub_resource type="CircleShape2D" id="CircleShape2D_hk1r5"]
+radius = 2.0
 
 [node name="ShooterEnemy" instance=ExtResource("1_tjfkn")]
 
-[node name="Rig" parent="." index="0"]
-position = Vector2(0, -20)
+[node name="FlashComponent" type="Node" parent="." index="0" node_paths=PackedStringArray("sprite")]
+script = ExtResource("2_hk1r5")
+flash_material = ExtResource("3_b6nkk")
+sprite = NodePath("../Rig/Sprite")
+metadata/_custom_type_script = "uid://b4i7mx467ysy7"
 
-[node name="AnimatedSprite2D" parent="Rig" index="0"]
-sprite_frames = SubResource("SpriteFrames_hk1r5")
-autoplay = "default"
-frame_progress = 0.735584
+[node name="LaserSound" type="AudioStreamPlayer" parent="." index="1"]
+stream = ExtResource("11_xc0jt")
+pitch_scale = 2.0
 
-[node name="HurtboxComponent" parent="Rig" index="1" node_paths=PackedStringArray("actor")]
-actor = NodePath("../..")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
-polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1, 20, -14, 8)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HitboxComponent" index="0"]
-polygon = PackedVector2Array(-14, -4, 0, -15, 0, -15, 13, -4, 13, 8, -1, 20, -1, 20, -14, 8)
-
-[node name="HealthBar" parent="Rig" index="4" node_paths=PackedStringArray("stats_component")]
-offset_top = 22.0
-offset_bottom = 26.0
-stats_component = NodePath("../../StatsComponent")
-
-[node name="ShootComponent" type="Node2D" parent="Rig" index="5" node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
-unique_name_in_owner = true
-script = ExtResource("3_0f3sr")
-actor = NodePath("../..")
-state_chart = NodePath("../../StateChart")
-projectile_scene = ExtResource("4_xc0jt")
-target_component = NodePath("../TargetComponent")
-shoot_sound = NodePath("../../LaserSound")
-stats_component = NodePath("../../StatsComponent")
-metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
-
-[node name="TargetComponent" type="Sprite2D" parent="Rig" index="6"]
-unique_name_in_owner = true
-script = ExtResource("5_3mb6l")
-metadata/_custom_type_script = "uid://cvldao1arx3t3"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Rig/TargetComponent" index="0"]
-unique_name_in_owner = true
-root_node = NodePath("../../..")
-libraries = {
-&"": SubResource("AnimationLibrary_13wue")
-}
-
-[node name="StatsComponent" parent="." index="1"]
-health = 2.0
-
-[node name="CollisionShape2D" parent="." index="6"]
-position = Vector2(0, -5.5)
-shape = SubResource("RectangleShape2D_tjfkn")
-
-[node name="KiterAiComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
+[node name="KiterAiComponent" type="Node2D" parent="." index="2" node_paths=PackedStringArray("actor")]
 script = ExtResource("3_ewg4v")
 actor = NodePath("..")
 speed = 60.0
 metadata/_custom_type_script = "uid://dvugu0xlvm36u"
 
-[node name="StateChart" type="Node" parent="." index="8"]
+[node name="StateChart" type="Node" parent="." index="3"]
 unique_name_in_owner = true
 script = ExtResource("4_ahhv8")
 metadata/_custom_type_script = "uid://bmucxhobuv3i"
@@ -352,6 +236,55 @@ event = &"allow_target_move"
 delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://btbuih6emodp4"
 
-[node name="LaserSound" type="AudioStreamPlayer" parent="." index="9"]
-stream = ExtResource("11_xc0jt")
-pitch_scale = 2.0
+[node name="Rig" parent="." index="4"]
+position = Vector2(0, -5)
+
+[node name="Sprite" type="Node2D" parent="Rig" index="0"]
+script = ExtResource("11_hgfsm")
+vertex1 = Vector2(-0.25, -0.25)
+vertex2 = Vector2(0.25, -0.25)
+vertex3 = Vector2(0.25, 0.25)
+vertex4 = Vector2(-0.25, 0.25)
+scale_vector = Vector2(40, 40)
+fill_color = Color(0.863, 0.078, 0.235, 1)
+edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+
+[node name="HurtboxComponent" parent="Rig" index="1" node_paths=PackedStringArray("flash_component", "actor")]
+flash_component = NodePath("../../FlashComponent")
+actor = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
+shape = SubResource("RectangleShape2D_hk1r5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
+shape = SubResource("RectangleShape2D_hk1r5")
+
+[node name="ShootComponent" type="Node2D" parent="Rig" index="4" node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
+unique_name_in_owner = true
+script = ExtResource("3_0f3sr")
+actor = NodePath("../..")
+state_chart = NodePath("../../StateChart")
+projectile_scene = ExtResource("13_hk1r5")
+target_component = NodePath("../TargetComponent")
+shoot_sound = NodePath("../../LaserSound")
+stats_component = NodePath("../../StatsComponent")
+metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
+
+[node name="TargetComponent" type="Sprite2D" parent="Rig" index="5"]
+unique_name_in_owner = true
+script = ExtResource("5_3mb6l")
+metadata/_custom_type_script = "uid://cvldao1arx3t3"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rig/TargetComponent" index="0"]
+unique_name_in_owner = true
+root_node = NodePath("../../..")
+libraries = {
+&"": SubResource("AnimationLibrary_13wue")
+}
+
+[node name="StatsComponent" parent="." index="5"]
+health = 2.0
+
+[node name="CollisionShape2D" parent="." index="8"]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_hk1r5")

@@ -24,7 +24,7 @@ func _on_explosion_area_entered(area: Area2D) -> void:
     overlapping_areas.append(area)
     if area.collision_layer == PLAYER_COLLISION_LAYER:
         explosion_warning.show()
-        animation_player.play("detonate")
+        animation_player.play("ignite")
 
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:

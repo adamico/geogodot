@@ -10,6 +10,7 @@ var shake = 0
 
 func _physics_process(_delta: float) -> void:
     node.position = Vector2(randf_range(-shake, shake), randf_range(-shake, shake))
+    node.queue_redraw()
 
 
 func tween_shake() -> void:

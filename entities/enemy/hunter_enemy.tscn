@@ -1,87 +1,49 @@
-[gd_scene load_steps=11 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=7 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
-[ext_resource type="Texture2D" uid="uid://b5ob8a2x7l6ve" path="res://assets/sprites/pyramid_enemy.png" id="2_42etk"]
+[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="2_6g888"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="3_tv0yq"]
+[ext_resource type="Script" uid="uid://c10plrd8ujdws" path="res://entities/enemy/triangle_sprite.gd" id="4_uuhhs"]
 [ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_tv0yq"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nt1w2"]
-atlas = ExtResource("2_42etk")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6g888"]
-atlas = ExtResource("2_42etk")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tv0yq"]
-atlas = ExtResource("2_42etk")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uuhhs"]
-atlas = ExtResource("2_42etk")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_nt1w2"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nt1w2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6g888")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tv0yq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uuhhs")
-}],
-"loop": true,
-"name": &"default",
-"speed": 6.0
-}]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_42etk"]
-radius = 9.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_tv0yq"]
-radius = 7.07107
+radius = 3.0
 
 [node name="HunterEnemy" instance=ExtResource("1_alvfc")]
 
-[node name="Rig" parent="." index="0"]
-position = Vector2(0, -8)
+[node name="BasicAIComponent" type="Node2D" parent="." index="0" node_paths=PackedStringArray("actor")]
+script = ExtResource("6_tv0yq")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
 
-[node name="AnimatedSprite2D" parent="Rig" index="0"]
-position = Vector2(0, 2)
-sprite_frames = SubResource("SpriteFrames_nt1w2")
-autoplay = "default"
-frame_progress = 0.428021
+[node name="FlashComponent" type="Node" parent="." index="1" node_paths=PackedStringArray("sprite")]
+script = ExtResource("2_6g888")
+flash_material = ExtResource("3_tv0yq")
+sprite = NodePath("../Rig/Sprite")
+metadata/_custom_type_script = "uid://b4i7mx467ysy7"
 
-[node name="HurtboxComponent" parent="Rig" index="1"]
+[node name="Sprite" type="Node2D" parent="Rig" index="0"]
+script = ExtResource("4_uuhhs")
+vertex1 = Vector2(-0.25, -0.25)
+vertex2 = Vector2(-0.25, 0.25)
+vertex3 = Vector2(0.5, 0)
+fill_color = Color(0.863, 0.078, 0.235, 1)
+edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+scale_vector = Vector2(25, 25)
+
+[node name="HurtboxComponent" parent="Rig" index="1" node_paths=PackedStringArray("flash_component", "actor")]
 position = Vector2(0, -2)
+flash_component = NodePath("../../FlashComponent")
+actor = NodePath("../..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
-shape = SubResource("CircleShape2D_42etk")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
+polygon = PackedVector2Array(-5, -3, 10, 2, -5, 7)
 
 [node name="HitboxComponent" parent="Rig" index="2"]
 position = Vector2(0, -2)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
-shape = SubResource("CircleShape2D_42etk")
-
-[node name="HealthBar" parent="Rig" index="4" node_paths=PackedStringArray("stats_component")]
-offset_top = 11.0
-offset_bottom = 15.0
-stats_component = NodePath("../../StatsComponent")
-
-[node name="FlashComponent" parent="." index="3"]
-flash_duration = 0.1
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HitboxComponent" index="0"]
+polygon = PackedVector2Array(-5, -3, 10, 2, -5, 7)
 
 [node name="CollisionShape2D" parent="." index="6"]
-position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_tv0yq")
-
-[node name="BasicAIComponent" type="Node2D" parent="." index="7" node_paths=PackedStringArray("actor")]
-script = ExtResource("6_tv0yq")
-actor = NodePath("..")
-metadata/_custom_type_script = "uid://db5e3mgvgwdi7"

@@ -1,0 +1,115 @@
+[gd_scene load_steps=11 format=3 uid="uid://dhdnfo4tmxsnv"]
+
+[ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_cwap1"]
+[ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="2_gvxuh"]
+[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="2_ky46f"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="3_805tb"]
+[ext_resource type="Script" uid="uid://jdqq8gw24d5i" path="res://addons/godot_state_charts/compound_state.gd" id="3_a1844"]
+[ext_resource type="Script" uid="uid://dcu2i8t8kecjt" path="res://addons/godot_state_charts/atomic_state.gd" id="4_s2gqb"]
+[ext_resource type="Script" uid="uid://btbuih6emodp4" path="res://addons/godot_state_charts/transition.gd" id="5_1qq4g"]
+[ext_resource type="Script" uid="uid://cyaumoi25qsy7" path="res://entities/enemy/quad_sprite.gd" id="6_3yp18"]
+[ext_resource type="Script" uid="uid://c3ni7j2pd5u84" path="res://components/dasher_ai_component.gd" id="6_uu41r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mirvc"]
+radius = 4.12311
+
+[node name="DasherEnemy" instance=ExtResource("1_cwap1")]
+
+[node name="FlashComponent" type="Node" parent="." index="0" node_paths=PackedStringArray("sprite")]
+script = ExtResource("2_ky46f")
+flash_material = ExtResource("3_805tb")
+sprite = NodePath("../Rig/Sprite")
+metadata/_custom_type_script = "uid://b4i7mx467ysy7"
+
+[node name="DasherAIComponent" type="Node2D" parent="." index="1" node_paths=PackedStringArray("actor")]
+script = ExtResource("6_uu41r")
+actor = NodePath("..")
+dashing_speed = 800.0
+metadata/_custom_type_script = "uid://c3ni7j2pd5u84"
+
+[node name="DashCooldownTimer" type="Timer" parent="." index="2"]
+unique_name_in_owner = true
+wait_time = 0.8
+one_shot = true
+
+[node name="StateChart" type="Node" parent="." index="3"]
+unique_name_in_owner = true
+script = ExtResource("2_gvxuh")
+metadata/_custom_type_script = "uid://bmucxhobuv3i"
+
+[node name="Task" type="Node" parent="StateChart" index="0"]
+script = ExtResource("3_a1844")
+initial_state = NodePath("Walk")
+metadata/_custom_type_script = "uid://jdqq8gw24d5i"
+
+[node name="Walk" type="Node" parent="StateChart/Task" index="0"]
+unique_name_in_owner = true
+script = ExtResource("4_s2gqb")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToWindUp" type="Node" parent="StateChart/Task/Walk" index="0"]
+script = ExtResource("5_1qq4g")
+to = NodePath("../../WindUp")
+event = &"wind_up"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="WindUp" type="Node" parent="StateChart/Task" index="1"]
+unique_name_in_owner = true
+script = ExtResource("4_s2gqb")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToDash" type="Node" parent="StateChart/Task/WindUp" index="0"]
+unique_name_in_owner = true
+script = ExtResource("5_1qq4g")
+to = NodePath("../../Dash")
+event = &"dash"
+delay_in_seconds = "0.0"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="Dash" type="Node" parent="StateChart/Task" index="2"]
+unique_name_in_owner = true
+script = ExtResource("4_s2gqb")
+metadata/_custom_type_script = "uid://dcu2i8t8kecjt"
+
+[node name="ToWalk" type="Node" parent="StateChart/Task/Dash" index="0"]
+script = ExtResource("5_1qq4g")
+to = NodePath("../../Walk")
+delay_in_seconds = "0.5"
+metadata/_custom_type_script = "uid://btbuih6emodp4"
+
+[node name="Rig" parent="." index="4"]
+position = Vector2(0, -5)
+
+[node name="DashWarningLine" type="Line2D" parent="Rig" index="0"]
+unique_name_in_owner = true
+visible = false
+points = PackedVector2Array(0, 0, 200, 0)
+default_color = Color(1, 0, 0, 0.498039)
+end_cap_mode = 2
+
+[node name="Sprite" type="Node2D" parent="Rig" index="1"]
+script = ExtResource("6_3yp18")
+vertex1 = Vector2(-0.5, 0)
+vertex2 = Vector2(0, -0.25)
+vertex3 = Vector2(0.5, 0)
+vertex4 = Vector2(0, 0.25)
+scale_vector = Vector2(25, 25)
+fill_color = Color(0.863, 0.078, 0.235, 1)
+edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+
+[node name="HurtboxComponent" parent="Rig" index="2" node_paths=PackedStringArray("flash_component", "actor")]
+flash_component = NodePath("../../FlashComponent")
+actor = NodePath("../..")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
+position = Vector2(0, 2.38419e-07)
+polygon = PackedVector2Array(-10, -4.76837e-07, 0, -5, 10, -4.76837e-07, 0, 5)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Rig/HitboxComponent" index="0"]
+position = Vector2(0, 4.76837e-07)
+polygon = PackedVector2Array(-10, -4.76837e-07, 0, -5, 10, -4.76837e-07, 0, 5)
+
+[node name="CollisionShape2D" parent="." index="8"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_mirvc")

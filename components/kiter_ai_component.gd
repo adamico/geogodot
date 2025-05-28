@@ -1,10 +1,15 @@
 class_name KiterAiComponent
-extends BasicAIComponent
+extends Node2D
 
+@export var actor: CharacterBody2D
+@export var speed: float = 50.0
 @export var shooting_distance: float = 200
 @export var fleeing_distance: float = 150
 
 var base_speed: float
+var player: Player
+var direction: Vector2
+
 
 @onready var state_chart: StateChart = %StateChart
 @onready var approach: AtomicState = %Approach
@@ -16,18 +21,17 @@ var base_speed: float
 
 
 func _ready() -> void:
+    player = get_tree().get_first_node_in_group("players")
     base_speed = speed
     approach.state_processing.connect(_on_approach_state_processing)
     shoot.state_processing.connect(_on_shoot_state_processing)
     flee.state_processing.connect(_on_flee_state_processing)
 
-    super()
-
 
 func _physics_process(_delta: float) -> void:
     if not player: return
     if not actor: return
-    var target_direction: Vector2 = rig.global_position.direction_to(player.global_position)
+    var target_direction: Vector2 = rig.global_position.direction_to(player.rig_global_position)
     target_component.direction = target_direction
 
 
