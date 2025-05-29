@@ -55,7 +55,7 @@ func _new_game() -> void:
     _generate_waves()
     player.position = p_1_start_position.position
     game_start_time = Time.get_unix_time_from_system()
-    wave_timer.start(10)
+    #wave_timer.start(10)
 
 
 func _generate_waves() -> void:

@@ -37,8 +37,7 @@ func _ready() -> void:
     stats_component.health = max_health
 
     capture_component.level = level
-    capture_action.triggered.connect(capture_component.on_try_capture)
-    capture_action.completed.connect(capture_component.on_stop_capturing)
+    capture_action.completed.connect(capture_component.try_capture)
 
     shoot_action.triggered.connect(shoot_component.fire_projectile)
     shoot_action.completed.connect(shoot_component.stop_firing)
