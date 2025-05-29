@@ -5,10 +5,8 @@ signal reveal
 
 @export var label_text: String
 
-var map_position: Vector2i
 
 @onready var label: Label = %Label
-@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
 func _ready() -> void:

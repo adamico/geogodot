@@ -13,13 +13,13 @@ var loot_count:= {
     "capture": 0
 }
 
+
 func _ready() -> void:
     var capturable_positions = get_used_cells_by_id(-1, CAPTURABLE_ATLAS_COORDS)
     max_loot = capturable_positions.size() / LOOT.size()
     capturable_positions.map(_add_loot)
     captured_cells = [[], [], []]
     EventBus.captured_tile.connect(_on_captured_tile)
-
 
 
 func _add_loot(capturable_position) -> void:
@@ -41,6 +41,7 @@ func _set_captured(cell, capture_faction) -> void:
 func _reveal_pickup_at(cell) -> void:
     var found_pickup: Pickup = _pickup_at(cell)
     if not found_pickup: return
+    found_pickup._show_and_enable()
 
 
 func _pickup_at(cell) -> Node:
