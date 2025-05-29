@@ -62,7 +62,7 @@ shadow_color = Color(0, 0, 0, 0.34902)
 
 [sub_resource type="Curve2D" id="Curve2D_kt6p6"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -298.667, -192, 0, 0, 0, 0, 469.333, -192, 0, 0, 0, 0, 469.333, 288, 0, 0, 0, 0, -298.667, 288, 0, 0, 0, 0, -298.667, -192)
+"points": PackedVector2Array(0, 0, 0, 0, 965.333, -176, 0, 0, 0, 0, 965.333, 576, 0, 0, 0, 0, -282.667, 576, 0, 0, 0, 0, -282.667, -176, 0, 0, 0, 0, 965.333, -176)
 }
 point_count = 5
 
@@ -336,19 +336,19 @@ position = Vector2(48, 48)
 
 [node name="Camera2D" parent="World" instance=ExtResource("6_kek77")]
 unique_name_in_owner = true
-position = Vector2(192, 64)
+position = Vector2(448, 196)
+
+[node name="EnemyPath" type="Path2D" parent="World/Camera2D"]
+position = Vector2(-341.333, -196)
+curve = SubResource("Curve2D_kt6p6")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="World/Camera2D/EnemyPath"]
+unique_name_in_owner = true
+position = Vector2(965.333, -176)
+rotation = 1.5708
 
 [node name="Player" parent="World" node_paths=PackedStringArray("level") instance=ExtResource("8_5xyti")]
 unique_name_in_owner = true
-y_sort_enabled = false
 position = Vector2(48, 64)
 motion_mode = 1
 level = NodePath("../Level")
-
-[node name="EnemyPath" type="Path2D" parent="World"]
-position = Vector2(106.667, 0)
-curve = SubResource("Curve2D_kt6p6")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="World/EnemyPath"]
-unique_name_in_owner = true
-position = Vector2(-298.667, -192)

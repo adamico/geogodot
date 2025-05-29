@@ -12,6 +12,7 @@ var overlapping_areas: Array[Area2D]
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var explosion_warning: Node2D = %"Explosion Warning"
 @onready var spawner_component: SpawnerComponent = %SpawnerComponent
+@onready var rig: Node2D = %Rig
 
 
 func _ready() -> void:
@@ -29,5 +30,5 @@ func _on_explosion_area_entered(area: Area2D) -> void:
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
     overlapping_areas.map(func(overlapping_area): overlapping_area.hurt.emit(self))
-    spawner_component.spawn()
+    spawner_component.spawn(spawner_component.global_position, rig)
     EventBus.actor_died.emit(actor)

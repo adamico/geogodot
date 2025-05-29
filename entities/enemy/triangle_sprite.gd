@@ -7,6 +7,7 @@ extends Node2D
 @export var fill_color: Color
 @export var edge_color: Color
 @export var scale_vector: Vector2
+@export var edge_width: float
 
 var tri: PackedVector2Array
 
@@ -22,7 +23,7 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
     draw_polygon(tri, [fill_color])
-    draw_polyline(tri, edge_color)
+    draw_polyline(tri, edge_color, edge_width, true)
 
 
 func scale_points(points: Array) -> PackedVector2Array:

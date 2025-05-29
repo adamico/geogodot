@@ -5,7 +5,6 @@ extends Node2D
 var form_stages: Dictionary
 var all_triangles: Array[Node]
 
-@onready var triangles: Node2D = %Triangles
 @onready var triangle_0: Node2D = %Triangle0
 @onready var triangle_1: Node2D = %Triangle1
 @onready var triangle_1_1: Node2D = %"Triangle1-1"
@@ -33,7 +32,8 @@ func _ready() -> void:
             triangle_3_1, triangle_3_2, triangle_3_3,
         ],
     }
-    triangles.get_children()
+    all_triangles = get_children()
+    _change_form("full")
 
 
 func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
@@ -51,9 +51,8 @@ func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
 
 
 func _change_form(form_key) -> void:
-    all_triangles.map(_change_visibility.bind(false))
-    form_stages[form_key].map(_change_visibility.bind(true))
+    for triangle in all_triangles:
+        triangle.hide()
 
-
-func _change_visibility(node: Node2D, visibility: bool) -> void:
-    node.visible = visibility
+    for triangle in form_stages[form_key]:
+        triangle.show()

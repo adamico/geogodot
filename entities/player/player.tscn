@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=3 uid="uid://32gl4r1eefhu"]
+[gd_scene load_steps=115 format=3 uid="uid://32gl4r1eefhu"]
 
 [ext_resource type="Script" uid="uid://stmokg8b8ysy" path="res://entities/player/player.gd" id="1_b2kln"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="1_dqkch"]
@@ -48,6 +48,9 @@
 [ext_resource type="Texture2D" uid="uid://co820bbr3ds0y" path="res://assets/sprites/spiral_sphere.png" id="42_c112w"]
 [ext_resource type="PackedScene" uid="uid://bvai45nqhvdy2" path="res://entities/player/forms/triangle/triangle_form.tscn" id="46_c112w"]
 [ext_resource type="Script" uid="uid://dh4dy7qlv108s" path="res://components/free_move_component.gd" id="46_g3pa7"]
+[ext_resource type="PackedScene" uid="uid://cispds3s1m8ar" path="res://entities/player/forms/sphere.tscn" id="47_rtlkk"]
+[ext_resource type="Texture2D" uid="uid://brnjy7yuxhysk" path="res://assets/sprites/triangle_projectile.png" id="47_ssgi7"]
+[ext_resource type="Material" uid="uid://3wiub50ispue" path="res://entities/player/forms/sphere_particles.tres" id="48_rtlkk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h0qb"]
 size = Vector2(16, 16)
@@ -666,7 +669,6 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
-y_sort_enabled = true
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("1_b2kln")
@@ -679,6 +681,7 @@ max_health = 9999
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_2h0qb")
 
@@ -961,13 +964,14 @@ metadata/_custom_type_script = "uid://csqkc8o4iruir"
 unique_name_in_owner = true
 script = ExtResource("46_g3pa7")
 actor = NodePath("..")
-max_speed = 60
+acceleration = 8
+friction = 16
 metadata/_custom_type_script = "uid://dh4dy7qlv108s"
 
 [node name="MultiFlashComponent" type="Node" parent="." node_paths=PackedStringArray("sprite_parent")]
 unique_name_in_owner = true
 script = ExtResource("33_c112w")
-sprite_parent = NodePath("../Rig/Form/Triangles")
+sprite_parent = NodePath("../Rig/TriangleForm")
 flash_material = ExtResource("28_gt4e4")
 metadata/_custom_type_script = "uid://b7j10vaug8pfh"
 
@@ -975,18 +979,17 @@ metadata/_custom_type_script = "uid://b7j10vaug8pfh"
 position = Vector2(0, -10)
 
 [node name="CaptureProgressBar" type="ProgressBar" parent="Rig"]
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -12.0
-offset_top = -22.0
-offset_right = 12.0
-offset_bottom = -18.0
-grow_vertical = 2
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -24.0
+offset_top = -38.0
+offset_right = 24.0
+offset_bottom = -34.0
+grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_mmk7k")
 theme_override_styles/fill = SubResource("StyleBoxFlat_g3pa7")
 show_percentage = false
-metadata/_edit_use_anchors_ = true
 
 [node name="CollectorComponent" type="Area2D" parent="Rig"]
 collision_layer = 0
@@ -998,6 +1001,14 @@ metadata/_custom_type_script = "uid://dp65ygycaj2yt"
 shape = SubResource("CircleShape2D_t1t22")
 
 [node name="HealthBar" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("35_mmk7k")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -24.0
+offset_top = 19.0
+offset_right = 24.0
+offset_bottom = 23.0
+grow_horizontal = 2
 stats_component = NodePath("../../StatsComponent")
 
 [node name="ExplosionSpawnerComponent" type="Node2D" parent="Rig"]
@@ -1009,7 +1020,6 @@ metadata/_custom_type_script = "uid://dsy5yj0hshq3h"
 [node name="TargetComponent" type="Sprite2D" parent="Rig"]
 unique_name_in_owner = true
 position = Vector2(24, 0)
-texture = ExtResource("25_2h0qb")
 region_rect = Rect2(85, 430, 32, 32)
 script = ExtResource("22_8q4fm")
 metadata/_custom_type_script = "uid://cvldao1arx3t3"
@@ -1043,23 +1053,9 @@ autoplay = "idle"
 frame = 10
 frame_progress = 0.552949
 
-[node name="Form" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
-stats_component = NodePath("../../StatsComponent")
-
-[node name="Triangle0" parent="Rig/Form/Triangles" index="0"]
-visible = false
-
-[node name="Triangle1" parent="Rig/Form/Triangles" index="1"]
-visible = false
-
-[node name="Triangle2" parent="Rig/Form/Triangles" index="5"]
-visible = false
-
-[node name="Triangle3" parent="Rig/Form/Triangles" index="9"]
-visible = false
-
 [node name="HitboxComponent" type="Area2D" parent="Rig"]
 unique_name_in_owner = true
+visible = false
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("21_221hk")
@@ -1070,6 +1066,7 @@ polygon = PackedVector2Array(-17.2856, 9.76573, -0.0850105, -19.9368, 17.0317, 9
 
 [node name="HurtboxComponent" type="Area2D" parent="Rig" node_paths=PackedStringArray("flash_component", "actor")]
 unique_name_in_owner = true
+visible = false
 position = Vector2(0, 9.53674e-07)
 collision_mask = 0
 script = ExtResource("22_ghoj8")
@@ -1080,6 +1077,30 @@ metadata/_custom_type_script = "uid://bdy33sbgoncok"
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent"]
 polygon = PackedVector2Array(-17.2856, 9.76573, -0.0850105, -19.9368, 17.0317, 9.93354)
 
+[node name="Sphere" parent="Rig" instance=ExtResource("47_rtlkk")]
+scale_factor = 15.0
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Rig"]
+amount = 200
+texture = ExtResource("47_ssgi7")
+lifetime = 0.8
+process_material = ExtResource("48_rtlkk")
+
+[node name="TriangleForm" parent="Rig" node_paths=PackedStringArray("stats_component") instance=ExtResource("46_c112w")]
+stats_component = NodePath("../../StatsComponent")
+
+[node name="Triangle0" parent="Rig/TriangleForm" index="0"]
+visible = false
+
+[node name="Triangle1" parent="Rig/TriangleForm" index="1"]
+visible = false
+
+[node name="Triangle2" parent="Rig/TriangleForm" index="5"]
+visible = false
+
+[node name="Triangle3" parent="Rig/TriangleForm" index="9"]
+visible = false
+
 [connection signal="state_exited" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_exited"]
 [connection signal="state_processing" from="StateChart/ParallelState/Move/Moving" to="FreeMoveComponent" method="_on_moving_state_processing"]
 [connection signal="state_processing" from="StateChart/ParallelState/Move/CannotMove" to="FreeMoveComponent" method="_on_cannot_move_state_processing"]
@@ -1089,4 +1110,4 @@ polygon = PackedVector2Array(-17.2856, 9.76573, -0.0850105, -19.9368, 17.0317, 9
 [connection signal="state_processing" from="StateChart/ParallelState/Capture/Capturing" to="CaptureComponent" method="_on_capturing_state_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Capture/SuccessfulCapture" to="CaptureComponent" method="_on_successful_capture_state_entered"]
 
-[editable path="Rig/Form"]
+[editable path="Rig/TriangleForm"]

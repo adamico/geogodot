@@ -2,7 +2,7 @@ class_name SpawnerComponent
 extends Node2D
 
 @export var scene: PackedScene
-
+@export var scene_scale: Vector2
 
 func spawn(
         spawn_global_position: Vector2 = global_position,
@@ -12,6 +12,7 @@ func spawn(
             "Error: the scene export was never set on this spawner component")
     var instance: Node2D = scene.instantiate()
     instance.global_position = spawn_global_position
+    instance.scale = scene_scale
     parent.add_child(instance)
 
     return instance

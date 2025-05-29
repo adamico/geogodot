@@ -87,6 +87,7 @@ script = ExtResource("6_er8oi")
 scale_factor = 30.0
 fill_color = Color(0.863, 0.078, 0.235, 1)
 edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+edge_width = 1.0
 
 [node name="Explosion Warning" type="Node2D" parent="Rig" index="1"]
 unique_name_in_owner = true
@@ -104,8 +105,14 @@ shape = SubResource("CircleShape2D_gqr0p")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_gqr0p")
 
+[node name="SpawnerComponent" parent="Rig" index="4"]
+scene_scale = Vector2(2, 2)
+
 [node name="StatsComponent" parent="." index="5"]
 health = 3.0
+
+[node name="DeathComponent" parent="." index="7"]
+process_mode = 4
 
 [node name="CollisionShape2D" parent="." index="8"]
 y_sort_enabled = true

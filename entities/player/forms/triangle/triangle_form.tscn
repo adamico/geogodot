@@ -1,108 +1,113 @@
-[gd_scene load_steps=4 format=3 uid="uid://bvai45nqhvdy2"]
+[gd_scene load_steps=3 format=3 uid="uid://bvai45nqhvdy2"]
 
 [ext_resource type="Script" uid="uid://bk6imai1mqu3q" path="res://entities/player/forms/triangle/triangle_form.gd" id="1_6jb68"]
-[ext_resource type="PackedScene" uid="uid://cispds3s1m8ar" path="res://entities/player/forms/sphere.tscn" id="2_apx8l"]
 [ext_resource type="PackedScene" uid="uid://bq38dcfrauoy0" path="res://entities/player/forms/triangle/triangle_piece2.tscn" id="4_7oj33"]
 
-[node name="TriangleForm" type="Node2D"]
+[node name="Triangles" type="Node2D"]
 script = ExtResource("1_6jb68")
 
-[node name="Sphere" parent="." instance=ExtResource("2_apx8l")]
-
-[node name="Triangles" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="Triangle0" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle0" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
 vertex1 = Vector2(-0.433, -0.25)
 vertex2 = Vector2(0.433, -0.25)
 vertex3 = Vector2(0, 0.5)
-offset = Vector2(0, 0)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle1" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle1" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(-8.66, 5)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle1-1" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle1-1" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(-13, 7.5)
+position = Vector2(-19.5, 11.25)
 vertex2 = Vector2(-0.433, 0.5)
 vertex3 = Vector2(-0.65, 0.125)
 offset = Vector2(-0.65, 0.375)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle1-2" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle1-2" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(-4.32, 7.5)
+position = Vector2(-6.48, 11.25)
 vertex1 = Vector2(-0.433, 0.5)
 vertex3 = Vector2(-0.216, 0.125)
 offset = Vector2(-0.216, 0.375)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle1-3" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle1-3" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(-8.66, 0)
+position = Vector2(-12.99, 0)
 vertex1 = Vector2(-0.65, 0.125)
 vertex2 = Vector2(-0.216, 0.125)
 offset = Vector2(-0.433, 0)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle2" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle2" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(8.66, 5)
+position = Vector2(12.99, 7.5)
 vertex1 = Vector2(0.866, 0.5)
 vertex3 = Vector2(0.433, -0.25)
 offset = Vector2(0.433, 0.25)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle2-1" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle2-1" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(4.32, 7.5)
+position = Vector2(6.48, 11.25)
 vertex1 = Vector2(0, 0.5)
 vertex2 = Vector2(0.433, 0.5)
 vertex3 = Vector2(0.216, 0.125)
 offset = Vector2(0.216, 0.375)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle2-2" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle2-2" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(13, 7.5)
+position = Vector2(19.5, 11.25)
 vertex1 = Vector2(0.866, 0.5)
 vertex2 = Vector2(0.433, 0.5)
 vertex3 = Vector2(0.65, 0.125)
 offset = Vector2(0.65, 0.375)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle2-3" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle2-3" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(8.66, 0)
+position = Vector2(12.99, 0)
 vertex1 = Vector2(0.216, 0.125)
 vertex2 = Vector2(0.65, 0.125)
 vertex3 = Vector2(0.433, -0.25)
 offset = Vector2(0.433, 0)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle3" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle3" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(0, -10)
+position = Vector2(0, -15)
 vertex1 = Vector2(-0.433, -0.25)
 vertex2 = Vector2(0.433, -0.25)
 vertex3 = Vector2(0, -1)
 offset = Vector2(0, -0.5)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle3-1" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle3-1" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(-4.32, -7.5)
+position = Vector2(-6.48, -11.25)
 vertex1 = Vector2(-0.433, -0.25)
 vertex2 = Vector2(0, -0.25)
 vertex3 = Vector2(-0.216, -0.625)
 offset = Vector2(-0.216, -0.375)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle3-2" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle3-2" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(4.32, -7.5)
+position = Vector2(6.48, -11.25)
 vertex1 = Vector2(0, -0.25)
 vertex2 = Vector2(0.433, -0.25)
 vertex3 = Vector2(0.216, -0.625)
 offset = Vector2(0.216, -0.375)
+scale_vector = Vector2(30, 30)
 
-[node name="Triangle3-3" parent="Triangles" instance=ExtResource("4_7oj33")]
+[node name="Triangle3-3" parent="." instance=ExtResource("4_7oj33")]
 unique_name_in_owner = true
-position = Vector2(0, -15)
+position = Vector2(0, -22.5)
 vertex1 = Vector2(-0.216, -0.625)
 vertex2 = Vector2(0.216, -0.625)
 vertex3 = Vector2(0, -1)
 offset = Vector2(0, -0.75)
+scale_vector = Vector2(30, 30)
