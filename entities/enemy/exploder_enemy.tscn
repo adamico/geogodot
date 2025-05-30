@@ -62,7 +62,7 @@ libraries = {
 [node name="BasicAIComponent" type="Node2D" parent="." index="1" node_paths=PackedStringArray("actor")]
 script = ExtResource("6_gqr0p")
 actor = NodePath("..")
-speed = 30.0
+speed = 40.0
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
 
 [node name="EffectsAnimationPlayer" parent="." index="2" node_paths=PackedStringArray("sprite")]
@@ -110,7 +110,7 @@ shape = SubResource("CircleShape2D_gqr0p")
 scene_scale = Vector2(2, 2)
 
 [node name="StatsComponent" parent="." index="4"]
-health = 3.0
+health = 5.0
 
 [node name="CollisionShape2D" parent="." index="6"]
 y_sort_enabled = true

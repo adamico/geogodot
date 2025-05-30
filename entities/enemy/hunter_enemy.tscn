@@ -12,6 +12,7 @@ radius = 3.0
 [node name="BasicAIComponent" type="Node2D" parent="." index="0" node_paths=PackedStringArray("actor")]
 script = ExtResource("6_tv0yq")
 actor = NodePath("..")
+speed = 80.0
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
 
 [node name="EffectsAnimationPlayer" parent="." index="1" node_paths=PackedStringArray("sprite")]
@@ -24,7 +25,7 @@ vertex2 = Vector2(-0.25, 0.25)
 vertex3 = Vector2(0.5, 0)
 fill_color = Color(0.863, 0.078, 0.235, 1)
 edge_color = Color(0.980392, 0.921569, 0.843137, 1)
-scale_vector = Vector2(30, 30)
+scale_vector = Vector2(40, 40)
 edge_width = 1.0
 
 [node name="HurtboxComponent" parent="Rig" index="1"]

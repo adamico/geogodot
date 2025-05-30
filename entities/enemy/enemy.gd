@@ -1,6 +1,8 @@
 class_name Enemy
 extends CharacterBody2D
 
+signal died
+
 var capture_faction: int
 
 @onready var rig: Node2D = %Rig
@@ -14,7 +16,7 @@ func _ready() -> void:
     add_to_group("enemies")
     capture_faction = Constants.CaptureFactions.ENEMIES
     hurtbox_component.hurt.connect(_on_hurtbox_component_hurt)
-    EventBus.actor_died.connect(_on_death.unbind(1))
+    died.connect(_on_death)
 
 
 func _on_hurtbox_component_hurt(_hitbox_component: Node) -> void:

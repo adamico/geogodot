@@ -18,12 +18,17 @@ var current_wave:= 0
 var enemies_spawned:= 0
 var enemies_left: int
 var enemy_max_weight: int
-var number_of_waves:= 5
+var number_of_waves:= 10
 var time_to_next_wave:= 0.0
 var rng = RandomNumberGenerator.new()
 
 var enemy_scenes:= [HUNTER_ENEMY, EXPLODER_ENEMY, SHOOTER_ENEMY, DASHER_ENEMY]
-var enemy_weights = PackedFloat32Array([2, 0.2, 0.5, 1])
+var enemy_weights = PackedFloat32Array([3, 0.2, 0.5, 1])
+enum WaveTypes {
+    UNIFORM,
+    MIXED,
+    ELITES
+}
 
 @onready var wave_timer: Timer = $WaveTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -55,7 +60,7 @@ func _new_game() -> void:
     _generate_waves()
     player.position = p_1_start_position.position
     game_start_time = Time.get_unix_time_from_system()
-    #wave_timer.start(10)
+    wave_timer.start(10)
 
 
 func _generate_waves() -> void:
@@ -85,6 +90,7 @@ func _on_actor_dead(actor: Node2D) -> void:
     elif actor is Enemy:
         enemies_left -= 1
         if enemies_left == 0: last_enemy_in_wave_dead.emit()
+        actor.died.emit()
 
 
 func _on_enemy_timer_timeout() -> void:
@@ -101,6 +107,8 @@ func _on_enemy_timer_timeout() -> void:
 
 func _on_wave_timer_timeout() -> void:
     current_wave += 1
+    if current_wave > number_of_waves:
+        _game_over()
     _new_wave()
 
 

@@ -22,6 +22,7 @@ radius = 4.12311
 script = ExtResource("6_uu41r")
 actor = NodePath("..")
 dashing_speed = 800.0
+walking_speed = 60.0
 metadata/_custom_type_script = "uid://c3ni7j2pd5u84"
 
 [node name="DashCooldownTimer" type="Timer" parent="." index="1"]
@@ -92,13 +93,10 @@ vertex1 = Vector2(-0.5, 0)
 vertex2 = Vector2(0, -0.25)
 vertex3 = Vector2(0.5, 0)
 vertex4 = Vector2(0, 0.25)
-scale_vector = Vector2(40, 40)
+scale_vector = Vector2(50, 50)
 fill_color = Color(0.863, 0.078, 0.235, 1)
 edge_color = Color(0.980392, 0.921569, 0.843137, 1)
 edge_width = 1.0
-
-[node name="HurtboxComponent" parent="Rig" index="2" node_paths=PackedStringArray("actor")]
-actor = NodePath("../..")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
 position = Vector2(0, 2.38419e-07)
@@ -108,9 +106,11 @@ polygon = PackedVector2Array(-10, -4.76837e-07, 0, -5, 10, -4.76837e-07, 0, 5)
 position = Vector2(0, 4.76837e-07)
 polygon = PackedVector2Array(-10, -4.76837e-07, 0, -5, 10, -4.76837e-07, 0, 5)
 
-[node name="SpawnerComponent" parent="Rig" index="4" node_paths=PackedStringArray("spawn_parent")]
+[node name="SpawnerComponent" parent="Rig" index="4"]
 scene_scale = Vector2(1, 1)
-spawn_parent = NodePath("..")
+
+[node name="StatsComponent" parent="." index="5"]
+health = 3.0
 
 [node name="CollisionShape2D" parent="." index="7"]
 position = Vector2(0, -5)
