@@ -118,7 +118,6 @@ move_action = ExtResource("2_we0b7")
 shoot_action = ExtResource("4_bwdx1")
 target_action = ExtResource("5_g3pa7")
 relative_to_player = ExtResource("6_g3pa7")
-max_health = 9999
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -409,7 +408,7 @@ metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 unique_name_in_owner = true
 script = ExtResource("23_ghoj8")
 actor = NodePath("..")
-health = 9999.0
+health = 3.0
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
 [node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
@@ -428,6 +427,7 @@ metadata/_custom_type_script = "uid://csqkc8o4iruir"
 unique_name_in_owner = true
 script = ExtResource("46_g3pa7")
 actor = NodePath("..")
+max_speed = 80
 acceleration = 8
 friction = 16
 metadata/_custom_type_script = "uid://dh4dy7qlv108s"

@@ -39,6 +39,8 @@ func _ready() -> void:
 func _on_actor_health_changed(actor: Node2D, current_health: int) -> void:
     if actor is not Player:
         return
+    if current_health <= 0:
+        return
     var form_key: String
     if current_health >= actor.max_health / 3:
         form_key = "low"
