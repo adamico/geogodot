@@ -6,7 +6,7 @@ extends Node2D
 @export var edge_color: Color
 @export var edge_width: float
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     queue_redraw()
 
 

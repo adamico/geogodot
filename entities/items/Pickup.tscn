@@ -79,5 +79,3 @@ metadata/_custom_type_script = "uid://dv1k3bweg37qr"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableComponent"]
 shape = SubResource("RectangleShape2D_2gfkv")
-
-[connection signal="reveal" from="." to="." method="_on_reveal"]

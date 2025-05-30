@@ -3,10 +3,8 @@ extends TileMapLayer
 const LOOT = [null, null, null, null, null, null, "laser", "capture"]
 const PICKUP:= preload("res://entities/items/Pickup.tscn")
 const CAPTURABLE_ATLAS_COORDS = Vector2i(0, 0)
-const HUNTER_ENEMY = preload("res://entities/enemy/hunter_enemy.tscn")
 
 var captured_cells: Array
-
 var max_loot: int
 var loot_count:= {
     "laser": 0,
@@ -16,6 +14,7 @@ var loot_count:= {
 
 func _ready() -> void:
     var capturable_positions = get_used_cells_by_id(-1, CAPTURABLE_ATLAS_COORDS)
+    @warning_ignore("integer_division")
     max_loot = capturable_positions.size() / LOOT.size()
     capturable_positions.map(_add_loot)
     captured_cells = [[], [], []]

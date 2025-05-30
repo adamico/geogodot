@@ -1,9 +1,14 @@
 class_name MultiFlashComponent
-extends FlashComponent
+extends Node
 
+@export var flash_material: Material
 @export var sprite_parent: Node2D
+@export var flash_duration := 0.2
 
+var original_sprite_material: Material
 var sprites: Array[Node]
+var timer: Timer = Timer.new()
+
 
 func _ready() -> void:
     add_child(timer)

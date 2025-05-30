@@ -17,7 +17,7 @@ func _ready() -> void:
     tri = scale_points(tri_points)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     queue_redraw()
 
 

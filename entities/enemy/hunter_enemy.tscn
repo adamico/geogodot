@@ -1,8 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://7l7trm1gr6xv"]
+[gd_scene load_steps=5 format=3 uid="uid://7l7trm1gr6xv"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_alvfc"]
-[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="2_6g888"]
-[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="3_tv0yq"]
 [ext_resource type="Script" uid="uid://c10plrd8ujdws" path="res://entities/enemy/triangle_sprite.gd" id="4_uuhhs"]
 [ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_tv0yq"]
 
@@ -16,13 +14,10 @@ script = ExtResource("6_tv0yq")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
 
-[node name="FlashComponent" type="Node" parent="." index="1" node_paths=PackedStringArray("sprite")]
-script = ExtResource("2_6g888")
-flash_material = ExtResource("3_tv0yq")
+[node name="EffectsAnimationPlayer" parent="." index="1" node_paths=PackedStringArray("sprite")]
 sprite = NodePath("../Rig/Sprite")
-metadata/_custom_type_script = "uid://b4i7mx467ysy7"
 
-[node name="Sprite" type="Node2D" parent="Rig" index="0"]
+[node name="Sprite" parent="Rig" index="0"]
 script = ExtResource("4_uuhhs")
 vertex1 = Vector2(-0.25, -0.25)
 vertex2 = Vector2(-0.25, 0.25)
@@ -32,11 +27,9 @@ edge_color = Color(0.980392, 0.921569, 0.843137, 1)
 scale_vector = Vector2(30, 30)
 edge_width = 1.0
 
-[node name="HurtboxComponent" parent="Rig" index="1" node_paths=PackedStringArray("flash_component", "actor")]
+[node name="HurtboxComponent" parent="Rig" index="1"]
 visible = false
 position = Vector2(0, -2)
-flash_component = NodePath("../../FlashComponent")
-actor = NodePath("../..")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Rig/HurtboxComponent" index="0"]
 polygon = PackedVector2Array(-5, -3, 10, 2, -5, 7)
@@ -51,5 +44,5 @@ polygon = PackedVector2Array(-5, -3, 10, 2, -5, 7)
 [node name="SpawnerComponent" parent="Rig" index="3"]
 scene_scale = Vector2(1, 1)
 
-[node name="CollisionShape2D" parent="." index="6"]
+[node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource("CircleShape2D_tv0yq")

@@ -55,7 +55,7 @@ func _new_game() -> void:
     _generate_waves()
     player.position = p_1_start_position.position
     game_start_time = Time.get_unix_time_from_system()
-    wave_timer.start(10)
+    #wave_timer.start(10)
 
 
 func _generate_waves() -> void:
@@ -63,7 +63,7 @@ func _generate_waves() -> void:
     var number_of_enemies = base_number_of_enemies
     waves.resize(number_of_waves)
     for n in range(0, waves.size()):
-        number_of_enemies += base_number_of_enemies * n / 2
+        number_of_enemies += base_number_of_enemies * n / 2.0
         waves[n].enemies_number = number_of_enemies
 
 
@@ -85,7 +85,6 @@ func _on_actor_dead(actor: Node2D) -> void:
     elif actor is Enemy:
         enemies_left -= 1
         if enemies_left == 0: last_enemy_in_wave_dead.emit()
-    actor.call_deferred("queue_free")
 
 
 func _on_enemy_timer_timeout() -> void:

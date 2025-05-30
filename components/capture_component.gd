@@ -1,91 +1,101 @@
 class_name CaptureComponent
 extends Node
 
-const CAPTURE = preload("res://assets/sprites/capture.png")
+const CAPTURE_CURSOR_SCENE = preload("res://entities/player/capture_cursor.tscn")
 
-@export var capture_progress_bar: ProgressBar
 @export var state_chart: StateChart
 @export var actor: Node2D
-@export var capturing_sound: AudioStreamPlayer
 @export var finished_capturing_sound: AudioStreamPlayer
-@export var target_component: TargetComponent
 @export var map_cells_to_capture: Array[Vector2i]
+@export var capture_reach:= 3.0
 
 var level: TileMapLayer
+var _capture_cursor_node: Node2D = null
+var _last_cursor_cell: Vector2i = Vector2i(-1, -1)
 
-@onready var target_animation_player: AnimationPlayer = %AnimationPlayer
 @onready var stats_component: StatsComponent = %StatsComponent
+@onready var capture_cooldown_timer: Timer = %CaptureCooldownTimer
+@onready var capture_cooldown_indicator: TextureProgressBar = %CaptureCooldownIndicator
 
 
 func _ready() -> void:
-    _reset_progress_bar()
+    capture_cooldown_timer.timeout.connect(_on_capture_cooldown_timer_timeout)
+    _instantiate_capture_cursor()
 
 
-func _on_capturing_state_processing(delta: float) -> void:
-    target_animation_player.play("capture_target_modulate_pulse")
-    capture_progress_bar.show()
-    var capture_delta = (50 + stats_component.capture_power * 20) * delta
-    if capture_progress_bar.value < 100:
-         capture_progress_bar.value += capture_delta
-    else:
-        state_chart.send_event("finished_capture")
+func _process(_delta: float) -> void:
+    capture_cooldown_indicator.update_cooldown_indicator(capture_cooldown_timer.time_left)
+    show_capture_cursor()
 
 
-func _on_capturing_state_entered() -> void:
-    capturing_sound.play()
-    target_component.texture = CAPTURE
-    create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,1), 0.2)
-    state_chart.send_event("prevent_move")
-    state_chart.send_event("prevent_target_move")
+func _instantiate_capture_cursor() -> void:
+    _capture_cursor_node = CAPTURE_CURSOR_SCENE.instantiate()
+    get_tree().current_scene.add_child.call_deferred(_capture_cursor_node)
 
 
-func _on_capturing_state_exited() -> void:
-    target_animation_player.stop()
-    capturing_sound.stop()
-    _reset_progress_bar()
-    state_chart.send_event("allow_move")
-    state_chart.send_event("allow_target_move")
+func show_capture_cursor() -> void:
+    var mouse_world_position = actor.get_global_mouse_position()
+    var current_cell = level.local_to_map(mouse_world_position)
+
+    if _last_cursor_cell == current_cell:
+        return
+
+    _last_cursor_cell = current_cell
+    _capture_cursor_node.can_capture = _is_valid_capturable_cell(current_cell) and capture_cooldown_timer.is_stopped()
+
+    var final_cursor_global_position = level.map_to_local(current_cell)
+    create_tween().tween_property(_capture_cursor_node, "global_position", final_cursor_global_position, 0.1)
 
 
-func _on_successful_capture_state_entered() -> void:
+func try_capture() -> void:
+    _calculate_cells_to_capture()
+    if map_cells_to_capture.is_empty():
+        return
+    if not capture_cooldown_timer.is_stopped():
+        return
+    _capture()
+
+
+func _capture() -> void:
+    state_chart.send_event("capture")
     finished_capturing_sound.play()
     EventBus.captured_tile.emit(map_cells_to_capture, actor.capture_faction)
+    var cooldown_duration: float = 3.0 / (stats_component.capture_power + 1)
+    capture_cooldown_timer.start(cooldown_duration)
+    _capture_cursor_node.can_capture = false
+    capture_cooldown_indicator.start_cooldown(cooldown_duration)
 
 
-func _reset_progress_bar() -> void:
-    capture_progress_bar.value = 0
-    capture_progress_bar.hide()
-
-
-func on_try_capture() -> void:
-    _calculate_cells_to_capture()
-    if map_cells_to_capture.is_empty(): return
-    state_chart.send_event("capture")
+func _on_capture_cooldown_timer_timeout() -> void:
+    state_chart.send_event("allow_capture")
+    _capture_cursor_node.can_capture = true
+    capture_cooldown_indicator.hide_cooldown()
 
 
 func _calculate_cells_to_capture() -> void:
-    var map_cell_to_capture = level.local_to_map(target_component.global_position)
-    map_cells_to_capture.append(map_cell_to_capture)
-    for size in get_tree().get_nodes_in_group("size"):
-        map_cells_to_capture.append(level.local_to_map(size.global_position))
-    map_cells_to_capture = map_cells_to_capture.filter(_not_captured_yet)
-    map_cells_to_capture = map_cells_to_capture.filter(_is_capturable_type)
+    var map_cell_to_capture = level.local_to_map(actor.get_global_mouse_position())
+    map_cells_to_capture = [map_cell_to_capture]
+    map_cells_to_capture = map_cells_to_capture.filter(_is_valid_capturable_cell)
+
+
+func _is_valid_capturable_cell(cell: Vector2i) -> bool:
+    if not _is_inside_level(cell):
+        return false
+    return _is_capturable_type(cell) and _not_captured_yet(cell) and _is_in_capture_range(cell)
+
+
+func _is_in_capture_range(cell: Vector2i) -> bool:
+    var total_capture_reach = capture_reach + stats_component.capture_power
+    return cell.distance_to(level.local_to_map(actor.global_position)) <= total_capture_reach
+
+
+func _is_inside_level(cell: Vector2i) -> bool:
+    return level.get_used_rect().has_point(cell)
 
 
 func _not_captured_yet(cell: Vector2i) -> bool:
-    var captured_cells = level.captured_cells[actor.capture_faction]
-    return not captured_cells.has(cell)
+    return not level.captured_cells[actor.capture_faction].has(cell)
 
 
 func _is_capturable_type(cell: Vector2i) -> bool:
-    var cell_data:= level.get_cell_tile_data(cell)
-    return cell_data.get_custom_data("uncaptured")
-
-
-func on_stop_capturing() -> void:
-    map_cells_to_capture.clear()
-    state_chart.send_event("stop_capture")
-
-
-func _on_can_capture_state_entered() -> void:
-    create_tween().tween_property(target_component, "self_modulate", Color(1,1,1,0), 0.2)
+    return level.get_cell_tile_data(cell).get_custom_data("uncaptured")

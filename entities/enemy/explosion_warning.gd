@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 
 @onready var rig: Node2D = %Rig

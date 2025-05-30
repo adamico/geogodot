@@ -5,6 +5,7 @@ extends Node
 # and helps avoid typos.
 
 # --- GAME STATE EVENTS ---
+@warning_ignore_start("unused_signal")
 signal game_started # Corrected: No () needed for no arguments
 signal game_paused # Corrected
 signal game_resumed # Corrected

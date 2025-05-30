@@ -18,7 +18,7 @@ func _ready() -> void:
     position = offset * scale_vector
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     queue_redraw()
 
 

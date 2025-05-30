@@ -12,7 +12,6 @@ extends Node
 @onready var moving: AtomicState = %Moving
 @onready var cannot_move: AtomicState = %CannotMove
 @onready var state_chart: StateChart = %StateChart
-@onready var engines_animated_sprite: AnimatedSprite2D = %EnginesAnimatedSprite
 @onready var moving_sound: AudioStreamPlayer = %MovingSound
 @onready var stop_moving_sound: AudioStreamPlayer = %StopMovingSound
 @onready var hitbox_component: HitboxComponent = %HitboxComponent
@@ -38,7 +37,7 @@ func _decelerate() -> void:
 
 
 func _play_moving_animation() -> void:
-    var directions_to_sprites: Dictionary = {
+    var _directions_to_sprites: Dictionary = {
         Vector2.LEFT: "move_left",
         Vector2.RIGHT: "move_right",
         Vector2.UP: "move_up",
@@ -49,12 +48,10 @@ func _play_moving_animation() -> void:
         Vector2(1, -1): "move_up_right",
         Vector2(-1, -1): "move_up_left"
     }
-    engines_animated_sprite.play(directions_to_sprites[direction.round()])
 
 
 func _on_cannot_move_state_processing(_delta: float) -> void:
     direction = Vector2.ZERO
-    engines_animated_sprite.play("idle")
 
 
 func _on_moving_state_processing(_delta: float) -> void:

@@ -1,8 +1,6 @@
 class_name Pickup
 extends Node2D
 
-signal reveal
-
 @export var label_text: String
 
 
@@ -22,7 +20,3 @@ func _hide_and_disable() -> void:
 func _show_and_enable() -> void:
     show()
     set_process_mode(PROCESS_MODE_INHERIT)
-
-
-func _on_reveal() -> void:
-    _show_and_enable()
