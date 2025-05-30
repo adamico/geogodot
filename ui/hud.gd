@@ -20,7 +20,6 @@ var players: Array[Node]
 @onready var next_wave_container: CenterContainer = %NextWaveContainer
 @onready var enemies_left_value: Label = %EnemiesLeftValue
 @onready var enemies_left_container: HBoxContainer = %EnemiesLeftContainer
-@onready var root_node: Node = $".."
 @onready var main: Node = $".."
 @onready var wave_timer: Timer = %WaveTimer
 
@@ -36,14 +35,15 @@ func _process(_delta: float) -> void:
     score_value.text = "%06d" % Score.score_values[1]
     ["capture_power", "laser_power"].map(_process_labels_for)
 
-    var time_string = Time.get_time_string_from_unix_time(root_node.elapsed_time)
+    var time_string = Time.get_time_string_from_unix_time(main.elapsed_game_time)
     game_timer_value.text = time_string.substr(3)
 
-    wave_number_value.text = str(root_node.current_wave)
-    enemies_left_value.text = str(root_node.enemies_left)
+    wave_number_value.text = str(main.current_wave)
+    enemies_left_value.text = str(main.enemies_remaining_this_wave)
 
-    var time_to_next_wave = root_node.time_to_next_wave
-    if time_to_next_wave > 0: next_wave_value.text = "%.0f" % root_node.time_to_next_wave
+    #var time_to_next_wave = main.time_to_next_wave
+    #if time_to_next_wave > 0:
+        #next_wave_value.text = "%.0f" % main.base_wave_duration_seconds
 
 
 func _process_labels_for(stat_name) -> void:
