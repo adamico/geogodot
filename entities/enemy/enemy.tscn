@@ -1,13 +1,52 @@
-[gd_scene load_steps=9 format=3 uid="uid://crmynushq3uf4"]
+[gd_scene load_steps=13 format=3 uid="uid://crmynushq3uf4"]
 
 [ext_resource type="Script" uid="uid://b2ro1emf8d427" path="res://entities/enemy/enemy.gd" id="1_78jik"]
+[ext_resource type="Script" uid="uid://ctndcrgjgn2rw" path="res://entities/enemy/effects_animation_player.gd" id="2_eaj7m"]
 [ext_resource type="Script" uid="uid://bmq4ev24n01ct" path="res://components/stats_component.gd" id="2_im2q6"]
+[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="3_a8fs5"]
 [ext_resource type="Script" uid="uid://bdy33sbgoncok" path="res://components/hurtbox_component.gd" id="3_dt443"]
 [ext_resource type="Script" uid="uid://csga2ypo703ny" path="res://components/hitbox_component.gd" id="4_4wwj3"]
 [ext_resource type="Script" uid="uid://k2h0r714n0mp" path="res://components/hurt_component.gd" id="5_4wwj3"]
 [ext_resource type="Script" uid="uid://dsy5yj0hshq3h" path="res://components/spawner_component.gd" id="8_721x4"]
 [ext_resource type="PackedScene" uid="uid://dtq5lq22d46rs" path="res://effects/explosion_effect.tscn" id="9_eaj7m"]
-[ext_resource type="Script" uid="uid://btvdcwmic1jcu" path="res://components/death_component.gd" id="10_a8fs5"]
+
+[sub_resource type="Animation" id="Animation_eaj7m"]
+resource_name = "flash"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/Sprite:use_parent_material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_a8fs5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/Sprite:use_parent_material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a8fs5"]
+_data = {
+&"RESET": SubResource("Animation_a8fs5"),
+&"flash": SubResource("Animation_eaj7m")
+}
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 y_sort_enabled = true
@@ -16,8 +55,19 @@ collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_78jik")
 
+[node name="EffectsAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_a8fs5")
+}
+script = ExtResource("2_eaj7m")
+
 [node name="Rig" type="Node2D" parent="."]
 unique_name_in_owner = true
+
+[node name="Sprite" type="Node2D" parent="Rig"]
+material = ExtResource("3_a8fs5")
+use_parent_material = true
 
 [node name="HurtboxComponent" type="Area2D" parent="Rig"]
 unique_name_in_owner = true
@@ -44,17 +94,12 @@ script = ExtResource("2_im2q6")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bmq4ev24n01ct"
 
-[node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
+[node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component", "actor")]
 unique_name_in_owner = true
 script = ExtResource("5_4wwj3")
 stats_component = NodePath("../StatsComponent")
 hurtbox_component = NodePath("../Rig/HurtboxComponent")
+actor = NodePath("..")
 metadata/_custom_type_script = "uid://k2h0r714n0mp"
-
-[node name="DeathComponent" type="Node" parent="." node_paths=PackedStringArray("death_effect_spawner_component")]
-unique_name_in_owner = true
-script = ExtResource("10_a8fs5")
-death_effect_spawner_component = NodePath("../Rig/SpawnerComponent")
-metadata/_custom_type_script = "uid://btvdcwmic1jcu"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

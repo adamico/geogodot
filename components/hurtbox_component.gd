@@ -1,10 +1,8 @@
 class_name HurtboxComponent
 extends Area2D
 
-signal hurt(area_2d)
-
-@export var flash_component: FlashComponent
-@export var actor: Node2D
+@warning_ignore("unused_signal")
+signal hurt(hitbox: Area2D)
 
 var is_invincible = false:
     set(value):
@@ -15,11 +13,3 @@ var is_invincible = false:
             # Use call deferred to make sure this doesn't happen in the middle of the
             # physics process
             child.set_deferred("disabled", is_invincible)
-
-
-func _ready() -> void:
-    hurt.connect(_on_hurt_by)
-
-
-func _on_hurt_by(_area_2d: Area2D) -> void:
-    flash_component.flash()

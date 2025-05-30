@@ -1,9 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://bjntim4rxynbd"]
+[gd_scene load_steps=19 format=3 uid="uid://bjntim4rxynbd"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_tjfkn"]
-[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="2_hk1r5"]
 [ext_resource type="Script" uid="uid://b5nb2hl1km8hv" path="res://components/shoot_component.gd" id="3_0f3sr"]
-[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="3_b6nkk"]
 [ext_resource type="Script" uid="uid://dvugu0xlvm36u" path="res://components/kiter_ai_component.gd" id="3_ewg4v"]
 [ext_resource type="Script" uid="uid://bmucxhobuv3i" path="res://addons/godot_state_charts/state_chart.gd" id="4_ahhv8"]
 [ext_resource type="Script" uid="uid://cvldao1arx3t3" path="res://components/target_component.gd" id="5_3mb6l"]
@@ -78,23 +76,17 @@ radius = 2.0
 
 [node name="ShooterEnemy" instance=ExtResource("1_tjfkn")]
 
-[node name="FlashComponent" type="Node" parent="." index="0" node_paths=PackedStringArray("sprite")]
-script = ExtResource("2_hk1r5")
-flash_material = ExtResource("3_b6nkk")
-sprite = NodePath("../Rig/Sprite")
-metadata/_custom_type_script = "uid://b4i7mx467ysy7"
-
-[node name="LaserSound" type="AudioStreamPlayer" parent="." index="1"]
+[node name="LaserSound" type="AudioStreamPlayer" parent="." index="0"]
 stream = ExtResource("11_xc0jt")
 pitch_scale = 2.0
 
-[node name="KiterAiComponent" type="Node2D" parent="." index="2" node_paths=PackedStringArray("actor")]
+[node name="KiterAiComponent" type="Node2D" parent="." index="1" node_paths=PackedStringArray("actor")]
 script = ExtResource("3_ewg4v")
 actor = NodePath("..")
 speed = 60.0
 metadata/_custom_type_script = "uid://dvugu0xlvm36u"
 
-[node name="StateChart" type="Node" parent="." index="3"]
+[node name="StateChart" type="Node" parent="." index="2"]
 unique_name_in_owner = true
 script = ExtResource("4_ahhv8")
 metadata/_custom_type_script = "uid://bmucxhobuv3i"
@@ -239,7 +231,7 @@ metadata/_custom_type_script = "uid://btbuih6emodp4"
 [node name="Rig" parent="." index="4"]
 position = Vector2(0, -5)
 
-[node name="Sprite" type="Node2D" parent="Rig" index="0"]
+[node name="Sprite" parent="Rig" index="0"]
 script = ExtResource("11_hgfsm")
 vertex1 = Vector2(-0.25, -0.25)
 vertex2 = Vector2(0.25, -0.25)
@@ -250,20 +242,13 @@ fill_color = Color(0.863, 0.078, 0.235, 1)
 edge_color = Color(0.980392, 0.921569, 0.843137, 1)
 edge_width = 1.0
 
-[node name="HurtboxComponent" parent="Rig" index="1" node_paths=PackedStringArray("flash_component", "actor")]
-flash_component = NodePath("../../FlashComponent")
-actor = NodePath("../..")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
 shape = SubResource("RectangleShape2D_hk1r5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
 shape = SubResource("RectangleShape2D_hk1r5")
 
-[node name="SpawnerComponent" parent="Rig" index="3"]
-scene_scale = Vector2(1, 1)
-
-[node name="ShootComponent" type="Node2D" parent="Rig" index="4" node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
+[node name="ShootComponent" type="Node2D" parent="Rig" index="3" node_paths=PackedStringArray("actor", "state_chart", "target_component", "shoot_sound", "stats_component")]
 unique_name_in_owner = true
 script = ExtResource("3_0f3sr")
 actor = NodePath("../..")
@@ -274,7 +259,7 @@ shoot_sound = NodePath("../../LaserSound")
 stats_component = NodePath("../../StatsComponent")
 metadata/_custom_type_script = "uid://b5nb2hl1km8hv"
 
-[node name="TargetComponent" type="Sprite2D" parent="Rig" index="5"]
+[node name="TargetComponent" type="Sprite2D" parent="Rig" index="4"]
 unique_name_in_owner = true
 script = ExtResource("5_3mb6l")
 metadata/_custom_type_script = "uid://cvldao1arx3t3"
@@ -286,9 +271,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_13wue")
 }
 
+[node name="SpawnerComponent" parent="Rig" index="5"]
+scene_scale = Vector2(1, 1)
+
 [node name="StatsComponent" parent="." index="5"]
 health = 2.0
 
-[node name="CollisionShape2D" parent="." index="8"]
+[node name="CollisionShape2D" parent="." index="7"]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_hk1r5")

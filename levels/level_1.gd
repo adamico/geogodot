@@ -16,6 +16,7 @@ var loot_count:= {
 
 func _ready() -> void:
     var capturable_positions = get_used_cells_by_id(-1, CAPTURABLE_ATLAS_COORDS)
+    @warning_ignore("integer_division")
     max_loot = capturable_positions.size() / LOOT.size()
     capturable_positions.map(_add_loot)
     captured_cells = [[], [], []]

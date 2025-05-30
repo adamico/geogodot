@@ -34,7 +34,7 @@ func _capture() -> void:
     state_chart.send_event("capture")
     finished_capturing_sound.play()
     EventBus.captured_tile.emit(map_cells_to_capture, actor.capture_faction)
-    var cooldown_duration = 3 / (stats_component.capture_power + 1)
+    var cooldown_duration: float = 3.0 / (stats_component.capture_power + 1)
     capture_cooldown_timer.start(cooldown_duration)
     capture_cooldown_indicator.start_cooldown(cooldown_duration)
 

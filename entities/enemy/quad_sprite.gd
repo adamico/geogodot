@@ -18,7 +18,7 @@ func _ready() -> void:
     shape = scale_points(shape_points)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     queue_redraw()
 
 

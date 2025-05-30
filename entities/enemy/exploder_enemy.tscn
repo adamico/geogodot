@@ -1,103 +1,104 @@
-[gd_scene load_steps=13 format=3 uid="uid://cvjsds6y3ovfb"]
+[gd_scene load_steps=12 format=3 uid="uid://cvjsds6y3ovfb"]
 
 [ext_resource type="PackedScene" uid="uid://crmynushq3uf4" path="res://entities/enemy/enemy.tscn" id="1_bjsq3"]
-[ext_resource type="Script" uid="uid://b4i7mx467ysy7" path="res://components/flash_component.gd" id="4_0bkvy"]
-[ext_resource type="Material" uid="uid://ear8ugx7i76w" path="res://effects/white_flash_material.tres" id="4_inari"]
 [ext_resource type="Script" uid="uid://bibpfmfl85jcc" path="res://components/explosion_component.gd" id="5_0bkvy"]
 [ext_resource type="Script" uid="uid://cipfwj0i7qeec" path="res://entities/enemy/explosion_warning.gd" id="6_0bkvy"]
 [ext_resource type="Script" uid="uid://cw3uhsvoljwhg" path="res://entities/enemy/circle_sprite.gd" id="6_er8oi"]
 [ext_resource type="Script" uid="uid://db5e3mgvgwdi7" path="res://components/basic_ai_component.gd" id="6_gqr0p"]
 
-[sub_resource type="Animation" id="Animation_gqr0p"]
-resource_name = "detonate"
-tracks/0/type = "method"
+[sub_resource type="Animation" id="Animation_q3cmr"]
+length = 0.001
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FlashComponent")
+tracks/0/path = NodePath("Rig/Sprite:use_parent_material")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [],
-"method": &"flash"
-}, {
-"args": [],
-"method": &"flash"
-}, {
-"args": [],
-"method": &"flash"
-}]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_gqr0p"]
+resource_name = "detonate"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/Sprite:use_parent_material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_er8oi"]
 _data = {
+&"RESET": SubResource("Animation_q3cmr"),
 &"ignite": SubResource("Animation_gqr0p")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhfwu"]
-radius = 80.0
+radius = 96.1301
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gqr0p"]
-radius = 32.0
+radius = 49.0102
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ljv02"]
 radius = 16.0
 
 [node name="ExploderEnemy" instance=ExtResource("1_bjsq3")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0"]
+[node name="IgniteAnimationPlayer" type="AnimationPlayer" parent="." index="0"]
 unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_er8oi")
 }
 
-[node name="ExplosionComponent" type="Area2D" parent="." index="1" node_paths=PackedStringArray("actor")]
-unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 3
-script = ExtResource("5_0bkvy")
-actor = NodePath("..")
-metadata/_custom_type_script = "uid://bibpfmfl85jcc"
-
-[node name="ExplosionShape" type="CollisionShape2D" parent="ExplosionComponent" index="0"]
-unique_name_in_owner = true
-position = Vector2(0, -32)
-shape = SubResource("CircleShape2D_qhfwu")
-debug_color = Color(0.7, 0, 0, 0.592157)
-
-[node name="BasicAIComponent" type="Node2D" parent="." index="2" node_paths=PackedStringArray("actor")]
+[node name="BasicAIComponent" type="Node2D" parent="." index="1" node_paths=PackedStringArray("actor")]
 script = ExtResource("6_gqr0p")
 actor = NodePath("..")
 speed = 30.0
 metadata/_custom_type_script = "uid://db5e3mgvgwdi7"
 
-[node name="FlashComponent" type="Node" parent="." index="3" node_paths=PackedStringArray("sprite")]
-script = ExtResource("4_0bkvy")
-flash_material = ExtResource("4_inari")
+[node name="EffectsAnimationPlayer" parent="." index="2" node_paths=PackedStringArray("sprite")]
+autoplay = "RESET"
 sprite = NodePath("../Rig/Sprite")
-metadata/_custom_type_script = "uid://b4i7mx467ysy7"
 
-[node name="Rig" parent="." index="4"]
+[node name="Rig" parent="." index="3"]
+position = Vector2(0, -48)
+
+[node name="ExplosionComponent" type="Area2D" parent="Rig" index="0" node_paths=PackedStringArray("actor")]
+unique_name_in_owner = true
+position = Vector2(0, 32)
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("5_0bkvy")
+actor = NodePath("../..")
+metadata/_custom_type_script = "uid://bibpfmfl85jcc"
+
+[node name="ExplosionShape" type="CollisionShape2D" parent="Rig/ExplosionComponent" index="0"]
+unique_name_in_owner = true
 position = Vector2(0, -32)
-
-[node name="Sprite" type="Node2D" parent="Rig" index="0"]
-script = ExtResource("6_er8oi")
-scale_factor = 30.0
-fill_color = Color(0.863, 0.078, 0.235, 1)
-edge_color = Color(0.980392, 0.921569, 0.843137, 1)
-edge_width = 1.0
+shape = SubResource("CircleShape2D_qhfwu")
+debug_color = Color(0.7, 0, 0, 0.592157)
 
 [node name="Explosion Warning" type="Node2D" parent="Rig" index="1"]
 unique_name_in_owner = true
 visible = false
-position = Vector2(0, 32)
+position = Vector2(0, 48)
 script = ExtResource("6_0bkvy")
 
-[node name="HurtboxComponent" parent="Rig" index="2" node_paths=PackedStringArray("flash_component", "actor")]
-flash_component = NodePath("../../FlashComponent")
-actor = NodePath("../..")
+[node name="Sprite" parent="Rig" index="2"]
+script = ExtResource("6_er8oi")
+scale_factor = 50.0
+fill_color = Color(0.863, 0.078, 0.235, 1)
+edge_color = Color(0.980392, 0.921569, 0.843137, 1)
+edge_width = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rig/HurtboxComponent" index="0"]
 shape = SubResource("CircleShape2D_gqr0p")
@@ -105,16 +106,13 @@ shape = SubResource("CircleShape2D_gqr0p")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Rig/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_gqr0p")
 
-[node name="SpawnerComponent" parent="Rig" index="4"]
+[node name="SpawnerComponent" parent="Rig" index="5"]
 scene_scale = Vector2(2, 2)
 
-[node name="StatsComponent" parent="." index="5"]
+[node name="StatsComponent" parent="." index="4"]
 health = 3.0
 
-[node name="DeathComponent" parent="." index="7"]
-process_mode = 4
-
-[node name="CollisionShape2D" parent="." index="8"]
+[node name="CollisionShape2D" parent="." index="6"]
 y_sort_enabled = true
 position = Vector2(0, -16)
 shape = SubResource("CircleShape2D_ljv02")

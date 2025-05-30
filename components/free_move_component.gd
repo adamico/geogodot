@@ -37,7 +37,7 @@ func _decelerate() -> void:
 
 
 func _play_moving_animation() -> void:
-    var directions_to_sprites: Dictionary = {
+    var _directions_to_sprites: Dictionary = {
         Vector2.LEFT: "move_left",
         Vector2.RIGHT: "move_right",
         Vector2.UP: "move_up",
